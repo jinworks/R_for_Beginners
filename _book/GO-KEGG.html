@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 34 章 GO/KEGG功能富集分析 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="34.1 功能富集分析介绍 功能富集分析对于解释转录组学数据至关重要。转录组鉴定了差异表达基因后，通常会进行GO或KEGG富集分析，识别这些差异基因的功能或参与调控的通路，来说明关键基因表达上调/或下调后可能会导致哪功能或通路被激活/或抑制，进而与表型进行联系。...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 34 章 GO/KEGG功能富集分析 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="34.1 功能富集分析介绍 功能富集分析对于解释转录组学数据至关重要。转录组鉴定了差异表达基因后，通常会进行GO或KEGG富集分析，识别这些差异基因的功能或参与调控的通路，来说明关键基因表达上调/或下调后可能会导致哪功能或通路被激活/或抑制，进而与表型进行联系。...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 34 章 GO/KEGG功能富集分析 | R编程与作图">
+<meta name="twitter:description" content="34.1 功能富集分析介绍 功能富集分析对于解释转录组学数据至关重要。转录组鉴定了差异表达基因后，通常会进行GO或KEGG富集分析，识别这些差异基因的功能或参与调控的通路，来说明关键基因表达上调/或下调后可能会导致哪功能或通路被激活/或抑制，进而与表型进行联系。...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="active" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="GO-KEGG" class="section level1" number="34">
+<h1>
+<span class="header-section-number">第 34 章</span> GO/KEGG功能富集分析<a class="anchor" aria-label="anchor" href="#GO-KEGG"><i class="fas fa-link"></i></a>
+</h1>
+<div id="功能富集分析介绍" class="section level2" number="34.1">
+<h2>
+<span class="header-section-number">34.1</span> 功能富集分析介绍<a class="anchor" aria-label="anchor" href="#%E5%8A%9F%E8%83%BD%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E4%BB%8B%E7%BB%8D"><i class="fas fa-link"></i></a>
+</h2>
+<p>功能富集分析对于解释转录组学数据至关重要。转录组鉴定了差异表达基因后，通常会进行GO或KEGG富集分析，识别这些差异基因的功能或参与调控的通路，来说明关键基因表达上调/或下调后可能会导致哪功能或通路被激活/或抑制，进而与表型进行联系。</p>
+<p>目前能够进行GO、KEGG富集分析的工具有很多，不同的工具之间在算法、数据库上存在不同，因此结果也可能大相径庭。这里就以R包clusterProfiler的方法为例（该包基于超几何分布的原理），展示如何基于给定的差异基因列表进行GO、KEGG富集分析。</p>
+</div>
+<div id="使用clusterprofiler做功能富集分析" class="section level2" number="34.2">
+<h2>
+<span class="header-section-number">34.2</span> 使用clusterProfiler做功能富集分析<a class="anchor" aria-label="anchor" href="#%E4%BD%BF%E7%94%A8clusterprofiler%E5%81%9A%E5%8A%9F%E8%83%BD%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90"><i class="fas fa-link"></i></a>
+</h2>
+<p>使用Bioconductor安装clusterProfiler</p>
+<div class="sourceCode" id="cb2367"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html">install</a></span><span class="op">(</span><span class="st">'clusterProfiler'</span><span class="op">)</span></span></code></pre></div>
+<p>详细的用法请参考<a href="https://yulab-smu.top/biomedical-knowledge-mining-book/enrichment-overview.html">Overview of enrichment analysis using clusterProfiler</a> 以及 <a href="https://zhuanlan.zhihu.com/p/561522453">使用R包clusterProfiler进行GO/KEGG富集分析（有参/无参）</a>.</p>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Wickham2017" class="csl-entry">
+Grolemund, Garrett, and Hadley Wickham. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1 edition. Houston: O’Reilly Media. <a href="http://r4ds.had.co.nz/">http://r4ds.had.co.nz/</a>.
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#GO-KEGG"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+<li><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90%E4%BB%8B%E7%BB%8D"><span class="header-section-number">34.1</span> 功能富集分析介绍</a></li>
+<li><a class="nav-link" href="#%E4%BD%BF%E7%94%A8clusterprofiler%E5%81%9A%E5%8A%9F%E8%83%BD%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90"><span class="header-section-number">34.2</span> 使用clusterProfiler做功能富集分析</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

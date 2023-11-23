@@ -1,0 +1,18 @@
+h1:tidyverse-ggplot2-pass-function-as-parameters ggplot2中传递函数作为参数值
+h2:data可以是一个函数 data可以是一个函数
+h2:标度-scale_-中的参数可以接受函数作为参数值 标度 scale_**() 中的参数可以接受函数作为参数值
+h3:limits limits
+h3:breaks breaks
+h3:labels labels
+h3:oob oob
+h2:geom_histogram中的binwidth geom_histogram()中的binwidth
+h2:geom_text中的-hjust geom_text()中的 hjust
+h2:stat_summary中的fun和fun.data stat_summary()中的fun和fun.data
+h2:theme中element_text theme()中element_text()
+h2:facet_wrap中的labeller facet_wrap()中的labeller
+h3:使用as_labeller 使用as_labeller()
+h3:多个分组变量 多个分组变量
+h2:stat_function stat_function
+h2:stat-layer stat layer
+h2:未完待续 未完待续
+

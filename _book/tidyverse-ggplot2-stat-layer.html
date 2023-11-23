@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 24 章 ggplot2之统计图层 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="24.1 导言 美学映射是图形语法中非常重要的一个概念，变量映射到视觉元素，然后通过几何形状GEOM画出图形。（下图是每个几何形状所对应的视觉元素）  图 24.1: ggplot2中的几何形状与美学映射  比如geom_point(mapping = aes(x = mass, y = height)) 将会画出散点图，这里的x轴代表mass变量，而y轴代表height变量....">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 24 章 ggplot2之统计图层 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="24.1 导言 美学映射是图形语法中非常重要的一个概念，变量映射到视觉元素，然后通过几何形状GEOM画出图形。（下图是每个几何形状所对应的视觉元素）  图 24.1: ggplot2中的几何形状与美学映射  比如geom_point(mapping = aes(x = mass, y = height)) 将会画出散点图，这里的x轴代表mass变量，而y轴代表height变量....">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 24 章 ggplot2之统计图层 | R编程与作图">
+<meta name="twitter:description" content="24.1 导言 美学映射是图形语法中非常重要的一个概念，变量映射到视觉元素，然后通过几何形状GEOM画出图形。（下图是每个几何形状所对应的视觉元素）  图 24.1: ggplot2中的几何形状与美学映射  比如geom_point(mapping = aes(x = mass, y = height)) 将会画出散点图，这里的x轴代表mass变量，而y轴代表height变量....">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="active" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-ggplot2-stat-layer" class="section level1" number="24">
+<h1>
+<span class="header-section-number">第 24 章</span> ggplot2之统计图层<a class="anchor" aria-label="anchor" href="#tidyverse-ggplot2-stat-layer"><i class="fas fa-link"></i></a>
+</h1>
+<div id="导言" class="section level2" number="24.1">
+<h2>
+<span class="header-section-number">24.1</span> 导言<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E8%A8%80"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong>美学映射</strong>是图形语法中非常重要的一个概念，<strong>变量</strong>映射到<strong>视觉元素</strong>，然后通过几何形状<code>GEOM</code>画出图形。（下图是每个几何形状所对应的视觉元素）</p>
+<div class="figure">
+<span style="display:block;" id="fig:ggplot-aesthetics-cheatsheet"></span>
+<img src="images/ggplot_aesthetics_cheatsheet.png" alt="ggplot2中的几何形状与美学映射" width="100%"><p class="caption">
+图 24.1: ggplot2中的几何形状与美学映射
+</p>
+</div>
+<p>比如<code>geom_point(mapping = aes(x = mass, y = height))</code> 将会画出散点图，这里的<code>x</code>轴代表<code>mass</code>变量，而<code>y</code>轴代表<code>height</code>变量.</p>
+<p>因为<code>geom_*()</code>很强大而且也很容易理解，所以一般我们不会去思考我们的数据在<strong>喂给</strong><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>后发生了什么，只希望能出图就行了。比如下面的直方图例子</p>
+<div class="sourceCode" id="cb1876"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb1878"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">penguins</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_bin()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-1-1.png" width="672"></div>
+<p>这里发生了什么呢？你可能看到<code>body_mass_g</code>这个变量代表了x轴，这个没错，但想弄清楚这个直方图，需要回答下面的问题</p>
+<ul>
+<li>映射到<code>x</code>轴的变量被分成了若干离散的小区间（bins)</li>
+<li>需要计算每个小区间中有多少观测值落入其中</li>
+<li>用于<code>y</code>轴上是一个新的变量</li>
+<li>最终，用户提供的<code>x</code>变量和经过计算处理后的<code>y</code>变量，共同确定了柱状图中每个柱子的位置和高度</li>
+</ul>
+<p>我并不是说，不能给出<code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram()</a></code>详细说明就是一个傻子。相反，我这里的本意是强调<strong>数据-&gt;视觉元素</strong>的映射并不是理所当然的，尽管看上去往往非常自然、直观和客观。</p>
+<p>我们这里是提醒下，我们是否想过，修改上面中间过程，比如第1步和第2步，然后看看输出的图形是否还是直方图。</p>
+<p>这个想法非常重要，但我们很少想到。某种程度是因为在我们最初学习ggplot画图的时候，ggplot已经影响了我们的思维方式。比如，初学者可能经历过拿到数据却还不出图形的受挫感，举个例子来说，这里有个数据</p>
+<div class="sourceCode" id="cb1881"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>     <span class="op">~</span><span class="va">variable</span>, <span class="op">~</span><span class="va">subject1</span>, <span class="op">~</span><span class="va">subject2</span>, <span class="op">~</span><span class="va">subject3</span>,</span>
+<span>  <span class="st">"mass"</span>,         <span class="fl">75</span>,     <span class="fl">70</span>,    <span class="fl">55</span>,</span>
+<span>  <span class="st">"height"</span>,       <span class="fl">154</span>,    <span class="fl">172</span>,   <span class="fl">144</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">d</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 4
+##   variable subject1 subject2 subject3
+##   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1 mass           75       70       55
+## 2 height        154      172      144</code></pre>
+<p>用<code>geom_point(aes(x = mass, y = height))</code> 画图，却报错了。初学者可能苦苦搜索答案，然后被告知，ggplot画图需要先弄成tidy格式</p>
+<div class="sourceCode" id="cb1883"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>  cols <span class="op">=</span> <span class="va">subject1</span><span class="op">:</span><span class="va">subject3</span>,</span>
+<span>  names_to <span class="op">=</span> <span class="st">"subject"</span>,</span>
+<span>  names_pattern <span class="op">=</span> <span class="st">"subject(\\d)"</span>,</span>
+<span>  values_to <span class="op">=</span> <span class="st">"value"</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">variable</span>,</span>
+<span>              values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   subject  mass height
+##   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+## 1 1          75    154
+## 2 2          70    172
+## 3 3          55    144</code></pre>
+<p>现在数据tidy了，你可以使用ggplot()，问题得以解决。于是我们得出了一个结论：想要ggplot工作就需要tidy data。 如果这样想，那么今天的内容<code>ggplot2统计图层</code>就更加有必要了。</p>
+</div>
+<div id="为何及何时使用统计图层" class="section level2" number="24.2">
+<h2>
+<span class="header-section-number">24.2</span> 为何及何时使用统计图层<a class="anchor" aria-label="anchor" href="#%E4%B8%BA%E4%BD%95%E5%8F%8A%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E7%BB%9F%E8%AE%A1%E5%9B%BE%E5%B1%82"><i class="fas fa-link"></i></a>
+</h2>
+<p>你可能每天都在用<code>ggplot</code>，却用不到<code>stat_*()</code>函数，这样也可以胜任很多工作。事实上，因为我们仅仅只使用<code>geom_*()</code>函数，你会发现<code>stat_*()</code>是开发者才使用的深奥和神秘的部分，如果这样想，你可能怀疑你是否有必要了解这些<code>stat_*()</code>函数。</p>
+<p>好吧，学习 <code>STAT</code> 最主要的原因</p>
+<blockquote>
+<p>“Even though the data is tidy, it may not represent the values you want to display”</p>
+</blockquote>
+<p>我们这里再用一个例子说明，假定我们有一数据框<code>simple_data</code></p>
+<div class="sourceCode" id="cb1885"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simple_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                      subject <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">30</span>,</span>
+<span>                      score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">40</span>, <span class="fl">20</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">60</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">simple_data</span></span></code></pre></div>
+<pre><code>## # A tibble: 30 × 3
+##    group subject score
+##    &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt;
+##  1 A           1 45.9 
+##  2 A           2 41.4 
+##  3 A           3 35.1 
+##  4 A           4 24.8 
+##  5 A           5 48.7 
+##  6 A           6 49.6 
+##  7 A           7 44.7 
+##  8 A           8 49.7 
+##  9 A           9  9.03
+## 10 A          10 56.7 
+## # ℹ 20 more rows</code></pre>
+<p>假定我们现在想画一个柱状图，一个柱子代表每一组group，柱子的高度代表的score的均值。</p>
+<p>好比，按照我们的想法，我们首先规整(tidy)数据，并且确保数据包含每个geom所需的美学映射，最后传递给<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code></p>
+<div class="sourceCode" id="cb1887"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simple_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">'drop'</span> </span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">mean_score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-5-1.png" width="672"></div>
+<p>那么，传递给<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>的数据是</p>
+<div class="sourceCode" id="cb1888"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simple_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">'drop'</span> </span>
+<span>  <span class="op">)</span> </span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##   group mean_score
+##   &lt;fct&gt;      &lt;dbl&gt;
+## 1 A           44.4
+## 2 B           60.0</code></pre>
+<p>需求很简单，很容易搞定。但如果我们想加误差棒(stand error)呢? 那我们需要再对数据整理统计，然后再传给<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>.</p>
+<p>于是，我们再计算误差棒，这里变型的数据是这个样子的</p>
+<div class="sourceCode" id="cb1890"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simple_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>    se <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">'drop'</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    lower <span class="op">=</span> <span class="va">mean_score</span> <span class="op">-</span> <span class="va">se</span>,</span>
+<span>    upper <span class="op">=</span> <span class="va">mean_score</span> <span class="op">+</span> <span class="va">se</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   group mean_score    se lower upper
+##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 A           44.4  4.29  40.1  48.7
+## 2 B           60.0  1.80  58.2  61.8</code></pre>
+<p>然后把变型的数据传递给<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code></p>
+<div class="sourceCode" id="cb1892"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simple_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>    se <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">'drop'</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    lower <span class="op">=</span> <span class="va">mean_score</span> <span class="op">-</span> <span class="va">se</span>,</span>
+<span>    upper <span class="op">=</span> <span class="va">mean_score</span> <span class="op">+</span> <span class="va">se</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">mean_score</span>, ymin <span class="op">=</span> <span class="va">lower</span>, ymax <span class="op">=</span> <span class="va">upper</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-8-1.png" width="672"></div>
+<p>最后，我们把两个数据框组会到一起，一个用于柱状图，一个用于画误差棒。</p>
+<div class="sourceCode" id="cb1893"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simple_data_bar</span> <span class="op">&lt;-</span> <span class="va">simple_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">'drop'</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
+<span><span class="va">simple_data_errorbar</span> <span class="op">&lt;-</span> <span class="va">simple_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>    se <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">'drop'</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    lower <span class="op">=</span> <span class="va">mean_score</span> <span class="op">-</span> <span class="va">se</span>,</span>
+<span>    upper <span class="op">=</span> <span class="va">mean_score</span> <span class="op">+</span> <span class="va">se</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">mean_score</span><span class="op">)</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">simple_data_bar</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">mean_score</span>, ymin <span class="op">=</span> <span class="va">lower</span>, ymax <span class="op">=</span> <span class="va">upper</span><span class="op">)</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">simple_data_errorbar</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-9-1.png" width="672"></div>
+<p>OMG, 为了画一个简单的图，我们需要写这么长的一段代码。究其原因就是，<strong>我们认为，一定要准备好一个tidy的数据，并且把想画的几何形状所需要的美学映射，都整理到这个tidy的数据框中</strong></p>
+<p>事实上，理论上讲，<code>simple_data_bar</code> 和 <code>simple_data_errorbar</code> 并不是真正的<code>tidy</code>格式。因为按照Hadley Wickham的对tidy的定义是，<strong>一行代表一次观察</strong>。
+而这里的柱子的高度以及误差棒的两端不是观察出来的，而是统计计算出来的。</p>
+<div class="danger">
+<p>
+所以我们的观点是，辛辛苦苦创建一个（包含每个几何形状所需的美学映射）的数据框，太低效了，而且这种方法也不支持tidy原则。
+</p>
+</div>
+<p>既然 <code>simple_data_bar</code> 和 <code>simple_data_errorbar</code>都来源于<code>simple_data</code>，那为何不直接传递<code>simple_data</code>给<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>，让数据在内部转换，得到每个几何形状所需的美学映射呢？</p>
+<p>或许，你想要的是这样？</p>
+<div class="sourceCode" id="cb1894"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">simple_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">group</span>, <span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"errorbar"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## No summary function supplied, defaulting to `mean_se()`
+## No summary function supplied, defaulting to `mean_se()`</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-11-1.png" width="672"></div>
+<p>Bingo</p>
+<div id="小结-5" class="section level3" number="24.2.1">
+<h3>
+<span class="header-section-number">24.2.1</span> 小结<a class="anchor" aria-label="anchor" href="#%E5%B0%8F%E7%BB%93-5"><i class="fas fa-link"></i></a>
+</h3>
+<p>这一节，我们用一个很长的数据整理的代码，借助<code>geom_*()</code>画了一张含有误差棒的柱状图，而用<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>不需要数据整理，只需要两行代码就实现相同效果。
+感受到了<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>的强大了？</p>
+<p>不忙，好戏才慢慢开始…</p>
+</div>
+</div>
+<div id="用-stat_summary-理解统计图层" class="section level2" number="24.3">
+<h2>
+<span class="header-section-number">24.3</span> 用 stat_summary() 理解统计图层<a class="anchor" aria-label="anchor" href="#%E7%94%A8-stat_summary-%E7%90%86%E8%A7%A3%E7%BB%9F%E8%AE%A1%E5%9B%BE%E5%B1%82"><i class="fas fa-link"></i></a>
+</h2>
+<p>前面讲到的 <code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code> 是学习和理解 <code>stat_*()</code> 很好的例子，理解了<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>的工作原理，其它的<code>stat_*()</code>也就都明白了，
+事实上，<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>也是在数据视化中最常用的，因此我们接着讲它。</p>
+<p>那么，我们现在模拟一个测试数据<code>height_df</code></p>
+<div class="sourceCode" id="cb1896"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">height_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"A"</span>,</span>
+<span>                    height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">170</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>用我们熟悉的<code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code></p>
+<div class="sourceCode" id="cb1897"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">height_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-13-1.png" width="672"></div>
+<p>然后用<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>代替<code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code>，然后看看发生了什么</p>
+<div class="sourceCode" id="cb1898"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">height_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## No summary function supplied, defaulting to `mean_se()`</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-14-1.png" width="672"></div>
+<p>看到了一个点和经过这个点的一条线，实际上，它也是一个几何形状pointrange.
+那么<code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_pointrange()</a></code> 是怎么数据转换的呢？回答这个问题，我们需要了解下<code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_pointrange()</a></code>需要哪些美学映射（参见图 <a href="tidyverse-ggplot2-stat-layer.html#fig:ggplot-aesthetics-cheatsheet">24.1</a>）：</p>
+<ul>
+<li>x or y</li>
+<li>ymin or xmin</li>
+<li>ymax or xmax</li>
+</ul>
+<p>所以，我们回去看看<code>ggplot(aes(x = group, y = height))</code>中<code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code>里的参数，group 映射到 <code>x</code>, height映射到了<code>y</code>, 但我们没有发现有<code>ymin / xmin</code>或者<code>ymax / xmax</code>的踪迹。问题来了，我们没有给出<code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_pointrange()</a></code>需要的美学映射，那<code>stat_summmary()</code>是怎么画出<code>pointrange</code>的呢？</p>
+<p>我们先猜测一下，<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>先计算出必要的数据值，然后传递给<code>pointrange</code>?
+是不是呢？我们先看上图过程中有个提示</p>
+<div class="sourceCode" id="cb1900"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1900-1"><a href="tidyverse-ggplot2-stat-layer.html#cb1900-1" tabindex="-1"></a>No summary function supplied, defaulting to <span class="in">`mean_se()`</span></span></code></pre></div>
+<p>看到了吧，<code>summary function</code>，说明我们猜对了，这就是<code>stat_*()</code>神秘的地方。</p>
+<ul>
+<li>首先，对于<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>中的<code>fun.data</code>参数，它的默认值是<code><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se()</a></code>
+</li>
+<li>其次，我们看看这个函数</li>
+</ul>
+<div class="sourceCode" id="cb1901"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mean_se</span></span></code></pre></div>
+<div class="sourceCode" id="cb1902"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1902-1"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-1" tabindex="-1"></a><span class="cf">function</span> (x, <span class="at">mult =</span> <span class="dv">1</span>) </span>
+<span id="cb1902-2"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-2" tabindex="-1"></a>{</span>
+<span id="cb1902-3"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-3" tabindex="-1"></a>    x <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">na.omit</span>(x)</span>
+<span id="cb1902-4"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-4" tabindex="-1"></a>    se <span class="ot">&lt;-</span> mult <span class="sc">*</span> <span class="fu">sqrt</span>(stats<span class="sc">::</span><span class="fu">var</span>(x)<span class="sc">/</span><span class="fu">length</span>(x))</span>
+<span id="cb1902-5"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-5" tabindex="-1"></a>    mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb1902-6"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-6" tabindex="-1"></a>    <span class="fu">new_data_frame</span>(<span class="fu">list</span>(<span class="at">y =</span> mean, <span class="at">ymin =</span> mean <span class="sc">-</span> se, <span class="at">ymax =</span> mean <span class="sc">+</span> </span>
+<span id="cb1902-7"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-7" tabindex="-1"></a>        se), <span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb1902-8"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-8" tabindex="-1"></a>}</span>
+<span id="cb1902-9"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-9" tabindex="-1"></a><span class="sc">&lt;</span>bytecode<span class="sc">:</span> <span class="dv">0x0000021aef28aa10</span><span class="sc">&gt;</span></span>
+<span id="cb1902-10"><a href="tidyverse-ggplot2-stat-layer.html#cb1902-10" tabindex="-1"></a><span class="er">&lt;</span>environment<span class="sc">:</span> namespace<span class="sc">:</span>ggplot2<span class="sc">&gt;</span></span></code></pre></div>
+<p>这个<code><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se()</a></code>函数有两个参数，一个是<code>x</code>，一个是<code>mult</code>（默认为1）， 那么这个函数的功能，一步步来说</p>
+<ul>
+<li>删除缺失值<code>NA</code>
+</li>
+<li>计算出<code>se</code>, 公式为<span class="math inline">\(SE = \sqrt{\frac{1}{N}\sum_{i=1}^N(x_i-\bar{x})^2}\)</span>
+</li>
+<li>计算<code>x</code>的均值</li>
+<li>创建一个<strong>数据框</strong>（一行三列），<code>y = mean, ymin = mean - se, ymax = mean + se</code>
+</li>
+</ul>
+<p>很酷的一件事情是，<code><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se()</a></code>看上去是在<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>内部使用，实际上加载<code>ggplot2</code>宏包后，在全局环境变量里就可以访问到，不妨试试看， 注意到<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>是对<strong>向量</strong>（单维度）做统计，因此要传<code>height_df$height</code>给它</p>
+<div class="sourceCode" id="cb1903"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se</a></span><span class="op">(</span><span class="va">height_df</span><span class="op">$</span><span class="va">height</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##          y     ymin     ymax
+## 1 169.6937 168.2679 171.1195</code></pre>
+<p>数据看上去和我们前面 <code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code> 画的点线图一样。当然为了保险起见，我们还是核对下，这里用到<code>ggplot2</code>包中的一个神奇的函数<code><a href="https://ggplot2.tidyverse.org/reference/ggplot_build.html">layer_data()</a></code>, 它可以拉取<strong>在图层中使用的数据</strong>，第二个参数是指定拉取哪个图层的数据，这里只有唯一的一个图层，因此指定为1。</p>
+<div class="sourceCode" id="cb1905"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pointrange_plot</span> <span class="op">&lt;-</span> <span class="va">height_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot_build.html">layer_data</a></span><span class="op">(</span><span class="va">pointrange_plot</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## No summary function supplied, defaulting to `mean_se()`</code></pre>
+<pre><code>##   x group        y     ymin     ymax PANEL flipped_aes colour size linewidth
+## 1 1     1 169.6937 168.2679 171.1195     1       FALSE  black  0.5       0.5
+##   linetype shape fill alpha stroke
+## 1        1    19   NA    NA      1</code></pre>
+<p>喔喔，结果很丰富，我们注意到<code>y, ymin, and ymax</code> 的值与 <code><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se()</a></code> 计算的结果一致。</p>
+<div id="小结-6" class="section level3" number="24.3.1">
+<h3>
+<span class="header-section-number">24.3.1</span> 小结<a class="anchor" aria-label="anchor" href="#%E5%B0%8F%E7%BB%93-6"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们揭开了<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code><strong>统计图层</strong>的神秘面纱的一角：</p>
+<ul>
+<li>函数<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>里若没有指定数据，那就会从<code>ggplot(data = .)</code>里继承</li>
+<li>参数<code>fun.data</code> 会调用函数将<strong>数据变形</strong>，这个函数默认是<code><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se()</a></code>
+</li>
+<li>
+<code>fun.data</code> 返回的是数据框，这个数据框将用于geom参数画图，这里缺省的geom是pointrange</li>
+<li>如果<code>fun.data</code> 返回的数据框包含了所需要的美学映射，图形就会显示出来。</li>
+</ul>
+<p>为了让大家看的更明白，我们在<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>中显式地给出<code>fun.data</code>和<code>geom</code>两个参数</p>
+<div class="sourceCode" id="cb1908"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">height_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span></span>
+<span>    geom <span class="op">=</span> <span class="st">"pointrange"</span>,</span>
+<span>    fun.data <span class="op">=</span> <span class="va">mean_se</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-20-1.png" width="672"></div>
+<p>Look, it’s the same plot!</p>
+</div>
+</div>
+<div id="使用统计图层" class="section level2" number="24.4">
+<h2>
+<span class="header-section-number">24.4</span> 使用统计图层<a class="anchor" aria-label="anchor" href="#%E4%BD%BF%E7%94%A8%E7%BB%9F%E8%AE%A1%E5%9B%BE%E5%B1%82"><i class="fas fa-link"></i></a>
+</h2>
+<p>现在我们进入了<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>有趣的环节: 调整其中的参数画出各种图</p>
+<div id="包含95置信区间的误差棒" class="section level3" number="24.4.1">
+<h3>
+<span class="header-section-number">24.4.1</span> 包含95%置信区间的误差棒<a class="anchor" aria-label="anchor" href="#%E5%8C%85%E5%90%AB95%E7%BD%AE%E4%BF%A1%E5%8C%BA%E9%97%B4%E7%9A%84%E8%AF%AF%E5%B7%AE%E6%A3%92"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们用企鹅数据画出不同性别sex下的企鹅体重均值，同时误差棒要给出95%的置信区间（
+即均值加减 1.96倍的标准误）</p>
+<div class="sourceCode" id="cb1909"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_penguins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">my_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span></span>
+<span>    fun.data <span class="op">=</span> <span class="op">~</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se</a></span><span class="op">(</span><span class="va">.</span>, mult <span class="op">=</span> <span class="fl">1.96</span><span class="op">)</span>, <span class="co"># Increase `mult` value for bigger interval!</span></span>
+<span>    geom <span class="op">=</span> <span class="st">"errorbar"</span>,</span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-21-1.png" width="672"></div>
+<p>那么这里在<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>函数内部发生了什么呢？</p>
+<p>分组分别各自的<code><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se()</a></code>，</p>
+<div class="sourceCode" id="cb1910"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">female_mean_se</span> <span class="op">&lt;-</span> <span class="va">my_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">==</span> <span class="st">"female"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se</a></span><span class="op">(</span><span class="va">.</span>, mult <span class="op">=</span> <span class="fl">1.96</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">male_mean_se</span> <span class="op">&lt;-</span> <span class="va">my_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">==</span> <span class="st">"male"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se</a></span><span class="op">(</span><span class="va">.</span>, mult <span class="op">=</span> <span class="fl">1.96</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">female_mean_se</span>, <span class="va">male_mean_se</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##          y     ymin     ymax
+## 1 3862.273 3760.624 3963.921
+## 2 4545.685 4426.581 4664.788</code></pre>
+<p>当<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>中提供了分组变量（比如这里的<code>sex</code>），<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>会分组计算，
+再次感受到ggplot2的强大气息！</p>
+</div>
+<div id="带有彩色填充色的柱状图" class="section level3" number="24.4.2">
+<h3>
+<span class="header-section-number">24.4.2</span> 带有彩色填充色的柱状图<a class="anchor" aria-label="anchor" href="#%E5%B8%A6%E6%9C%89%E5%BD%A9%E8%89%B2%E5%A1%AB%E5%85%85%E8%89%B2%E7%9A%84%E6%9F%B1%E7%8A%B6%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h3>
+<p>不同的企鹅种类，画出<code>bill_length_mm</code>长度的中位数（不再是均值），同时，让中位数小于40的用粉红色标出。这里需要自定义<code>fun.data</code>函数</p>
+<div class="sourceCode" id="cb1912"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">calc_median_and_color</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">threshold</span> <span class="op">=</span> <span class="fl">40</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">y</span> <span class="op">&lt;</span> <span class="va">threshold</span>, <span class="st">"pink"</span>, <span class="st">"grey35"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">my_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span></span>
+<span>    fun.data <span class="op">=</span> <span class="va">calc_median_and_color</span>,</span>
+<span>    geom <span class="op">=</span> <span class="st">"bar"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-24-1.png" width="672"></div>
+<p>我们再来看看，stat_summary()内部发生了什么？</p>
+<div class="sourceCode" id="cb1913"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_split.html">group_split</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_dfr</a></span><span class="op">(</span><span class="va">calc_median_and_color</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##       y fill  
+##   &lt;dbl&gt; &lt;chr&gt; 
+## 1  38.8 pink  
+## 2  49.6 grey35
+## 3  47.4 grey35</code></pre>
+<p>注意到，<code>fun.data</code>中的定制函数还可以计算<code>fill</code>美学映射，最后一起传递给geom画图，强大！</p>
+</div>
+<div id="大小变化的点线图" class="section level3" number="24.4.3">
+<h3>
+<span class="header-section-number">24.4.3</span> 大小变化的点线图<a class="anchor" aria-label="anchor" href="#%E5%A4%A7%E5%B0%8F%E5%8F%98%E5%8C%96%E7%9A%84%E7%82%B9%E7%BA%BF%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们现在想画不同岛屿islands上企鹅<code>bill_depth_mm</code>均值，要求点线图中<strong>点的大小</strong>随观测数量（该岛屿企鹅的数量）变化</p>
+<div class="sourceCode" id="cb1915"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">bill_depth_mm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span></span>
+<span>    fun.data <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      </span>
+<span>      <span class="va">scaled_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">my_penguins</span><span class="op">)</span></span>
+<span>      </span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">scaled_size</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_stat_layer_files/figure-html/ggplot2-stat-layer-26-1.png" width="672"></div>
+<p>这张图其实听酷的，每个岛屿观察值越小（也就说样本量越小），pointrange的不确定性就越大（图中的误差棒范围就越长）。我们再看看，这里的<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code>内部发生了什么，或者说数据是怎么转换的。</p>
+<div class="sourceCode" id="cb1916"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_split.html">group_split</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">bill_depth_mm</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_dfr</a></span><span class="op">(</span></span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      </span>
+<span>      <span class="va">scaled_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">my_penguins</span><span class="op">)</span></span>
+<span>      </span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/mean_se.html">mean_se</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">scaled_size</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>##          y     ymin     ymax      size
+## 1 18.34726 18.24635 18.44817 0.4384384
+## 2 18.42059 18.28290 18.55828 0.2042042
+## 3 14.99664 14.90625 15.08702 0.3573574</code></pre>
+</div>
+</div>
+<div id="总结" class="section level2" number="24.5">
+<h2>
+<span class="header-section-number">24.5</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93"><i class="fas fa-link"></i></a>
+</h2>
+<div id="主要结论" class="section level3" number="24.5.1">
+<h3>
+<span class="header-section-number">24.5.1</span> 主要结论<a class="anchor" aria-label="anchor" href="#%E4%B8%BB%E8%A6%81%E7%BB%93%E8%AE%BA"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><p>尽管数据是tidy的，但它未必能代表你想展示的值</p></li>
+<li><p>解决办法不是去规整数据以符合几何形状的要求，而是将原初tidy数据传递给<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>,
+让<code>stat_*()</code>函数在内部实现变型</p></li>
+<li><p>可以<code>stat_*()</code>函数可以定制geom以及相应的变形函数。当然，定制自己的函数，需要核对<code>stat_*()</code>所需要的变量和数据类型</p></li>
+<li><p>如果想用不同的geom，确保变换函数能计算出(几何形状所需要的)美学映射</p></li>
+</ul>
+</div>
+<div id="stat-vs.-geom-or-stat-and-geom" class="section level3" number="24.5.2">
+<h3>
+<span class="header-section-number">24.5.2</span> STAT vs. GEOM or STAT and GEOM?<a class="anchor" aria-label="anchor" href="#stat-vs.-geom-or-stat-and-geom"><i class="fas fa-link"></i></a>
+</h3>
+<p>尽管我们在谈论<code>geom_*()</code>的局限性，从而衬托出<code>stat_*()</code>的强大，但并不意味了后者可以取代前者，因为这不是一个非此即彼的问题，事实上，他们彼此依赖– 我们看到<code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code> 有 <code>geom</code> 参数, <code>geom_*()</code> 也有 <code>stat</code> 参数。
+在更高的层级上讲，<code>stat_*()</code>和 <code>geom_*()</code> 都只是ggplot里构建图层的<code><a href="https://ggplot2.tidyverse.org/reference/layer.html">layer()</a></code>函数的一个便利的方法，用曹植的《七步诗》来说, <strong>本是同根生，相煎何太急。</strong></p>
+<p>将<code><a href="https://ggplot2.tidyverse.org/reference/layer.html">layer()</a></code>分成<code>stat_*()</code>和 <code>geom_*()</code>两块，或许是一个失误，最后我们用Hadley的原话来结束本章内容</p>
+<blockquote>
+<p>Unfortunately, due to an early design mistake I called these either stat_() or geom_(). A better decision would have been to call them layer_() functions: that’s a more accurate description because every layer involves a stat and a geom</p>
+</blockquote>
+<p>本文档翻译自<a href="https://yjunechoe.github.io/posts/2020-09-26-demystifying-stat-layers-ggplot2/">Demystifying stat_ layers in ggplot2</a></p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></div>
+<div class="next"><a href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-ggplot2-stat-layer"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E8%A8%80"><span class="header-section-number">24.1</span> 导言</a></li>
+<li>
+<a class="nav-link" href="#%E4%B8%BA%E4%BD%95%E5%8F%8A%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E7%BB%9F%E8%AE%A1%E5%9B%BE%E5%B1%82"><span class="header-section-number">24.2</span> 为何及何时使用统计图层</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-5"><span class="header-section-number">24.2.1</span> 小结</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#%E7%94%A8-stat_summary-%E7%90%86%E8%A7%A3%E7%BB%9F%E8%AE%A1%E5%9B%BE%E5%B1%82"><span class="header-section-number">24.3</span> 用 stat_summary() 理解统计图层</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-6"><span class="header-section-number">24.3.1</span> 小结</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%BB%9F%E8%AE%A1%E5%9B%BE%E5%B1%82"><span class="header-section-number">24.4</span> 使用统计图层</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%8C%85%E5%90%AB95%E7%BD%AE%E4%BF%A1%E5%8C%BA%E9%97%B4%E7%9A%84%E8%AF%AF%E5%B7%AE%E6%A3%92"><span class="header-section-number">24.4.1</span> 包含95%置信区间的误差棒</a></li>
+<li><a class="nav-link" href="#%E5%B8%A6%E6%9C%89%E5%BD%A9%E8%89%B2%E5%A1%AB%E5%85%85%E8%89%B2%E7%9A%84%E6%9F%B1%E7%8A%B6%E5%9B%BE"><span class="header-section-number">24.4.2</span> 带有彩色填充色的柱状图</a></li>
+<li><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E5%8F%98%E5%8C%96%E7%9A%84%E7%82%B9%E7%BA%BF%E5%9B%BE"><span class="header-section-number">24.4.3</span> 大小变化的点线图</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="header-section-number">24.5</span> 总结</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E7%BB%93%E8%AE%BA"><span class="header-section-number">24.5.1</span> 主要结论</a></li>
+<li><a class="nav-link" href="#stat-vs.-geom-or-stat-and-geom"><span class="header-section-number">24.5.2</span> STAT vs. GEOM or STAT and GEOM?</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

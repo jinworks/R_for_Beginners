@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 14 章 数据规整2 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content='接着上一章，罗列一些tidyr的函数 library(tidyverse)  14.1 fill() 缺失值填充 利用所在列的上下值进行缺失值填充 sales &lt;- tibble::tribble(  ~quarter, ~year, ~sales,    "Q1", 2000, 66013,    "Q2",  NA, 69182,    "Q3",  NA, 53175,   ...'>
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 14 章 数据规整2 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content='接着上一章，罗列一些tidyr的函数 library(tidyverse)  14.1 fill() 缺失值填充 利用所在列的上下值进行缺失值填充 sales &lt;- tibble::tribble(  ~quarter, ~year, ~sales,    "Q1", 2000, 66013,    "Q2",  NA, 69182,    "Q3",  NA, 53175,   ...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 14 章 数据规整2 | R编程与作图">
+<meta name="twitter:description" content='接着上一章，罗列一些tidyr的函数 library(tidyverse)  14.1 fill() 缺失值填充 利用所在列的上下值进行缺失值填充 sales &lt;- tibble::tribble(  ~quarter, ~year, ~sales,    "Q1", 2000, 66013,    "Q2",  NA, 69182,    "Q3",  NA, 53175,   ...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="active" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-tidyr2" class="section level1" number="14">
+<h1>
+<span class="header-section-number">第 14 章</span> 数据规整2<a class="anchor" aria-label="anchor" href="#tidyverse-tidyr2"><i class="fas fa-link"></i></a>
+</h1>
+<p>接着上一章，罗列一些<code>tidyr</code>的函数</p>
+<div class="sourceCode" id="cb559"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<div id="fill-缺失值填充" class="section level2" number="14.1">
+<h2>
+<span class="header-section-number">14.1</span> <code>fill()</code> 缺失值填充<a class="anchor" aria-label="anchor" href="#fill-%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A1%AB%E5%85%85"><i class="fas fa-link"></i></a>
+</h2>
+<p>利用<strong>所在列</strong>的上下值进行缺失值填充</p>
+<div class="sourceCode" id="cb560"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sales</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">quarter</span>, <span class="op">~</span><span class="va">year</span>, <span class="op">~</span><span class="va">sales</span>,</span>
+<span>      <span class="st">"Q1"</span>,  <span class="fl">2000</span>,  <span class="fl">66013</span>,</span>
+<span>      <span class="st">"Q2"</span>,    <span class="cn">NA</span>,  <span class="fl">69182</span>,</span>
+<span>      <span class="st">"Q3"</span>,    <span class="cn">NA</span>,  <span class="fl">53175</span>,</span>
+<span>      <span class="st">"Q4"</span>,    <span class="cn">NA</span>,  <span class="fl">21001</span>,</span>
+<span>      <span class="st">"Q1"</span>,  <span class="fl">2001</span>,  <span class="fl">46036</span>,</span>
+<span>      <span class="st">"Q2"</span>,    <span class="cn">NA</span>,  <span class="fl">58842</span>,</span>
+<span>      <span class="st">"Q3"</span>,    <span class="cn">NA</span>,  <span class="fl">44568</span>,</span>
+<span>      <span class="st">"Q4"</span>,    <span class="cn">NA</span>,  <span class="fl">50197</span>,</span>
+<span>      <span class="st">"Q1"</span>,  <span class="fl">2002</span>,  <span class="fl">39113</span>,</span>
+<span>      <span class="st">"Q2"</span>,    <span class="cn">NA</span>,  <span class="fl">41668</span>,</span>
+<span>      <span class="st">"Q3"</span>,    <span class="cn">NA</span>,  <span class="fl">30144</span>,</span>
+<span>      <span class="st">"Q4"</span>,    <span class="cn">NA</span>,  <span class="fl">52897</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">sales</span></span></code></pre></div>
+<pre><code>## # A tibble: 12 × 3
+##    quarter  year sales
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 Q1       2000 66013
+##  2 Q2         NA 69182
+##  3 Q3         NA 53175
+##  4 Q4         NA 21001
+##  5 Q1       2001 46036
+##  6 Q2         NA 58842
+##  7 Q3         NA 44568
+##  8 Q4         NA 50197
+##  9 Q1       2002 39113
+## 10 Q2         NA 41668
+## 11 Q3         NA 30144
+## 12 Q4         NA 52897</code></pre>
+<div class="sourceCode" id="cb562"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sales</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/fill.html">fill</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 12 × 3
+##    quarter  year sales
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 Q1       2000 66013
+##  2 Q2       2000 69182
+##  3 Q3       2000 53175
+##  4 Q4       2000 21001
+##  5 Q1       2001 46036
+##  6 Q2       2001 58842
+##  7 Q3       2001 44568
+##  8 Q4       2001 50197
+##  9 Q1       2002 39113
+## 10 Q2       2002 41668
+## 11 Q3       2002 30144
+## 12 Q4       2002 52897</code></pre>
+<p>也可以控制填充的方向</p>
+<div class="sourceCode" id="cb564"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sales</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/fill.html">fill</a></span><span class="op">(</span><span class="va">year</span>, .direction <span class="op">=</span> <span class="st">"up"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 12 × 3
+##    quarter  year sales
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 Q1       2000 66013
+##  2 Q2       2001 69182
+##  3 Q3       2001 53175
+##  4 Q4       2001 21001
+##  5 Q1       2001 46036
+##  6 Q2       2002 58842
+##  7 Q3       2002 44568
+##  8 Q4       2002 50197
+##  9 Q1       2002 39113
+## 10 Q2         NA 41668
+## 11 Q3         NA 30144
+## 12 Q4         NA 52897</code></pre>
+</div>
+<div id="expand-与-complete" class="section level2" number="14.2">
+<h2>
+<span class="header-section-number">14.2</span> <code>expand()</code> 与 <code>complete()</code><a class="anchor" aria-label="anchor" href="#expand-%E4%B8%8E-complete"><i class="fas fa-link"></i></a>
+</h2>
+<p>指定数据框的若干列，根据其向量元素值，产生所有可能的交叉组合</p>
+<div class="sourceCode" id="cb566"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">x</span>, <span class="op">~</span><span class="va">y</span>, <span class="op">~</span><span class="va">z</span>,</span>
+<span>  <span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">4L</span>,</span>
+<span>  <span class="fl">1L</span>, <span class="fl">2L</span>, <span class="fl">5L</span>,</span>
+<span>  <span class="fl">2L</span>, <span class="fl">1L</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="fl">3L</span>, <span class="fl">2L</span>, <span class="fl">6L</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">expand</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##       x     y
+##   &lt;int&gt; &lt;int&gt;
+## 1     1     1
+## 2     1     2
+## 3     2     1
+## 4     2     2
+## 5     3     1
+## 6     3     2</code></pre>
+<p><code><a href="https://tidyr.tidyverse.org/reference/expand.html">nesting()</a></code>用于限定只产生数据框已出现的组合。</p>
+<div class="sourceCode" id="cb568"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">expand</a></span><span class="op">(</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">nesting</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##       x     y
+##   &lt;int&gt; &lt;int&gt;
+## 1     1     1
+## 2     1     2
+## 3     2     1
+## 4     3     2</code></pre>
+<div class="sourceCode" id="cb570"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">expand</a></span><span class="op">(</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">nesting</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>, <span class="va">z</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 16 × 3
+##        x     y     z
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1     1     1     4
+##  2     1     1     5
+##  3     1     1     6
+##  4     1     1    NA
+##  5     1     2     4
+##  6     1     2     5
+##  7     1     2     6
+##  8     1     2    NA
+##  9     2     1     4
+## 10     2     1     5
+## 11     2     1     6
+## 12     2     1    NA
+## 13     3     2     4
+## 14     3     2     5
+## 15     3     2     6
+## 16     3     2    NA</code></pre>
+<p><code><a href="https://tidyr.tidyverse.org/reference/complete.html">complete()</a></code> 补全，可以看做是 <code>expand(nesting()) + fill()</code></p>
+<div class="sourceCode" id="cb572"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##       x     y     z
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     1     1     4
+## 2     1     2     5
+## 3     2     1    NA
+## 4     2     2    NA
+## 5     3     1    NA
+## 6     3     2     6</code></pre>
+<div class="sourceCode" id="cb574"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##       x     y     z
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     1     1     4
+## 2     1     2     5
+## 3     2     1     0
+## 4     2     2     0
+## 5     3     1     0
+## 6     3     2     6</code></pre>
+<p>数据在complete补全的时候，会面临有两种缺失值：</p>
+<ol style="list-style-type: decimal">
+<li>补位的时候造成的空缺</li>
+<li>数据原先就存在缺失值</li>
+</ol>
+<div class="sourceCode" id="cb576"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##       x     y     z
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     1     1     4
+## 2     1     2     5
+## 3     2     1    NA
+## 4     2     2    NA
+## 5     3     1    NA
+## 6     3     2     6</code></pre>
+<ul>
+<li>补位的时候造成的空缺，可通过<code>fill = list(x = 0)</code> 控制填充</li>
+</ul>
+<div class="sourceCode" id="cb578"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##       x     y     z
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     1     1     4
+## 2     1     2     5
+## 3     2     1     0
+## 4     2     2     0
+## 5     3     1     0
+## 6     3     2     6</code></pre>
+<ul>
+<li>数据原先就存在缺失值，最好通过 <code>explicit = FALSE</code>显式地控制是否填充</li>
+</ul>
+<div class="sourceCode" id="cb580"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/complete.html">complete</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>z <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>, explicit <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##       x     y     z
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     1     1     4
+## 2     1     2     5
+## 3     2     1    NA
+## 4     2     2     0
+## 5     3     1     0
+## 6     3     2     6</code></pre>
+</div>
+<div id="expand_grid-与-crossing" class="section level2" number="14.3">
+<h2>
+<span class="header-section-number">14.3</span> <code>expand_grid()</code> 与 <code>crossing()</code><a class="anchor" aria-label="anchor" href="#expand_grid-%E4%B8%8E-crossing"><i class="fas fa-link"></i></a>
+</h2>
+<p>产生一个新的数据框，每行对应着向量元素的所有交叉组合</p>
+<div class="sourceCode" id="cb582"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##       x     y
+##   &lt;int&gt; &lt;int&gt;
+## 1     1     1
+## 2     1     2
+## 3     2     1
+## 4     2     2
+## 5     3     1
+## 6     3     2</code></pre>
+<div class="sourceCode" id="cb584"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">crossing</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##       x     y
+##   &lt;int&gt; &lt;int&gt;
+## 1     1     1
+## 2     1     2
+## 3     2     1
+## 4     2     2
+## 5     3     1
+## 6     3     2</code></pre>
+<p>向量换成数据框也可以，其结果就是数据框行与元素的交叉组合</p>
+<div class="sourceCode" id="cb586"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid</a></span><span class="op">(</span>df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, z <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##    df$x    $y     z
+##   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+## 1     1     2     1
+## 2     1     2     2
+## 3     1     2     3
+## 4     2     1     1
+## 5     2     1     2
+## 6     2     1     3</code></pre>
+<div class="sourceCode" id="cb588"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">crossing</a></span><span class="op">(</span>df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, z <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##    df$x    $y     z
+##   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+## 1     1     2     1
+## 2     1     2     2
+## 3     1     2     3
+## 4     2     1     1
+## 5     2     1     2
+## 6     2     1     3</code></pre>
+<p><code><a href="https://tidyr.tidyverse.org/reference/expand.html">crossing()</a></code>可以看作是<code>expand_grid() + distinct()</code>， 即<code><a href="https://tidyr.tidyverse.org/reference/expand.html">crossing()</a></code>在完成交叉组合之后会自动去重，比如</p>
+<div class="sourceCode" id="cb590"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># 不考虑去重</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##       x     y
+##   &lt;dbl&gt; &lt;int&gt;
+## 1     1     1
+## 2     1     2
+## 3     1     1
+## 4     1     2</code></pre>
+<div class="sourceCode" id="cb592"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand.html">crossing</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>    <span class="co"># 考虑去重 </span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##       x     y
+##   &lt;dbl&gt; &lt;int&gt;
+## 1     1     1
+## 2     1     2</code></pre>
+</div>
+<div id="separate-与-unite" class="section level2" number="14.4">
+<h2>
+<span class="header-section-number">14.4</span> <code>separate()</code> 与 <code>unite()</code><a class="anchor" aria-label="anchor" href="#separate-%E4%B8%8E-unite"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb594"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">day</span>, <span class="op">~</span><span class="va">price</span>,</span>
+<span>  <span class="fl">1</span>,   <span class="st">"30-45"</span>,</span>
+<span>  <span class="fl">2</span>,   <span class="st">"40-95"</span>,</span>
+<span>  <span class="fl">3</span>,   <span class="st">"89-65"</span>,</span>
+<span>  <span class="fl">4</span>,   <span class="st">"45-63"</span>,</span>
+<span>  <span class="fl">5</span>,   <span class="st">"52-42"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb595"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb1</span> <span class="op">&lt;-</span> <span class="va">tb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">price</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span></span>
+<span><span class="va">tb1</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+##     day low   high 
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 30    45   
+## 2     2 40    95   
+## 3     3 89    65   
+## 4     4 45    63   
+## 5     5 52    42</code></pre>
+<div class="sourceCode" id="cb597"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html">unite</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"price"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">low</span>, <span class="va">high</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">":"</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 × 4
+##     day price low   high 
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 30:45 30    45   
+## 2     2 40:95 40    95   
+## 3     3 89:65 89    65   
+## 4     4 45:63 45    63   
+## 5     5 52:42 52    42</code></pre>
+<p>有时候分隔符搞不定的，可以用正则表达式，将捕获的每组弄成一列</p>
+<div class="sourceCode" id="cb599"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dfc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1-12week"</span>, <span class="st">"1-10wk"</span>, <span class="st">"5-12w"</span>, <span class="st">"01-05weeks"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dfc</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 1
+##   x         
+##   &lt;chr&gt;     
+## 1 1-12week  
+## 2 1-10wk    
+## 3 5-12w     
+## 4 01-05weeks</code></pre>
+<div class="sourceCode" id="cb601"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dfc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/extract.html">extract</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"start"</span>, <span class="st">"end"</span>, <span class="st">"letter"</span><span class="op">)</span>, <span class="st">"(\\d+)-(\\d+)([a-z]+)"</span>,</span>
+<span>  remove <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+##   x          start end   letter
+##   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 1-12week   1     12    week  
+## 2 1-10wk     1     10    wk    
+## 3 5-12w      5     12    w     
+## 4 01-05weeks 01    05    weeks</code></pre>
+</div>
+<div id="删除缺失值所在行drop_na与replace_na" class="section level2" number="14.5">
+<h2>
+<span class="header-section-number">14.5</span> 删除缺失值所在行drop_na()与replace_na()<a class="anchor" aria-label="anchor" href="#%E5%88%A0%E9%99%A4%E7%BC%BA%E5%A4%B1%E5%80%BC%E6%89%80%E5%9C%A8%E8%A1%8Cdrop_na%E4%B8%8Ereplace_na"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb603"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>    <span class="op">~</span><span class="va">name</span>,     <span class="op">~</span><span class="va">type</span>, <span class="op">~</span><span class="va">score</span>, <span class="op">~</span><span class="va">extra</span>,</span>
+<span>  <span class="st">"Alice"</span>, <span class="st">"english"</span>,     <span class="fl">80</span>,     <span class="fl">10</span>,</span>
+<span>  <span class="st">"Alice"</span>,    <span class="st">"math"</span>,     <span class="cn">NA</span>,      <span class="fl">5</span>,</span>
+<span>    <span class="st">"Bob"</span>, <span class="st">"english"</span>,     <span class="cn">NA</span>,      <span class="fl">9</span>,</span>
+<span>    <span class="st">"Bob"</span>,    <span class="st">"math"</span>,     <span class="fl">69</span>,     <span class="cn">NA</span>,</span>
+<span>  <span class="st">"Carol"</span>, <span class="st">"english"</span>,     <span class="fl">80</span>,     <span class="fl">10</span>,</span>
+<span>  <span class="st">"Carol"</span>,    <span class="st">"math"</span>,     <span class="fl">90</span>,      <span class="fl">5</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Alice math       NA     5
+## 3 Bob   english    NA     9
+## 4 Bob   math       69    NA
+## 5 Carol english    80    10
+## 6 Carol math       90     5</code></pre>
+<p>如果score列中有缺失值<code>NA</code>，就删除所在的row</p>
+<div class="sourceCode" id="cb605"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Bob   math       69    NA
+## 3 Carol english    80    10
+## 4 Carol math       90     5</code></pre>
+<p>或者用<code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code></p>
+<div class="sourceCode" id="cb607"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="va">score</span>, <span class="op">~</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Using `across()` in `filter()` was deprecated in dplyr 1.0.8.
+## ℹ Please use `if_any()` or `if_all()` instead.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## # A tibble: 4 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Bob   math       69    NA
+## 3 Carol english    80    10
+## 4 Carol math       90     5</code></pre>
+<p>所有列，如果有缺失值<code>NA</code>，就删除所在的row</p>
+<div class="sourceCode" id="cb610"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Using `across()` in `filter()` was deprecated in dplyr 1.0.8.
+## ℹ Please use `if_any()` or `if_all()` instead.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## # A tibble: 3 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Carol english    80    10
+## 3 Carol math       90     5</code></pre>
+<p>现在有更简便的方法</p>
+<div class="sourceCode" id="cb613"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Carol english    80    10
+## 3 Carol math       90     5</code></pre>
+<p>也可指定某一列</p>
+<div class="sourceCode" id="cb615"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Bob   math       69    NA
+## 3 Carol english    80    10
+## 4 Carol math       90     5</code></pre>
+<p>没来参加考试，视为0分，可以用<code><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na()</a></code></p>
+<div class="sourceCode" id="cb617"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>score <span class="op">=</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Alice math        0     5
+## 3 Bob   english     0     9
+## 4 Bob   math       69    NA
+## 5 Carol english    80    10
+## 6 Carol math       90     5</code></pre>
+<p>或者使用<code><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce()</a></code></p>
+<div class="sourceCode" id="cb619"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>score <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Alice math        0     5
+## 3 Bob   english     0     9
+## 4 Bob   math       69    NA
+## 5 Carol english    80    10
+## 6 Carol math       90     5</code></pre>
+<div class="sourceCode" id="cb621"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">score</span>, <span class="va">extra</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80    10
+## 2 Alice math        0     5
+## 3 Bob   english     0     9
+## 4 Bob   math       69     0
+## 5 Carol english    80    10
+## 6 Carol math       90     5</code></pre>
+<p>没来参加考试，用平均分代替</p>
+<div class="sourceCode" id="cb623"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    score <span class="op">=</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na</a></span><span class="op">(</span><span class="va">score</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english  80      10
+## 2 Alice math     79.8     5
+## 3 Bob   english  79.8     9
+## 4 Bob   math     69      NA
+## 5 Carol english  80      10
+## 6 Carol math     90       5</code></pre>
+<p>当然也可以用<code><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else()</a></code>来做</p>
+<div class="sourceCode" id="cb625"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    score <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="va">score</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english  80      10
+## 2 Alice math     79.8     5
+## 3 Bob   english  79.8     9
+## 4 Bob   math     69      NA
+## 5 Carol english  80      10
+## 6 Carol math     90       5</code></pre>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></div>
+<div class="next"><a href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-tidyr2"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="nav-link" href="#fill-%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A1%AB%E5%85%85"><span class="header-section-number">14.1</span> fill() 缺失值填充</a></li>
+<li><a class="nav-link" href="#expand-%E4%B8%8E-complete"><span class="header-section-number">14.2</span> expand() 与 complete()</a></li>
+<li><a class="nav-link" href="#expand_grid-%E4%B8%8E-crossing"><span class="header-section-number">14.3</span> expand_grid() 与 crossing()</a></li>
+<li><a class="nav-link" href="#separate-%E4%B8%8E-unite"><span class="header-section-number">14.4</span> separate() 与 unite()</a></li>
+<li><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%BC%BA%E5%A4%B1%E5%80%BC%E6%89%80%E5%9C%A8%E8%A1%8Cdrop_na%E4%B8%8Ereplace_na"><span class="header-section-number">14.5</span> 删除缺失值所在行drop_na()与replace_na()</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

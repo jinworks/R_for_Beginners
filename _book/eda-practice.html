@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 33 章 一天一练 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="“表达我自己比被人喜欢更重要。” 加油 尽可能的在tidyverse的框架下完成 library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ── ## ✔ dplyr   1.1.3   ✔ readr   2.1.4 ## ✔ forcats ...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 33 章 一天一练 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="“表达我自己比被人喜欢更重要。” 加油 尽可能的在tidyverse的框架下完成 library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ── ## ✔ dplyr   1.1.3   ✔ readr   2.1.4 ## ✔ forcats ...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 33 章 一天一练 | R编程与作图">
+<meta name="twitter:description" content="“表达我自己比被人喜欢更重要。” 加油 尽可能的在tidyverse的框架下完成 library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ── ## ✔ dplyr   1.1.3   ✔ readr   2.1.4 ## ✔ forcats ...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="active" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="eda-practice" class="section level1" number="33">
+<h1>
+<span class="header-section-number">第 33 章</span> 一天一练<a class="anchor" aria-label="anchor" href="#eda-practice"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p>“表达我自己比被人喜欢更重要。” 加油</p>
+</blockquote>
+<p>尽可能的在tidyverse的框架下完成</p>
+<div class="sourceCode" id="cb2316"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div id="day01" class="section level2" number="33.1">
+<h2>
+<span class="header-section-number">33.1</span> day01<a class="anchor" aria-label="anchor" href="#day01"><i class="fas fa-link"></i></a>
+</h2>
+<p>旋转数据框，要求</p>
+<div class="sourceCode" id="cb2318"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>    <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">chinese</span>, <span class="op">~</span><span class="va">math</span>, <span class="op">~</span><span class="va">physics</span>, <span class="op">~</span><span class="va">english</span>, <span class="op">~</span><span class="va">music</span>, <span class="op">~</span><span class="va">sport</span>,</span>
+<span>  <span class="st">"Alice"</span>,      <span class="fl">88L</span>,   <span class="fl">63L</span>,      <span class="fl">98L</span>,      <span class="fl">89L</span>,    <span class="fl">85L</span>,    <span class="fl">72L</span>,</span>
+<span>    <span class="st">"Bob"</span>,      <span class="fl">85L</span>,   <span class="fl">75L</span>,      <span class="fl">85L</span>,      <span class="fl">82L</span>,    <span class="fl">73L</span>,    <span class="fl">83L</span>,</span>
+<span>  <span class="st">"Carlo"</span>,      <span class="fl">95L</span>,   <span class="fl">98L</span>,      <span class="fl">75L</span>,      <span class="fl">75L</span>,    <span class="fl">68L</span>,    <span class="fl">84L</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">d</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 7
+##   name  chinese  math physics english music sport
+##   &lt;chr&gt;   &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1 Alice      88    63      98      89    85    72
+## 2 Bob        85    75      85      82    73    83
+## 3 Carlo      95    98      75      75    68    84</code></pre>
+<p>变成</p>
+<pre><code>## # A tibble: 6 × 4
+##   discipline Alice   Bob Carlo
+##   &lt;chr&gt;      &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1 chinese       88    85    95
+## 2 math          63    75    98
+## 3 physics       98    85    75
+## 4 english       89    82    75
+## 5 music         85    73    68
+## 6 sport         72    83    84</code></pre>
+</div>
+<div id="day02" class="section level2" number="33.2">
+<h2>
+<span class="header-section-number">33.2</span> day02<a class="anchor" aria-label="anchor" href="#day02"><i class="fas fa-link"></i></a>
+</h2>
+<p>排序，要求按照score从大往小排，但希望all是最下面一行。</p>
+<div class="sourceCode" id="cb2321"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">score</span>,</span>
+<span>   <span class="st">"a1"</span>,     <span class="fl">2</span>,</span>
+<span>   <span class="st">"a2"</span>,     <span class="fl">5</span>,</span>
+<span>   <span class="st">"a3"</span>,     <span class="fl">3</span>,</span>
+<span>   <span class="st">"a4"</span>,     <span class="fl">7</span>,</span>
+<span>   <span class="st">"a5"</span>,     <span class="fl">6</span>,</span>
+<span>  <span class="st">"all"</span>,    <span class="fl">23</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>变成</p>
+<pre><code>## # A tibble: 6 × 2
+##   name  score
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 a4        7
+## 2 a5        6
+## 3 a2        5
+## 4 a3        3
+## 5 a1        2
+## 6 all      23</code></pre>
+</div>
+<div id="day03" class="section level2" number="33.3">
+<h2>
+<span class="header-section-number">33.3</span> day03<a class="anchor" aria-label="anchor" href="#day03"><i class="fas fa-link"></i></a>
+</h2>
+<p>统计每位同学，成绩高于各科均值的个数，</p>
+<div class="sourceCode" id="cb2323"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">chinese</span>, <span class="op">~</span><span class="va">engish</span>, <span class="op">~</span><span class="va">physics</span>, <span class="op">~</span><span class="va">sport</span>, <span class="op">~</span><span class="va">music</span>,</span>
+<span>  <span class="st">"Aice"</span>, <span class="fl">85</span>, <span class="fl">56</span>, <span class="fl">56</span>, <span class="fl">54</span>, <span class="fl">78</span>,</span>
+<span>  <span class="st">"Bob"</span>, <span class="fl">75</span>, <span class="fl">78</span>, <span class="fl">77</span>, <span class="fl">56</span>, <span class="fl">69</span>,</span>
+<span>  <span class="st">"Cake"</span>, <span class="fl">69</span>, <span class="fl">41</span>, <span class="fl">88</span>, <span class="fl">89</span>, <span class="fl">59</span>,</span>
+<span>  <span class="st">"Dave"</span>, <span class="fl">90</span>, <span class="fl">66</span>, <span class="fl">74</span>, <span class="fl">82</span>, <span class="fl">60</span>,</span>
+<span>  <span class="st">"Eve"</span>, <span class="fl">68</span>, <span class="fl">85</span>, <span class="fl">75</span>, <span class="fl">69</span>, <span class="fl">21</span>,</span>
+<span>  <span class="st">"Fod"</span>, <span class="fl">77</span>, <span class="fl">74</span>, <span class="fl">62</span>, <span class="fl">74</span>, <span class="fl">88</span>,</span>
+<span>  <span class="st">"Gimme"</span>, <span class="fl">56</span>, <span class="fl">88</span>, <span class="fl">75</span>, <span class="fl">69</span>, <span class="fl">34</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">d</span></span></code></pre></div>
+<pre><code>## # A tibble: 7 × 6
+##   name  chinese engish physics sport music
+##   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Aice       85     56      56    54    78
+## 2 Bob        75     78      77    56    69
+## 3 Cake       69     41      88    89    59
+## 4 Dave       90     66      74    82    60
+## 5 Eve        68     85      75    69    21
+## 6 Fod        77     74      62    74    88
+## 7 Gimme      56     88      75    69    34</code></pre>
+<p>变成</p>
+<pre><code>## # A tibble: 7 × 7
+##   name  chinese engish physics sport music num_above_mean
+##   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;          &lt;int&gt;
+## 1 Aice       85     56      56    54    78              2
+## 2 Bob        75     78      77    56    69              4
+## 3 Cake       69     41      88    89    59              3
+## 4 Dave       90     66      74    82    60              4
+## 5 Eve        68     85      75    69    21              2
+## 6 Fod        77     74      62    74    88              4
+## 7 Gimme      56     88      75    69    34              2</code></pre>
+</div>
+<div id="day04" class="section level2" number="33.4">
+<h2>
+<span class="header-section-number">33.4</span> day04<a class="anchor" aria-label="anchor" href="#day04"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb2326"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">id</span>, <span class="op">~</span><span class="va">corr</span>, <span class="op">~</span><span class="va">period</span>,</span>
+<span>  <span class="fl">1</span>, <span class="fl">0</span>, <span class="st">"a"</span>,</span>
+<span>  <span class="fl">1</span>, <span class="fl">0</span>, <span class="st">"b"</span>,</span>
+<span>  <span class="fl">2</span>, <span class="fl">0</span>, <span class="st">"a"</span>,</span>
+<span>  <span class="fl">2</span>, <span class="fl">1</span>, <span class="st">"b"</span>,</span>
+<span>  <span class="fl">3</span>, <span class="fl">1</span>, <span class="st">"a"</span>,</span>
+<span>  <span class="fl">3</span>, <span class="fl">0</span>, <span class="st">"b"</span>,</span>
+<span>  <span class="fl">4</span>, <span class="fl">1</span>, <span class="st">"a"</span>,</span>
+<span>  <span class="fl">4</span>, <span class="fl">1</span>, <span class="st">"b"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">data</span></span></code></pre></div>
+<pre><code>## # A tibble: 8 × 3
+##      id  corr period
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+## 1     1     0 a     
+## 2     1     0 b     
+## 3     2     0 a     
+## 4     2     1 b     
+## 5     3     1 a     
+## 6     3     0 b     
+## 7     4     1 a     
+## 8     4     1 b</code></pre>
+<p>先按id分组，</p>
+<ul>
+<li>如果corr中都是0 就”none”</li>
+<li>如果corr中都是1 就”both”</li>
+<li>如果corr中只有一个1，就输出1对应period</li>
+</ul>
+<pre><code>## # A tibble: 4 × 2
+##      id resp_period
+##   &lt;dbl&gt; &lt;chr&gt;      
+## 1     1 none       
+## 2     2 b          
+## 3     3 a          
+## 4     4 both</code></pre>
+</div>
+<div id="day05" class="section level2" number="33.5">
+<h2>
+<span class="header-section-number">33.5</span> day05<a class="anchor" aria-label="anchor" href="#day05"><i class="fas fa-link"></i></a>
+</h2>
+<p>图中柱子上的字体没有显示完整，请改进。</p>
+<div class="sourceCode" id="cb2329"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>     <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">value</span>,</span>
+<span>   <span class="st">"Alice"</span>,    <span class="fl">2.12</span>,</span>
+<span>     <span class="st">"Bob"</span>,   <span class="fl">68.45</span>,</span>
+<span>  <span class="st">"Carlie"</span>,   <span class="fl">15.84</span>,</span>
+<span>    <span class="st">"Dave"</span>,    <span class="fl">7.38</span>,</span>
+<span>     <span class="st">"Eve"</span>,    <span class="fl">0.56</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span>, y <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html">fct_reorder</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.6</span>, fill <span class="op">=</span> <span class="st">"gray60"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">value</span>, hjust <span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="eda_practice_files/figure-html/practice09-1.png" width="672"></div>
+</div>
+<div id="day06" class="section level2" number="33.6">
+<h2>
+<span class="header-section-number">33.6</span> day06<a class="anchor" aria-label="anchor" href="#day06"><i class="fas fa-link"></i></a>
+</h2>
+<p>我看到新闻有<a href="https://themarkup.org/news/2021/03/02/major-universities-are-using-race-as-a-high-impact-predictor-of-student-success">一张图</a>很漂亮，您能重复出来？</p>
+<div class="inline-figure"><img src="images/to_reproduce.jpg" width="85%"></div>
+<p>数据在下面</p>
+<div class="sourceCode" id="cb2330"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>            <span class="op">~</span><span class="va">area</span>,           <span class="op">~</span><span class="va">group</span>, <span class="op">~</span><span class="va">value</span>,</span>
+<span>      <span class="st">"Texas A&amp;M"</span>, <span class="st">"white Students"</span>,   <span class="fl">0.03</span>,</span>
+<span>      <span class="st">"Texas A&amp;M"</span>, <span class="st">"Black Students"</span>,   <span class="fl">0.07</span>,</span>
+<span>  <span class="st">"Umass Amherst"</span>, <span class="st">"white Students"</span>,   <span class="fl">0.07</span>,</span>
+<span>  <span class="st">"Umass Amherst"</span>, <span class="st">"Black Students"</span>,   <span class="fl">0.23</span>,</span>
+<span>   <span class="st">"UW-Milwaukee"</span>, <span class="st">"white Students"</span>,   <span class="fl">0.13</span>,</span>
+<span>   <span class="st">"UW-Milwaukee"</span>, <span class="st">"Black Students"</span>,   <span class="fl">0.31</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">d</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   area          group          value
+##   &lt;chr&gt;         &lt;chr&gt;          &lt;dbl&gt;
+## 1 Texas A&amp;M     white Students  0.03
+## 2 Texas A&amp;M     Black Students  0.07
+## 3 Umass Amherst white Students  0.07
+## 4 Umass Amherst Black Students  0.23
+## 5 UW-Milwaukee  white Students  0.13
+## 6 UW-Milwaukee  Black Students  0.31</code></pre>
+<p>提示，可以把图片拉到https://color.adobe.com/zh/create/image-gradient 获取颜色值，比如</p>
+<div class="sourceCode" id="cb2332"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/swatchplot.html">swatchplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#F42F5D"</span>,<span class="st">"#252A4A"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="eda_practice_files/figure-html/practice13-1.png" width="672"></div>
+</div>
+<div id="day07" class="section level2" number="33.7">
+<h2>
+<span class="header-section-number">33.7</span> day07<a class="anchor" aria-label="anchor" href="#day07"><i class="fas fa-link"></i></a>
+</h2>
+<p>告诉你一个你可能不知道的事情，<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>一定要输出数据框吗？</p>
+<div class="sourceCode" id="cb2333"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nest_by.html">nest_by</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu">glue</span><span class="op">(</span><span class="st">"{Species}.cvs"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span></code></pre></div>
+</div>
+<div id="day08" class="section level2" number="33.8">
+<h2>
+<span class="header-section-number">33.8</span> day08<a class="anchor" aria-label="anchor" href="#day08"><i class="fas fa-link"></i></a>
+</h2>
+<p>运行以下两个代码，结果和你期望的一样？为什么？</p>
+<div class="sourceCode" id="cb2334"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">.</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div id="day09" class="section level2" number="33.9">
+<h2>
+<span class="header-section-number">33.9</span> day09<a class="anchor" aria-label="anchor" href="#day09"><i class="fas fa-link"></i></a>
+</h2>
+<p>缺失值替换，数值型的缺失值用0替换，字符串型的用””</p>
+<div class="sourceCode" id="cb2335"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="day10" class="section level2" number="33.10">
+<h2>
+<span class="header-section-number">33.10</span> day10<a class="anchor" aria-label="anchor" href="#day10"><i class="fas fa-link"></i></a>
+</h2>
+<p>六年级的年级主任让学生提交自己所在的班级号，看到结果后，他很苦恼，你能帮忙他规整下？</p>
+<div class="sourceCode" id="cb2336"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>               <span class="op">~</span><span class="va">id</span>,</span>
+<span>               <span class="st">"2"</span>,</span>
+<span>              <span class="st">"03"</span>,</span>
+<span>       <span class="st">"小学2015级2班"</span>,</span>
+<span>       <span class="st">"小学2015级3班"</span>,</span>
+<span>            <span class="st">"0601"</span>,</span>
+<span>            <span class="st">"0602"</span>,</span>
+<span>          <span class="st">"201502"</span>,</span>
+<span>          <span class="st">"201604"</span>,</span>
+<span>            <span class="st">"6.10"</span>,</span>
+<span>            <span class="st">"6.11"</span>,</span>
+<span>             <span class="st">"6.5"</span>,</span>
+<span>             <span class="st">"6.8"</span>,</span>
+<span>              <span class="st">"06"</span></span>
+<span>       <span class="op">)</span></span>
+<span><span class="va">d</span></span></code></pre></div>
+<pre><code>## # A tibble: 13 × 1
+##    id           
+##    &lt;chr&gt;        
+##  1 2            
+##  2 03           
+##  3 小学2015级2班
+##  4 小学2015级3班
+##  5 0601         
+##  6 0602         
+##  7 201502       
+##  8 201604       
+##  9 6.10         
+## 10 6.11         
+## 11 6.5          
+## 12 6.8          
+## 13 06</code></pre>
+</div>
+<div id="day11" class="section level2" number="33.11">
+<h2>
+<span class="header-section-number">33.11</span> day11<a class="anchor" aria-label="anchor" href="#day11"><i class="fas fa-link"></i></a>
+</h2>
+<p>每行以x为均值生成一个随机数, 以下哪个是正确的？</p>
+<div class="sourceCode" id="cb2338"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># A</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>normal_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, mean <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span>     </span>
+<span></span>
+<span><span class="co"># B</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>normal_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># C</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>normal_mean <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">x</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, mean <span class="op">=</span> <span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># D</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>normal_mean <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">x</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, mean <span class="op">=</span> <span class="va">.</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># E</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>normal_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, mean <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="day12" class="section level2" number="33.12">
+<h2>
+<span class="header-section-number">33.12</span> day12<a class="anchor" aria-label="anchor" href="#day12"><i class="fas fa-link"></i></a>
+</h2>
+<p><code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code>的辅助参数放里面和放外面，有什么区别？</p>
+<div class="sourceCode" id="cb2339"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">plus</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
+<span></span>
+<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">plus</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">x</span>, <span class="op">~</span><span class="fu">plus</span><span class="op">(</span><span class="va">.x</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span></span></code></pre></div>
+</div>
+<div id="day13" class="section level2" number="33.13">
+<h2>
+<span class="header-section-number">33.13</span> day13<a class="anchor" aria-label="anchor" href="#day13"><i class="fas fa-link"></i></a>
+</h2>
+<p>计算每天水分和食物的所占比例， 比如第一天water和food都是10.0，那么各自比例都是50%.</p>
+<div class="sourceCode" id="cb2340"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">water</span>, <span class="op">~</span><span class="va">food</span>,</span>
+<span>  <span class="fl">10.0</span>,   <span class="fl">10.0</span>,</span>
+<span>  <span class="fl">12.1</span>,   <span class="fl">10.3</span>,</span>
+<span>  <span class="fl">13.5</span>,   <span class="fl">19.1</span>,</span>
+<span>  <span class="fl">17.4</span>,   <span class="fl">16.0</span>,</span>
+<span>  <span class="fl">25.8</span>,   <span class="fl">15.6</span>,</span>
+<span>  <span class="fl">27.4</span>,   <span class="fl">19.8</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">d</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##   water  food
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  10    10  
+## 2  12.1  10.3
+## 3  13.5  19.1
+## 4  17.4  16  
+## 5  25.8  15.6
+## 6  27.4  19.8</code></pre>
+</div>
+<div id="day14" class="section level2" number="33.14">
+<h2>
+<span class="header-section-number">33.14</span> day14<a class="anchor" aria-label="anchor" href="#day14"><i class="fas fa-link"></i></a>
+</h2>
+<p>以下代码哪些会给出相同的图形?</p>
+<div class="sourceCode" id="cb2342"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>     x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span>
+<span>    group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"group1"</span>, <span class="fl">3</span><span class="op">)</span>,  <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"group2"</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li><code>ggplot(tb, aes(x,y)) + geom_line()</code></li>
+<li><code>ggplot(tb, aes(x,y,group=group)) + geom_line()</code></li>
+<li><code>ggplot(tb, aes(x,y,fill=group)) + geom_line()</code></li>
+<li><code>ggplot(tb, aes(x,y,color=group)) + geom_line()</code></li>
+</ol>
+</div>
+<div id="day15" class="section level2" number="33.15">
+<h2>
+<span class="header-section-number">33.15</span> day15<a class="anchor" aria-label="anchor" href="#day15"><i class="fas fa-link"></i></a>
+</h2>
+<p>重复这张图</p>
+<div class="inline-figure"><img src="images/to_reproduce2.png" width="85%"></div>
+<p>数据在下面</p>
+<div class="sourceCode" id="cb2343"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="va">raw_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"demo_data"</span>, <span class="st">"rude_behavior_in_airplane.rds"</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="va">raw_df</span></span></code></pre></div>
+<pre><code>## # A tibble: 27 × 3
+##    type                                           judgment          n
+##    &lt;chr&gt;                                          &lt;chr&gt;         &lt;dbl&gt;
+##  1 "Bring a baby"                                 Not rude        592
+##  2 "Bring a baby"                                 Very Rude        75
+##  3 "Bring a baby"                                 Somewhat rude   182
+##  4 "Bring an unruly child"                        Not rude        147
+##  5 "Bring an unruly child"                        Very Rude       351
+##  6 "Bring an unruly child"                        Somewhat rude   351
+##  7 "Recline your seat"                            Not rude        502
+##  8 "Recline your seat"                            Very Rude        71
+##  9 "Recline your seat"                            Somewhat rude   281
+## 10 "Ask to switch seats \nto be closer to family" Not rude        705
+## # ℹ 17 more rows</code></pre>
+</div>
+<div id="day16" class="section level2" number="33.16">
+<h2>
+<span class="header-section-number">33.16</span> day16<a class="anchor" aria-label="anchor" href="#day16"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb2345"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span>
+<span><span class="va">genes</span></span></code></pre></div>
+<pre><code>##   gene1   gene2   gene3   gene4   gene5 
+## "gene1" "gene2" "gene3" "gene4" "gene5"</code></pre>
+<p>这里有一个列表，其元素<code>list1, list2, list3</code>是3个长度不等的向量</p>
+<div class="sourceCode" id="cb2347"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">big_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>  </span>
+<span>  list1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">6</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  list2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  list3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">big_list</span></span></code></pre></div>
+<pre><code>## $list1
+## [1] "gene1" "gene2" "gene6" "gene7"
+## 
+## $list2
+## [1] "gene6" "gene7"
+## 
+## $list3
+## [1] "gene1" "gene4" "gene5" "gene6" "gene7"</code></pre>
+<p>需求：想看下 gene1, gene2, gene3, gene4, gene5 是否出现在 <code>list1, list2, list3</code>中，并统计成下表</p>
+<pre><code>## # A tibble: 5 × 4
+##   name  list1 list2 list3
+##   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1 gene1     1     0     1
+## 2 gene2     1     0     0
+## 3 gene3     0     0     0
+## 4 gene4     0     0     1
+## 5 gene5     0     0     1</code></pre>
+</div>
+<div id="day17" class="section level2" number="33.17">
+<h2>
+<span class="header-section-number">33.17</span> day17<a class="anchor" aria-label="anchor" href="#day17"><i class="fas fa-link"></i></a>
+</h2>
+<p>统计每支球队，比赛次数以及赢得比赛的分数之和</p>
+<div class="sourceCode" id="cb2350"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">games</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">team</span>, <span class="op">~</span><span class="va">outcome</span>, <span class="op">~</span><span class="va">points</span>,</span>
+<span>    <span class="st">"A"</span>,    <span class="st">"Win"</span>,      <span class="fl">3</span>,</span>
+<span>    <span class="st">"A"</span>,   <span class="st">"Lose"</span>,      <span class="fl">1</span>,</span>
+<span>    <span class="st">"A"</span>,    <span class="st">"Win"</span>,      <span class="fl">1</span>,</span>
+<span>    <span class="st">"A"</span>,    <span class="st">"Win"</span>,      <span class="fl">2</span>,</span>
+<span>    <span class="st">"B"</span>,    <span class="st">"Win"</span>,      <span class="fl">1</span>,</span>
+<span>    <span class="st">"B"</span>,    <span class="st">"Win"</span>,      <span class="fl">1</span>,</span>
+<span>    <span class="st">"B"</span>,   <span class="st">"Lose"</span>,      <span class="fl">3</span>,</span>
+<span>    <span class="st">"B"</span>,   <span class="st">"Lose"</span>,      <span class="fl">1</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">games</span></span></code></pre></div>
+<pre><code>## # A tibble: 8 × 3
+##   team  outcome points
+##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 A     Win          3
+## 2 A     Lose         1
+## 3 A     Win          1
+## 4 A     Win          2
+## 5 B     Win          1
+## 6 B     Win          1
+## 7 B     Lose         3
+## 8 B     Lose         1</code></pre>
+</div>
+<div id="day18" class="section level2" number="33.18">
+<h2>
+<span class="header-section-number">33.18</span> day18<a class="anchor" aria-label="anchor" href="#day18"><i class="fas fa-link"></i></a>
+</h2>
+<p>只让gentoo这个分面，背景色高亮</p>
+<div class="sourceCode" id="cb2352"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">bill_length_mm</span>, y <span class="op">=</span> <span class="va">bill_depth_mm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="eda_practice_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
+</div>
+<div id="day19" class="section level2" number="33.19">
+<h2>
+<span class="header-section-number">33.19</span> day19<a class="anchor" aria-label="anchor" href="#day19"><i class="fas fa-link"></i></a>
+</h2>
+<p>用下面的数据，画出柱中柱效果</p>
+<div class="sourceCode" id="cb2353"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>      <span class="op">~</span><span class="va">group</span>,   <span class="op">~</span><span class="va">product</span>, <span class="op">~</span><span class="va">sale</span>,</span>
+<span>    <span class="st">"Target"</span>, <span class="st">"Balender"</span>,   <span class="fl">80</span>,</span>
+<span>    <span class="st">"Target"</span>,      <span class="st">"Fan"</span>,   <span class="fl">90</span>,</span>
+<span>    <span class="st">"Target"</span>,   <span class="st">"Cooler"</span>,   <span class="fl">70</span>,</span>
+<span>    <span class="st">"Target"</span>,       <span class="st">"AC"</span>,   <span class="fl">95</span>,</span>
+<span>  <span class="st">"Achieved"</span>, <span class="st">"Balender"</span>,   <span class="fl">50</span>,</span>
+<span>  <span class="st">"Achieved"</span>,      <span class="st">"Fan"</span>,   <span class="fl">55</span>,</span>
+<span>  <span class="st">"Achieved"</span>,   <span class="st">"Cooler"</span>,   <span class="fl">60</span>,</span>
+<span>  <span class="st">"Achieved"</span>,       <span class="st">"AC"</span>,   <span class="fl">45</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">tb</span></span></code></pre></div>
+<pre><code>## # A tibble: 8 × 3
+##   group    product   sale
+##   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;
+## 1 Target   Balender    80
+## 2 Target   Fan         90
+## 3 Target   Cooler      70
+## 4 Target   AC          95
+## 5 Achieved Balender    50
+## 6 Achieved Fan         55
+## 7 Achieved Cooler      60
+## 8 Achieved AC          45</code></pre>
+<div class="inline-figure"><img src="images/replot_bar_in_bar.png" width="85%"></div>
+</div>
+<div id="day20" class="section level2" number="33.20">
+<h2>
+<span class="header-section-number">33.20</span> day20<a class="anchor" aria-label="anchor" href="#day20"><i class="fas fa-link"></i></a>
+</h2>
+<p>修改列名，在m或者f的后面加下划线</p>
+<div class="sourceCode" id="cb2355"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">id</span>, <span class="op">~</span><span class="va">new_ep_m014</span>, <span class="op">~</span><span class="va">newrel_f1524</span>, <span class="op">~</span><span class="va">new_sp_f65</span>, <span class="op">~</span><span class="va">new_ep_m3544</span>,</span>
+<span>   <span class="fl">1L</span>,           <span class="fl">3L</span>,            <span class="fl">2L</span>,          <span class="fl">4L</span>,            <span class="fl">1L</span>,</span>
+<span>   <span class="fl">2L</span>,           <span class="fl">4L</span>,            <span class="fl">4L</span>,          <span class="fl">5L</span>,            <span class="fl">2L</span>,</span>
+<span>   <span class="fl">3L</span>,           <span class="fl">5L</span>,            <span class="fl">5L</span>,          <span class="fl">6L</span>,            <span class="fl">6L</span>,</span>
+<span>   <span class="fl">4L</span>,           <span class="fl">6L</span>,            <span class="fl">6L</span>,          <span class="fl">7L</span>,            <span class="fl">8L</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">tb</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 5
+##      id new_ep_m014 newrel_f1524 new_sp_f65 new_ep_m3544
+##   &lt;int&gt;       &lt;int&gt;        &lt;int&gt;      &lt;int&gt;        &lt;int&gt;
+## 1     1           3            2          4            1
+## 2     2           4            4          5            2
+## 3     3           5            5          6            6
+## 4     4           6            6          7            8</code></pre>
+</div>
+<div id="day21" class="section level2" number="33.21">
+<h2>
+<span class="header-section-number">33.21</span> day21<a class="anchor" aria-label="anchor" href="#day21"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb2357"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##        x y    
+##    &lt;int&gt; &lt;chr&gt;
+##  1     1 a    
+##  2     2 a    
+##  3     3 a    
+##  4     4 a    
+##  5     5 a    
+##  6     6 a    
+##  7     7 b    
+##  8     8 b    
+##  9     9 b    
+## 10    10 a</code></pre>
+<p>说出这里三行代码分别的含义</p>
+<div class="sourceCode" id="cb2359"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    y1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,              </span>
+<span>    y2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">y</span> <span class="op">==</span> <span class="st">"a"</span><span class="op">)</span>,       </span>
+<span>    y3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">y</span> <span class="op">==</span> <span class="st">"a"</span><span class="op">]</span><span class="op">)</span>     </span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div id="day22" class="section level2" number="33.22">
+<h2>
+<span class="header-section-number">33.22</span> day22<a class="anchor" aria-label="anchor" href="#day22"><i class="fas fa-link"></i></a>
+</h2>
+<p>看中这个张图<a href="https://www.healthsystemtracker.org/brief/covid-19-leading-cause-of-death-ranking/" class="uri">https://www.healthsystemtracker.org/brief/covid-19-leading-cause-of-death-ranking/</a>，数据也是可以下载的</p>
+<div class="inline-figure"><img src="images/replot_cause_of_death_ranking.png" width="85%"></div>
+</div>
+<div id="day23" class="section level2" number="33.23">
+<h2>
+<span class="header-section-number">33.23</span> day23<a class="anchor" aria-label="anchor" href="#day23"><i class="fas fa-link"></i></a>
+</h2>
+<p>问题，这两张图一样吗？</p>
+<div class="sourceCode" id="cb2360"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fl">500</span><span class="op">)</span>,</span>
+<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span></span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span>,</span>
+<span>    stat <span class="op">=</span> <span class="st">"density"</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">stat_density</a></span><span class="op">(</span></span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span>,</span>
+<span>    geom <span class="op">=</span> <span class="st">"line"</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div id="day24" class="section level2" number="33.24">
+<h2>
+<span class="header-section-number">33.24</span> day24<a class="anchor" aria-label="anchor" href="#day24"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb2361"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span> <span class="op">==</span> <span class="st">"1"</span></span></code></pre></div>
+<p>结果会是什么？</p>
+<ol style="list-style-type: decimal">
+<li>TRUE</li>
+<li>FALSE</li>
+<li>Error</li>
+<li>NULL</li>
+</ol>
+</div>
+<div id="day25" class="section level2" number="33.25">
+<h2>
+<span class="header-section-number">33.25</span> day25<a class="anchor" aria-label="anchor" href="#day25"><i class="fas fa-link"></i></a>
+</h2>
+<p>如何让连续在一起的类别，分为一组。比如这里的x变量，分为4组</p>
+<div class="sourceCode" id="cb2362"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">x</span>,   <span class="op">~</span><span class="va">y</span>,</span>
+<span>  <span class="st">"a"</span>,   <span class="fl">2</span>,</span>
+<span>  <span class="st">"a"</span>,   <span class="fl">3</span>,</span>
+<span>  <span class="st">"b"</span>,   <span class="fl">4</span>,</span>
+<span>  <span class="st">"b"</span>,   <span class="fl">5</span>,</span>
+<span>  <span class="st">"a"</span>,   <span class="fl">1</span>,</span>
+<span>  <span class="st">"a"</span>,   <span class="fl">3</span>,</span>
+<span>  <span class="st">"a"</span>,   <span class="fl">2</span>,</span>
+<span>  <span class="st">"b"</span>,   <span class="fl">3</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 8 × 2
+##   x         y
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 a         2
+## 2 a         3
+## 3 b         4
+## 4 b         5
+## 5 a         1
+## 6 a         3
+## 7 a         2
+## 8 b         3</code></pre>
+</div>
+<div id="day26" class="section level2" number="33.26">
+<h2>
+<span class="header-section-number">33.26</span> day26<a class="anchor" aria-label="anchor" href="#day26"><i class="fas fa-link"></i></a>
+</h2>
+<p>都是size = 15 为什么一个大一个小呢？</p>
+<div class="inline-figure"><img src="images/font_problem.png" width="85%"></div>
+<!-- 因为在theme里 size 的单位是pts，而在geom_text()里size 的单位是mm, 所以一个大一个小。 -->
+<!-- 两者的关系是1 pt = 0.35 mm，ggplot2还很贴心地提供了彼此转换关系的量 -->
+<!-- ```{r} -->
+<!-- ggplot2::.pt -->
+<!-- ``` -->
+<!-- 所以 -->
+<!-- - from pt to mm : mm = pt / .pt ， 比如 15 / 2.845276 = 5.27 -->
+<!-- - from mm to pt : pt = mm * .pt ， 比如 5.27 * 2.845276 = 15 -->
+<!-- 上面的代码可以改写为 -->
+<!-- ```{r, eval=FALSE, include=FALSE} -->
+<!-- penguins %>% -->
+<!--   ggplot(aes(bill_length_mm, bill_depth_mm, color = species)) + -->
+<!--   geom_point() + -->
+<!--   geom_text(x = 45, y = 20, label = "Example of font problem", size = 15/.pt, inherit.aes = FALSE) + -->
+<!--   labs(title = "Bill length and depth relation by species") + -->
+<!--   theme(plot.title = element_text(size = 15)) -->
+<!-- ``` -->
+<!-- ```{r, eval=FALSE, include=FALSE} -->
+<!-- penguins %>% -->
+<!--   ggplot(aes(bill_length_mm, bill_depth_mm, color = species)) + -->
+<!--   geom_point() + -->
+<!--   geom_text(x = 45, y = 20, label = "Example of font problem", size = 15, inherit.aes = FALSE) + -->
+<!--   labs(title = "Bill length and depth relation by species") + -->
+<!--   theme(plot.title = element_text(size = 15 * .pt)) -->
+<!-- ``` -->
+</div>
+<div id="day27" class="section level2" number="33.27">
+<h2>
+<span class="header-section-number">33.27</span> day27<a class="anchor" aria-label="anchor" href="#day27"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb2364"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ab1"</span>, <span class="st">"vf2"</span>, <span class="st">"aaba2"</span>, <span class="st">"ddb76"</span>, <span class="st">"d8p"</span><span class="op">)</span></span>
+<span><span class="va">ww</span></span></code></pre></div>
+<pre><code>## [1] "ab1"   "vf2"   "aaba2" "ddb76" "d8p"</code></pre>
+<ul>
+<li>找出数值</li>
+<li>找出b后紧跟的数值</li>
+<li>找出b后面出现的数值</li>
+</ul>
+<pre><code>## Warning in rm(d, data, df, my_function, text_subtitle, genes, big_list, :
+## object 'text_subtitle' not found</code></pre>
+
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></div>
+<div class="next"><a href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#eda-practice"><span class="header-section-number">33</span> 一天一练</a></li>
+<li><a class="nav-link" href="#day01"><span class="header-section-number">33.1</span> day01</a></li>
+<li><a class="nav-link" href="#day02"><span class="header-section-number">33.2</span> day02</a></li>
+<li><a class="nav-link" href="#day03"><span class="header-section-number">33.3</span> day03</a></li>
+<li><a class="nav-link" href="#day04"><span class="header-section-number">33.4</span> day04</a></li>
+<li><a class="nav-link" href="#day05"><span class="header-section-number">33.5</span> day05</a></li>
+<li><a class="nav-link" href="#day06"><span class="header-section-number">33.6</span> day06</a></li>
+<li><a class="nav-link" href="#day07"><span class="header-section-number">33.7</span> day07</a></li>
+<li><a class="nav-link" href="#day08"><span class="header-section-number">33.8</span> day08</a></li>
+<li><a class="nav-link" href="#day09"><span class="header-section-number">33.9</span> day09</a></li>
+<li><a class="nav-link" href="#day10"><span class="header-section-number">33.10</span> day10</a></li>
+<li><a class="nav-link" href="#day11"><span class="header-section-number">33.11</span> day11</a></li>
+<li><a class="nav-link" href="#day12"><span class="header-section-number">33.12</span> day12</a></li>
+<li><a class="nav-link" href="#day13"><span class="header-section-number">33.13</span> day13</a></li>
+<li><a class="nav-link" href="#day14"><span class="header-section-number">33.14</span> day14</a></li>
+<li><a class="nav-link" href="#day15"><span class="header-section-number">33.15</span> day15</a></li>
+<li><a class="nav-link" href="#day16"><span class="header-section-number">33.16</span> day16</a></li>
+<li><a class="nav-link" href="#day17"><span class="header-section-number">33.17</span> day17</a></li>
+<li><a class="nav-link" href="#day18"><span class="header-section-number">33.18</span> day18</a></li>
+<li><a class="nav-link" href="#day19"><span class="header-section-number">33.19</span> day19</a></li>
+<li><a class="nav-link" href="#day20"><span class="header-section-number">33.20</span> day20</a></li>
+<li><a class="nav-link" href="#day21"><span class="header-section-number">33.21</span> day21</a></li>
+<li><a class="nav-link" href="#day22"><span class="header-section-number">33.22</span> day22</a></li>
+<li><a class="nav-link" href="#day23"><span class="header-section-number">33.23</span> day23</a></li>
+<li><a class="nav-link" href="#day24"><span class="header-section-number">33.24</span> day24</a></li>
+<li><a class="nav-link" href="#day25"><span class="header-section-number">33.25</span> day25</a></li>
+<li><a class="nav-link" href="#day26"><span class="header-section-number">33.26</span> day26</a></li>
+<li><a class="nav-link" href="#day27"><span class="header-section-number">33.27</span> day27</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

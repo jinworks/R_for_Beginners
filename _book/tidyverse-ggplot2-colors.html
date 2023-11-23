@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 26 章 ggplot2之数据可视化中的配色 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="library(tidyverse) library(palmerpenguins)  26.1 可视化颜色 library(scales) ## ## Attaching package: 'scales' ## The following object is masked from 'package:purrr': ## ##   discard ## The following...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 26 章 ggplot2之数据可视化中的配色 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="library(tidyverse) library(palmerpenguins)  26.1 可视化颜色 library(scales) ## ## Attaching package: 'scales' ## The following object is masked from 'package:purrr': ## ##   discard ## The following...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 26 章 ggplot2之数据可视化中的配色 | R编程与作图">
+<meta name="twitter:description" content="library(tidyverse) library(palmerpenguins)  26.1 可视化颜色 library(scales) ## ## Attaching package: 'scales' ## The following object is masked from 'package:purrr': ## ##   discard ## The following...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="active" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-ggplot2-colors" class="section level1" number="26">
+<h1>
+<span class="header-section-number">第 26 章</span> ggplot2之数据可视化中的配色<a class="anchor" aria-label="anchor" href="#tidyverse-ggplot2-colors"><i class="fas fa-link"></i></a>
+</h1>
+<div class="sourceCode" id="cb2084"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span></code></pre></div>
+<div id="可视化颜色" class="section level2" number="26.1">
+<h2>
+<span class="header-section-number">26.1</span> 可视化颜色<a class="anchor" aria-label="anchor" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E9%A2%9C%E8%89%B2"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb2085"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org">scales</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: 'scales'</code></pre>
+<pre><code>## The following object is masked from 'package:purrr':
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from 'package:readr':
+## 
+##     col_factor</code></pre>
+<div class="sourceCode" id="cb2089"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://scales.r-lib.org/reference/show_col.html">show_col</a></span><span class="op">(</span><span class="fu"><a href="https://scales.r-lib.org/reference/viridis_pal.html">viridis_pal</a></span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/unnamed-chunk-1-1.png" width="672"></div>
+</div>
+<div id="修改ggplot2中的颜色" class="section level2" number="26.2">
+<h2>
+<span class="header-section-number">26.2</span> 修改ggplot2中的颜色<a class="anchor" aria-label="anchor" href="#%E4%BF%AE%E6%94%B9ggplot2%E4%B8%AD%E7%9A%84%E9%A2%9C%E8%89%B2"><i class="fas fa-link"></i></a>
+</h2>
+<p>ggplot2中默认的颜色就不错。但有时候为了让图更好看，需要在画图中使用配色。
+### Change colors manually
+A custom color palettes can be specified using the functions :
+- scale_fill_manual() for box plot, bar plot, violin plot, etc
+- scale_color_manual() for lines and points</p>
+<div id="use-gray-colors" class="section level3" number="26.2.1">
+<h3>
+<span class="header-section-number">26.2.1</span> Use gray colors<a class="anchor" aria-label="anchor" href="#use-gray-colors"><i class="fas fa-link"></i></a>
+</h3>
+<p>scale_fill_grey() or scale_color_grey()</p>
+</div>
+<div id="continuous-colors" class="section level3" number="26.2.2">
+<h3>
+<span class="header-section-number">26.2.2</span> Continuous colors<a class="anchor" aria-label="anchor" href="#continuous-colors"><i class="fas fa-link"></i></a>
+</h3>
+<p>The graph can be colored according to the values of a continuous variable using the functions :</p>
+<ul>
+<li>scale_color_gradient(), scale_fill_gradient() for sequential gradients between two colors</li>
+<li>scale_color_gradient2(), scale_fill_gradient2() for diverging gradients</li>
+<li>scale_color_gradientn(), scale_fill_gradientn() for gradient between n colors</li>
+</ul>
+</div>
+</div>
+<div id="colorbrewer配色包" class="section level2" number="26.3">
+<h2>
+<span class="header-section-number">26.3</span> ColorBrewer配色包<a class="anchor" aria-label="anchor" href="#colorbrewer%E9%85%8D%E8%89%B2%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<p>我个人比较喜欢<a href="https://colorbrewer2.org/">ColorBrewer</a>中的配色！请参考<a href="http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually">ggplot2 colors : How to change colors automatically and manually</a>. 以下是几个常用的函数：</p>
+<div id="use-rcolorbrewer-palettes" class="section level3" number="26.3.1">
+<h3>
+<span class="header-section-number">26.3.1</span> Use RColorBrewer palettes<a class="anchor" aria-label="anchor" href="#use-rcolorbrewer-palettes"><i class="fas fa-link"></i></a>
+</h3>
+<p>scale_fill_brewer(palette=“Dark2”) or scale_color_brewer(palette=“Dark2”)</p>
+</div>
+</div>
+<div id="配色建议" class="section level2" number="26.4">
+<h2>
+<span class="header-section-number">26.4</span> 配色建议<a class="anchor" aria-label="anchor" href="#%E9%85%8D%E8%89%B2%E5%BB%BA%E8%AE%AE"><i class="fas fa-link"></i></a>
+</h2>
+<p>这里有个小小的提示：</p>
+<ul>
+<li>尽可能避免使用<code>"red"</code>, <code>"green"</code>, <code>"blue"</code>, <code>"cyan"</code>, <code>"magenta"</code>, <code>"yellow"</code>颜色</li>
+<li>使用相对柔和的颜色<code>"firebrick"</code>, <code>"springgreen4"</code>, <code>"blue3"</code>, <code>"turquoise3"</code>, <code>"darkorchid2"</code>, <code>"gold2"</code>，会让人觉得舒服</li>
+</ul>
+<p>可以对比下</p>
+<div class="sourceCode" id="cb2090"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/swatchplot.html">swatchplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"cyan"</span>, <span class="st">"magenta"</span>, <span class="st">"yellow"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-18-1.png" width="672"></div>
+<div class="sourceCode" id="cb2091"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/swatchplot.html">swatchplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"firebrick"</span>, <span class="st">"springgreen4"</span>, <span class="st">"blue3"</span>, <span class="st">"turquoise3"</span>, <span class="st">"darkorchid2"</span>, <span class="st">"gold2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-18-2.png" width="672"></div>
+</div>
+<div id="color-wheel" class="section level2" number="26.5">
+<h2>
+<span class="header-section-number">26.5</span> color-wheel<a class="anchor" aria-label="anchor" href="#color-wheel"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p><a href="https://color.adobe.com/zh/create/color-wheel">Adobe Color</a></p></li>
+<li><p><a href="https://schemecolor.com">scheme Color</a></p></li>
+</ul>
+</div>
+<div id="colorspace配色包" class="section level2" number="26.6">
+<h2>
+<span class="header-section-number">26.6</span> colorspace配色包<a class="anchor" aria-label="anchor" href="#colorspace%E9%85%8D%E8%89%B2%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<p>下面是另外一个包<a href="http://colorspace.r-forge.r-project.org/articles/color_spaces.html">colorspace</a>中的配色讲解！</p>
+<div class="sourceCode" id="cb2092"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://colorspace.R-Forge.R-project.org/">colorspace</a></span><span class="op">)</span>    </span></code></pre></div>
+<p><code>colorspace</code> 宏包提供了三种类型的配色模板:</p>
+<div class="inline-figure"><img src="images/hcl-palettes-principles.png" width="100%"></div>
+<ul>
+<li>Qualitative: 分类，用于呈现分类信息，比如不同种类用不同的颜色，颜色之间一般对比鲜明。</li>
+<li>Sequential: 序列，用于呈现有序/连续的数值信息，比如为了展示某地区黑人比例，比例越高颜色越深，比例越低颜色越浅。</li>
+<li>Diverging: 分歧，用于呈现有序/连续的数值信息，这些数值围绕着一个中心值，比中心值越大的方向用一种渐变色，比中心值越小用另一种渐变色。</li>
+</ul>
+<p>三种类型对应着三个函数 <code><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">qualitative_hcl()</a></code>, <code><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">sequential_hcl()</a></code>, 和 <code><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">diverging_hcl()</a></code>.</p>
+<div id="配色模板" class="section level3" number="26.6.1">
+<h3>
+<span class="header-section-number">26.6.1</span> 配色模板<a class="anchor" aria-label="anchor" href="#%E9%85%8D%E8%89%B2%E6%A8%A1%E6%9D%BF"><i class="fas fa-link"></i></a>
+</h3>
+<p>根据你需要颜色的三大种类，先找适合的模板palettes</p>
+<div class="sourceCode" id="cb2093"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">hcl_palettes</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-4-1.png" width="100%"></div>
+<p>或者指定某个种类，显示所有的模板</p>
+<div class="sourceCode" id="cb2094"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">hcl_palettes</a></span><span class="op">(</span><span class="st">"qualitative"</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">hcl_palettes</a></span><span class="op">(</span><span class="st">"sequential (single-hue)"</span>, n <span class="op">=</span> <span class="fl">7</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">hcl_palettes</a></span><span class="op">(</span><span class="st">"sequential (multi-hue)"</span>, n <span class="op">=</span> <span class="fl">7</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">hcl_palettes</a></span><span class="op">(</span><span class="st">"diverging"</span>, n <span class="op">=</span> <span class="fl">7</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>如果看中某个模板的颜色，可以获取它的值，比如sequential种类下的 “Peach”模板，</p>
+<div class="sourceCode" id="cb2095"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#colorspace::diverging_hcl(n = 7, "Dark 2")</span></span>
+<span><span class="co">#colorspace::qualitative_hcl(4, palette = "myset")</span></span>
+<span><span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">sequential_hcl</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">7</span>, palette <span class="op">=</span> <span class="st">"Peach"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "#EA4C3B" "#EF6D48" "#F3885B" "#F6A173" "#F8B78E" "#F9CCA9" "#FADDC3"</code></pre>
+<p>当然，在用之前，我们先检验下</p>
+<div class="sourceCode" id="cb2097"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">sequential_hcl</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">7</span>, palette <span class="op">=</span> <span class="st">"Peach"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/swatchplot.html">swatchplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-42-1.png" width="672"></div>
+</div>
+<div id="在ggplot2中使用" class="section level3" number="26.6.2">
+<h3>
+<span class="header-section-number">26.6.2</span> 在ggplot2中使用<a class="anchor" aria-label="anchor" href="#%E5%9C%A8ggplot2%E4%B8%AD%E4%BD%BF%E7%94%A8"><i class="fas fa-link"></i></a>
+</h3>
+<p>在ggplot2中可以免去手工操作，而直接使用。事实上，
+<strong>colorspace</strong> 模板使用起来很方便，有统一格式<code>scale_&lt;aesthetic&gt;_&lt;datatype&gt;_&lt;colorscale&gt;()</code>,</p>
+<ul>
+<li>这里 <code>&lt;aesthetic&gt;</code> 是指定映射 (<code>fill</code>, <code>color</code>, <code>colour</code>),</li>
+<li>这里 <code>&lt;datatype&gt;</code> 是表明数据变量的类型 (<code>discrete</code>, <code>continuous</code>, <code>binned</code>),</li>
+<li>这里 <code>colorscale</code> 是声明颜色标度类型 (<code>qualitative</code>, <code>sequential</code>, <code>diverging</code>, <code>divergingx</code>).</li>
+</ul>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="27%">
+<col width="20%">
+<col width="22%">
+<col width="29%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Scale function</th>
+<th align="left">Aesthetic</th>
+<th align="left">Data type</th>
+<th align="left">Palette type</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_discrete_qualitative.html">scale_color_discrete_qualitative()</a></code></td>
+<td align="left"><code>color</code></td>
+<td align="left">discrete</td>
+<td align="left">qualitative</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_continuous_sequential.html">scale_fill_continuous_sequential()</a></code></td>
+<td align="left"><code>fill</code></td>
+<td align="left">continuous</td>
+<td align="left">sequential</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>scale_colour_continous_divergingx()</code></td>
+<td align="left"><code>colour</code></td>
+<td align="left">continuous</td>
+<td align="left">diverging</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="使用案例1" class="section level3" number="26.6.3">
+<h3>
+<span class="header-section-number">26.6.3</span> 使用案例1<a class="anchor" aria-label="anchor" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B1"><i class="fas fa-link"></i></a>
+</h3>
+<p>ggplot2默认</p>
+<div class="sourceCode" id="cb2098"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, fill <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-5-1.png" width="672"></div>
+<p>手动修改</p>
+<div class="sourceCode" id="cb2100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, fill <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span></span>
+<span>     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Adelie"</span>, <span class="st">"Chinstrap"</span>, <span class="st">"Gentoo"</span><span class="op">)</span>, </span>
+<span>     values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"darkorange"</span>, <span class="st">"purple"</span>, <span class="st">"cyan4"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-6-1.png" width="672"></div>
+<p>使用colorspace模板配色</p>
+<div class="sourceCode" id="cb2102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, fill <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_discrete_qualitative.html">scale_fill_discrete_qualitative</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"cold"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-7-1.png" width="672"></div>
+<div class="sourceCode" id="cb2104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, fill <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_discrete_qualitative.html">scale_fill_discrete_qualitative</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"cold"</span>, nmax <span class="op">=</span> <span class="fl">4</span>, order <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-71-1.png" width="672"></div>
+<div class="sourceCode" id="cb2106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html">sequential_hcl</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Purples 3"</span>, n <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/swatchplot.html">swatchplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-72-1.png" width="672"></div>
+<div class="sourceCode" id="cb2107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, fill <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_discrete_sequential.html">scale_fill_discrete_sequential</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Purples 3"</span>, </span>
+<span>                                  nmax <span class="op">=</span> <span class="fl">6</span>, </span>
+<span>                                  rev <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>                                  order <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_density()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-72-2.png" width="672"></div>
+</div>
+<div id="使用案例2" class="section level3" number="26.6.4">
+<h3>
+<span class="header-section-number">26.6.4</span> 使用案例2<a class="anchor" aria-label="anchor" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B2"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"./demo_data/tempnormals.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">location</span>, <span class="va">month_name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">temperature</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>      <span class="va">month_name</span>,</span>
+<span>      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>      <span class="va">location</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Death Valley"</span>, <span class="st">"Houston"</span>, <span class="st">"San Diego"</span>, <span class="st">"Chicago"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">month_name</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 1464 Columns: 8
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr  (4): location, station_id, month_name, month
+## dbl  (3): temperature, day, day_of_year
+## date (1): date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## `summarise()` has grouped output by 'location'. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb2111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span></span></code></pre></div>
+<pre><code>## # A tibble: 48 × 3
+## # Groups:   location [4]
+##    location  mean month
+##    &lt;fct&gt;    &lt;dbl&gt; &lt;fct&gt;
+##  1 Chicago   50.4 Apr  
+##  2 Chicago   74.1 Aug  
+##  3 Chicago   29   Dec  
+##  4 Chicago   28.9 Feb  
+##  5 Chicago   24.8 Jan  
+##  6 Chicago   75.8 Jul  
+##  7 Chicago   71.0 Jun  
+##  8 Chicago   38.8 Mar  
+##  9 Chicago   60.9 May  
+## 10 Chicago   41.6 Nov  
+## # ℹ 38 more rows</code></pre>
+<div class="sourceCode" id="cb2113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-9-1.png" width="672"></div>
+<div class="sourceCode" id="cb2114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_fill_gradient</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-10-1.png" width="672"></div>
+<div class="sourceCode" id="cb2115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-11-1.png" width="672"></div>
+<div class="sourceCode" id="cb2116"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"B"</span>, begin <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-12-1.png" width="672"></div>
+<div class="sourceCode" id="cb2117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_continuous_sequential.html">scale_fill_continuous_sequential</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"YlGnBu"</span>, rev <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-13-1.png" width="672"></div>
+<div class="sourceCode" id="cb2118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_continuous_sequential.html">scale_fill_continuous_sequential</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Viridis"</span>, rev <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-14-1.png" width="672"></div>
+<div class="sourceCode" id="cb2119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_continuous_sequential.html">scale_fill_continuous_sequential</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Inferno"</span>, begin <span class="op">=</span> <span class="fl">0.15</span>, rev <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-15-1.png" width="672"></div>
+<div class="sourceCode" id="cb2120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temps_months</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.95</span>, height <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/scale_colour_continuous_sequential.html">scale_fill_continuous_sequential</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Plasma"</span>, begin <span class="op">=</span> <span class="fl">0.35</span>, rev <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_colors_files/figure-html/ggplot2-colors-16-1.png" width="672"></div>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></div>
+<div class="next"><a href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-ggplot2-colors"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E9%A2%9C%E8%89%B2"><span class="header-section-number">26.1</span> 可视化颜色</a></li>
+<li>
+<a class="nav-link" href="#%E4%BF%AE%E6%94%B9ggplot2%E4%B8%AD%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="header-section-number">26.2</span> 修改ggplot2中的颜色</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#use-gray-colors"><span class="header-section-number">26.2.1</span> Use gray colors</a></li>
+<li><a class="nav-link" href="#continuous-colors"><span class="header-section-number">26.2.2</span> Continuous colors</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#colorbrewer%E9%85%8D%E8%89%B2%E5%8C%85"><span class="header-section-number">26.3</span> ColorBrewer配色包</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#use-rcolorbrewer-palettes"><span class="header-section-number">26.3.1</span> Use RColorBrewer palettes</a></li></ul>
+</li>
+<li><a class="nav-link" href="#%E9%85%8D%E8%89%B2%E5%BB%BA%E8%AE%AE"><span class="header-section-number">26.4</span> 配色建议</a></li>
+<li><a class="nav-link" href="#color-wheel"><span class="header-section-number">26.5</span> color-wheel</a></li>
+<li>
+<a class="nav-link" href="#colorspace%E9%85%8D%E8%89%B2%E5%8C%85"><span class="header-section-number">26.6</span> colorspace配色包</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E9%85%8D%E8%89%B2%E6%A8%A1%E6%9D%BF"><span class="header-section-number">26.6.1</span> 配色模板</a></li>
+<li><a class="nav-link" href="#%E5%9C%A8ggplot2%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="header-section-number">26.6.2</span> 在ggplot2中使用</a></li>
+<li><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B1"><span class="header-section-number">26.6.3</span> 使用案例1</a></li>
+<li><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B2"><span class="header-section-number">26.6.4</span> 使用案例2</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+h1:tidyverse-ggplot2-stat-layer ggplot2之统计图层
+h2:导言 导言
+fig:ggplot-aesthetics-cheatsheet ggplot2中的几何形状与美学映射
+h2:为何及何时使用统计图层 为何及何时使用统计图层
+h3:小结 小结
+h2:用-stat_summary-理解统计图层 用 stat_summary() 理解统计图层
+h3:小结-1 小结
+h2:使用统计图层 使用统计图层
+h3:包含95置信区间的误差棒 包含95%置信区间的误差棒
+h3:带有彩色填充色的柱状图 带有彩色填充色的柱状图
+h3:大小变化的点线图 大小变化的点线图
+h2:总结 总结
+h3:主要结论 主要结论
+h3:stat-vs.-geom-or-stat-and-geom STAT vs. GEOM or STAT and GEOM?
+

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 17 章 回望tidyverse之旅 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ── ## ✔ dplyr   1.1.3   ✔ readr   2.1.4 ## ✔ forcats  1.0.0   ✔ stringr  1.5.0 ## ✔ ggplot2 ...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 17 章 回望tidyverse之旅 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ── ## ✔ dplyr   1.1.3   ✔ readr   2.1.4 ## ✔ forcats  1.0.0   ✔ stringr  1.5.0 ## ✔ ggplot2 ...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 17 章 回望tidyverse之旅 | R编程与作图">
+<meta name="twitter:description" content="library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ── ## ✔ dplyr   1.1.3   ✔ readr   2.1.4 ## ✔ forcats  1.0.0   ✔ stringr  1.5.0 ## ✔ ggplot2 ...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="active" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-workflow" class="section level1" number="17">
+<h1>
+<span class="header-section-number">第 17 章</span> 回望tidyverse之旅<a class="anchor" aria-label="anchor" href="#tidyverse-workflow"><i class="fas fa-link"></i></a>
+</h1>
+<div class="sourceCode" id="cb920"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<p>本章做个小结，通过案例<strong>复习和串讲</strong>下tidyverse中常用的核心部件（事实上，tidyverse套餐比我们列出的要丰富）。</p>
+<div class="figure">
+<span style="display:block;" id="fig:tidyverse-workflow-2"></span>
+<img src="images/tidyverse-workflow.png" alt="图片来源Silvia Canelón在R-Ladies Chicago的报告" width="100%"><p class="caption">
+图 17.1: 图片来源Silvia Canelón在R-Ladies Chicago的报告
+</p>
+</div>
+<div id="readr-宏包" class="section level2" number="17.1">
+<h2>
+<span class="header-section-number">17.1</span> readr 宏包<a class="anchor" aria-label="anchor" href="#readr-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/hex/readr.png" width="20%" style="display: block; margin: auto auto auto 0;"></div>
+<p>读入数据是第一步，我们可以用<code>readr</code>导入数据</p>
+<div class="danger">
+<p>
+提示：
+</p>
+<ul>
+<li>
+逗号(<code>,</code>)分割的文件 <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code>
+</li>
+<li>
+制表符(<code>tab</code>)分割的文件 <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_tsv()</a></code>
+</li>
+<li>
+任意的分割符 <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_delim()</a></code>
+</li>
+<li>
+固定宽度的文件 <code><a href="https://readr.tidyverse.org/reference/read_fwf.html">read_fwf()</a></code>
+</li>
+<li>
+空格分割的文件 <code><a href="https://readr.tidyverse.org/reference/read_table.html">read_table()</a></code>
+</li>
+<li>
+网页log文件 <code><a href="https://readr.tidyverse.org/reference/read_log.html">read_log()</a></code>
+</li>
+</ul>
+</div>
+<p>读取外部数据</p>
+<div class="sourceCode" id="cb922"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"./demo_data/penguins.csv"</span><span class="op">)</span> </span></code></pre></div>
+<pre><code>## Rows: 344 Columns: 8
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (3): species, island, sex
+## dbl (5): bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, year
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>保存到外部文件</p>
+<div class="sourceCode" id="cb924"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"newdata.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="tibble-宏包" class="section level2" number="17.2">
+<h2>
+<span class="header-section-number">17.2</span> tibble 宏包<a class="anchor" aria-label="anchor" href="#tibble-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<p>R中的对多变量数据的标准保存形式是 dataframe，而tibble是dataframe的进化版，它有如下优点： 1. 生成的数据框数据每列可以保持原来的数据格式，不会被强制性改变,即字符串，不会莫名其妙的变成因子格式； 2. 查看数据时，不再会一行显示不下，多行显示得非常丑； 3. <strong>数据操作速度会更快</strong></p>
+<p>如下图，直接查看tibble格式的数据，可以一目了然的看清数据的大小和每列的格式</p>
+<div class="inline-figure"><img src="images/tibble_overview.jpg" width="95%" style="display: block; margin: auto;"></div>
+<p>有两种方式来创建tibble格式的数据</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>用<code>tibble</code>函数直接创建</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>其他格式转化, 例如用read.csv读取的数据默认是dataframe格式，就可以使用as_tibble转换为tibble格式</li>
+</ol></li>
+</ul>
+<p>下面你可以看到两者的区别：</p>
+<div class="sourceCode" id="cb925"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 334 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb927"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+## 1  Adelie Torgersen           39.1          18.7               181        3750
+## 2  Adelie Torgersen           39.5          17.4               186        3800
+## 3  Adelie Torgersen           40.3          18.0               195        3250
+## 4  Adelie Torgersen             NA            NA                NA          NA
+## 5  Adelie Torgersen           36.7          19.3               193        3450
+## 6  Adelie Torgersen           39.3          20.6               190        3650
+##      sex year
+## 1   male 2007
+## 2 female 2007
+## 3 female 2007
+## 4   &lt;NA&gt; 2007
+## 5 female 2007
+## 6   male 2007</code></pre>
+<p>在R Markdown里两者区别不大，但在console中，区别很明显的。比如<code>tibble</code>不一样的地方有：</p>
+<ul>
+<li>列出了变量的类型(这个很不错)</li>
+<li>只列出10行</li>
+<li>只列出有限的列数（与屏幕适应的）</li>
+<li>高亮 <code>NAs</code>
+</li>
+</ul>
+</div>
+<div id="ggplot2-宏包" class="section level2" number="17.3">
+<h2>
+<span class="header-section-number">17.3</span> ggplot2 宏包<a class="anchor" aria-label="anchor" href="#ggplot2-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/hex/ggplot2.png" width="20%" style="display: block; margin: auto auto auto 0;"></div>
+<div id="查看数据" class="section level3" number="17.3.1">
+<h3>
+<span class="header-section-number">17.3.1</span> 查看数据<a class="anchor" aria-label="anchor" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们先查看下数据</p>
+<div class="sourceCode" id="cb929"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 344
+## Columns: 8
+## $ species           &lt;chr&gt; "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "A…
+## $ island            &lt;chr&gt; "Torgersen", "Torgersen", "Torgersen", "Torgersen", …
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+## $ sex               &lt;chr&gt; "male", "female", "female", NA, "female", "male", "f…
+## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+<div id="散点图" class="section level3" number="17.3.2">
+<h3>
+<span class="header-section-number">17.3.2</span> 散点图<a class="anchor" aria-label="anchor" href="#%E6%95%A3%E7%82%B9%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h3>
+<p>体重在性别上有很大区别？</p>
+<div class="sourceCode" id="cb931"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">penguins</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sex</span>, y <span class="op">=</span> <span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_workflow_files/figure-html/tidyverse-workflow-11-1.png" width="672"></div>
+</div>
+<div id="箱线图" class="section level3" number="17.3.3">
+<h3>
+<span class="header-section-number">17.3.3</span> 箱线图<a class="anchor" aria-label="anchor" href="#%E7%AE%B1%E7%BA%BF%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb933"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">penguins</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sex</span>, y <span class="op">=</span> <span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_workflow_files/figure-html/tidyverse-workflow-12-1.png" width="672"></div>
+<div class="sourceCode" id="cb935"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">penguins</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sex</span>, y <span class="op">=</span> <span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<div class="inline-figure"><img src="tidyverse_workflow_files/figure-html/tidyverse-workflow-13-1.png" width="672"></div>
+<p>我们可能看到：</p>
+<ul>
+<li>Gentoo 类的企鹅 比 Adelie 和 Chinstrap 类的企鹅体重更重</li>
+<li>Gentoo 类型中，雄性企鹅比雌性企鹅体重更重</li>
+<li>Adelie 和 Chinstrap 两种类型的企鹅，区别不是很明显</li>
+<li>sex 这个变量有缺失值，主要集中在 Gentoo 和 Chinstrap 两种类型</li>
+</ul>
+<p>那么每种类型的企鹅，数据中有多少是<code>NA</code>呢？ 上<code>dplyr</code>吧！</p>
+</div>
+</div>
+<div id="dplyr-宏包" class="section level2" number="17.4">
+<h2>
+<span class="header-section-number">17.4</span> dplyr 宏包<a class="anchor" aria-label="anchor" href="#dplyr-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/hex/dplyr.png" width="20%" style="display: block; margin: auto auto auto 0;"></div>
+<p>dplyr 宏包可以:</p>
+<ul>
+<li>创建新变量 <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>
+</li>
+<li>分组统计 <code>summarize() + group_by()</code>
+</li>
+<li>筛选 <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>
+</li>
+<li>重命名变量 <code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code>
+</li>
+<li>排序 <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code>
+</li>
+<li>更多</li>
+</ul>
+<div id="选取列" class="section level3" number="17.4.1">
+<h3>
+<span class="header-section-number">17.4.1</span> 选取列<a class="anchor" aria-label="anchor" href="#%E9%80%89%E5%8F%96%E5%88%97"><i class="fas fa-link"></i></a>
+</h3>
+<p>下面两个有什么区别？</p>
+<div class="sourceCode" id="cb937"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">penguins</span>, <span class="va">species</span>, <span class="va">sex</span>, <span class="va">body_mass_g</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 3
+##    species sex    body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt;
+##  1 Adelie  male          3750
+##  2 Adelie  female        3800
+##  3 Adelie  female        3250
+##  4 Adelie  &lt;NA&gt;            NA
+##  5 Adelie  female        3450
+##  6 Adelie  male          3650
+##  7 Adelie  female        3625
+##  8 Adelie  male          4675
+##  9 Adelie  &lt;NA&gt;          3475
+## 10 Adelie  &lt;NA&gt;          4250
+## # ℹ 334 more rows</code></pre>
+<div class="sourceCode" id="cb939"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span>, <span class="va">body_mass_g</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 3
+##    species sex    body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt;
+##  1 Adelie  male          3750
+##  2 Adelie  female        3800
+##  3 Adelie  female        3250
+##  4 Adelie  &lt;NA&gt;            NA
+##  5 Adelie  female        3450
+##  6 Adelie  male          3650
+##  7 Adelie  female        3625
+##  8 Adelie  male          4675
+##  9 Adelie  &lt;NA&gt;          3475
+## 10 Adelie  &lt;NA&gt;          4250
+## # ℹ 334 more rows</code></pre>
+</div>
+<div id="行方向排序" class="section level3" number="17.4.2">
+<h3>
+<span class="header-section-number">17.4.2</span> 行方向排序<a class="anchor" aria-label="anchor" href="#%E8%A1%8C%E6%96%B9%E5%90%91%E6%8E%92%E5%BA%8F"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb941"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 344
+## Columns: 8
+## $ species           &lt;chr&gt; "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "A…
+## $ island            &lt;chr&gt; "Torgersen", "Torgersen", "Torgersen", "Torgersen", …
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+## $ sex               &lt;chr&gt; "male", "female", "female", NA, "female", "male", "f…
+## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+<div class="sourceCode" id="cb943"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span>, <span class="va">body_mass_g</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 3
+##    species sex   body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;
+##  1 Gentoo  male         6300
+##  2 Gentoo  male         6050
+##  3 Gentoo  male         6000
+##  4 Gentoo  male         6000
+##  5 Gentoo  male         5950
+##  6 Gentoo  male         5950
+##  7 Gentoo  male         5850
+##  8 Gentoo  male         5850
+##  9 Gentoo  male         5850
+## 10 Gentoo  male         5800
+## # ℹ 334 more rows</code></pre>
+</div>
+<div id="分组统计" class="section level3" number="17.4.3">
+<h3>
+<span class="header-section-number">17.4.3</span> 分组统计<a class="anchor" aria-label="anchor" href="#%E5%88%86%E7%BB%84%E7%BB%9F%E8%AE%A1"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb945"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by 'species'. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 8 × 3
+## # Groups:   species [3]
+##   species   sex    count
+##   &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt;
+## 1 Adelie    female    73
+## 2 Adelie    male      73
+## 3 Adelie    &lt;NA&gt;       6
+## 4 Chinstrap female    34
+## 5 Chinstrap male      34
+## 6 Gentoo    female    58
+## 7 Gentoo    male      61
+## 8 Gentoo    &lt;NA&gt;       5</code></pre>
+</div>
+<div id="增加列" class="section level3" number="17.4.4">
+<h3>
+<span class="header-section-number">17.4.4</span> 增加列<a class="anchor" aria-label="anchor" href="#%E5%A2%9E%E5%8A%A0%E5%88%97"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb948"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>count_species <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span>, <span class="va">count_species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="va">count</span><span class="op">/</span><span class="va">count_species</span><span class="op">*</span><span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by 'species', 'sex'. You can override using
+## the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 8 × 5
+## # Groups:   species, sex [8]
+##   species   sex    count_species count  prop
+##   &lt;chr&gt;     &lt;chr&gt;          &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1 Adelie    female           152    73 48.0 
+## 2 Adelie    male             152    73 48.0 
+## 3 Adelie    &lt;NA&gt;             152     6  3.95
+## 4 Chinstrap female            68    34 50   
+## 5 Chinstrap male              68    34 50   
+## 6 Gentoo    female           124    58 46.8 
+## 7 Gentoo    male             124    61 49.2 
+## 8 Gentoo    &lt;NA&gt;             124     5  4.03</code></pre>
+</div>
+<div id="筛选" class="section level3" number="17.4.5">
+<h3>
+<span class="header-section-number">17.4.5</span> 筛选<a class="anchor" aria-label="anchor" href="#%E7%AD%9B%E9%80%89"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb951"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>count_species <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span>, <span class="va">count_species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>percentage <span class="op">=</span> <span class="va">count</span><span class="op">/</span><span class="va">count_species</span><span class="op">*</span><span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Chinstrap"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by 'species', 'sex'. You can override using
+## the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 2 × 5
+## # Groups:   species, sex [2]
+##   species   sex    count_species count percentage
+##   &lt;chr&gt;     &lt;chr&gt;          &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1 Chinstrap female            68    34         50
+## 2 Chinstrap male              68    34         50</code></pre>
+</div>
+</div>
+<div id="forcats-宏包" class="section level2" number="17.5">
+<h2>
+<span class="header-section-number">17.5</span> forcats 宏包<a class="anchor" aria-label="anchor" href="#forcats-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/hex/forcats.png" width="20%" style="display: block; margin: auto auto auto 0;"></div>
+<p><code>forcats</code> 宏包主要用于分类变量和因子型变量，比如这里的 <code>species, island, sex</code>.</p>
+<p>对于不是因子型的变量，比如这里 <code>year</code> 是数值型变量，我们也可以通过 <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code> 函数 将它转换成因子型变量。</p>
+<div class="sourceCode" id="cb954"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>year_factor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">year</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 9
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 334 more rows
+## # ℹ 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;, year_factor &lt;fct&gt;</code></pre>
+<p>我们保存到新的数据集中，再看看有什么变化</p>
+<div class="sourceCode" id="cb956"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins_new</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>year_factor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">year</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">penguins_new</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 9
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 334 more rows
+## # ℹ 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;, year_factor &lt;fct&gt;</code></pre>
+<div class="sourceCode" id="cb958"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">penguins_new</span><span class="op">$</span><span class="va">year_factor</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "factor"</code></pre>
+<div class="sourceCode" id="cb960"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">penguins_new</span><span class="op">$</span><span class="va">year_factor</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "2007" "2008" "2009"</code></pre>
+<p>大家回想下，弄成因子型变量有什么好处呢？</p>
+</div>
+<div id="stringr-宏包" class="section level2" number="17.6">
+<h2>
+<span class="header-section-number">17.6</span> stringr 宏包<a class="anchor" aria-label="anchor" href="#stringr-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/hex/stringr.png" width="20%" style="display: block; margin: auto auto auto 0;"></div>
+<p><code>stringr</code>宏包包含了非常丰富的<strong>处理字符串</strong>的函数，比如</p>
+<ul>
+<li>匹配</li>
+<li>字符串子集</li>
+<li>字符串长度</li>
+<li>字符串合并</li>
+<li>字符串分割</li>
+<li>更多</li>
+</ul>
+<div id="字符串转换" class="section level3" number="17.6.1">
+<h3>
+<span class="header-section-number">17.6.1</span> 字符串转换<a class="anchor" aria-label="anchor" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb962"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">island</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ISLAND <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/case.html">str_to_upper</a></span><span class="op">(</span><span class="va">island</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 3
+##    species island    ISLAND   
+##    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    
+##  1 Adelie  Torgersen TORGERSEN
+##  2 Adelie  Torgersen TORGERSEN
+##  3 Adelie  Torgersen TORGERSEN
+##  4 Adelie  Torgersen TORGERSEN
+##  5 Adelie  Torgersen TORGERSEN
+##  6 Adelie  Torgersen TORGERSEN
+##  7 Adelie  Torgersen TORGERSEN
+##  8 Adelie  Torgersen TORGERSEN
+##  9 Adelie  Torgersen TORGERSEN
+## 10 Adelie  Torgersen TORGERSEN
+## # ℹ 334 more rows</code></pre>
+</div>
+<div id="字符串合并" class="section level3" number="17.6.2">
+<h3>
+<span class="header-section-number">17.6.2</span> 字符串合并<a class="anchor" aria-label="anchor" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%88%E5%B9%B6"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb964"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">island</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ISLAND <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/case.html">str_to_upper</a></span><span class="op">(</span><span class="va">island</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species_island <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">ISLAND</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 4
+##    species island    ISLAND    species_island  
+##    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;           
+##  1 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  2 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  3 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  4 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  5 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  6 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  7 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  8 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+##  9 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+## 10 Adelie  Torgersen TORGERSEN Adelie_TORGERSEN
+## # ℹ 334 more rows</code></pre>
+</div>
+</div>
+<div id="tidyr-宏包" class="section level2" number="17.7">
+<h2>
+<span class="header-section-number">17.7</span> tidyr 宏包<a class="anchor" aria-label="anchor" href="#tidyr-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/hex/tidyr.png" width="20%" style="display: block; margin: auto auto auto 0;"></div>
+<p>想想什么叫tidy data？</p>
+<div id="长表格变宽表格" class="section level3" number="17.7.1">
+<h3>
+<span class="header-section-number">17.7.1</span> 长表格变宽表格<a class="anchor" aria-label="anchor" href="#%E9%95%BF%E8%A1%A8%E6%A0%BC%E5%8F%98%E5%AE%BD%E8%A1%A8%E6%A0%BC"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb966"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">untidy_penguins</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">sex</span>,</span>
+<span>                values_from <span class="op">=</span> <span class="va">body_mass_g</span><span class="op">)</span></span>
+<span><span class="va">untidy_penguins</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 × 9
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm  year  male
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181  2007  3750
+##  2 Adelie  Torgersen           39.5          17.4               186  2007    NA
+##  3 Adelie  Torgersen           40.3          18                 195  2007    NA
+##  4 Adelie  Torgersen           NA            NA                  NA  2007    NA
+##  5 Adelie  Torgersen           36.7          19.3               193  2007    NA
+##  6 Adelie  Torgersen           39.3          20.6               190  2007  3650
+##  7 Adelie  Torgersen           38.9          17.8               181  2007    NA
+##  8 Adelie  Torgersen           39.2          19.6               195  2007  4675
+##  9 Adelie  Torgersen           34.1          18.1               193  2007    NA
+## 10 Adelie  Torgersen           42            20.2               190  2007    NA
+## # ℹ 334 more rows
+## # ℹ 2 more variables: female &lt;dbl&gt;, `NA` &lt;dbl&gt;</code></pre>
+</div>
+<div id="宽表格变长表格" class="section level3" number="17.7.2">
+<h3>
+<span class="header-section-number">17.7.2</span> 宽表格变长表格<a class="anchor" aria-label="anchor" href="#%E5%AE%BD%E8%A1%A8%E6%A0%BC%E5%8F%98%E9%95%BF%E8%A1%A8%E6%A0%BC"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb968"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">untidy_penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">male</span><span class="op">:</span><span class="va">`NA`</span>, </span>
+<span>               names_to <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>               values_to <span class="op">=</span> <span class="st">"body_mass_g"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1,032 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm  year sex   
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+##  1 Adelie  Torgersen           39.1          18.7               181  2007 male  
+##  2 Adelie  Torgersen           39.1          18.7               181  2007 female
+##  3 Adelie  Torgersen           39.1          18.7               181  2007 NA    
+##  4 Adelie  Torgersen           39.5          17.4               186  2007 male  
+##  5 Adelie  Torgersen           39.5          17.4               186  2007 female
+##  6 Adelie  Torgersen           39.5          17.4               186  2007 NA    
+##  7 Adelie  Torgersen           40.3          18                 195  2007 male  
+##  8 Adelie  Torgersen           40.3          18                 195  2007 female
+##  9 Adelie  Torgersen           40.3          18                 195  2007 NA    
+## 10 Adelie  Torgersen           NA            NA                  NA  2007 male  
+## # ℹ 1,022 more rows
+## # ℹ 1 more variable: body_mass_g &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div id="purrr-宏包" class="section level2" number="17.8">
+<h2>
+<span class="header-section-number">17.8</span> purrr 宏包<a class="anchor" aria-label="anchor" href="#purrr-%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/hex/purrr.png" width="20%" style="display: block; margin: auto auto auto 0;"></div>
+<p><code>purrr</code> 宏包提供了<code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code>等一系列函数，取代 <code>for</code> 和 <code>while</code>循环方式，实现高效迭代，保持语法一致性，同时增强了代码的可读性。</p>
+<div class="sourceCode" id="cb970"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## $species
+## [1] 0
+## 
+## $island
+## [1] 0
+## 
+## $bill_length_mm
+## [1] 2
+## 
+## $bill_depth_mm
+## [1] 2
+## 
+## $flipper_length_mm
+## [1] 2
+## 
+## $body_mass_g
+## [1] 2
+## 
+## $sex
+## [1] 11
+## 
+## $year
+## [1] 0</code></pre>
+<div class="sourceCode" id="cb972"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_nest.html">group_nest</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">bill_depth_mm</span> <span class="op">~</span> <span class="va">bill_length_mm</span>, data <span class="op">=</span> <span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>result <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 8
+##   species                 data model term  estimate std.error statistic  p.value
+##   &lt;chr&gt;     &lt;list&lt;tibble[,7]&gt;&gt; &lt;lis&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Adelie             [152 × 7] &lt;lm&gt;  (Int…   11.4      1.34        8.52 1.61e-14
+## 2 Adelie             [152 × 7] &lt;lm&gt;  bill…    0.179    0.0344      5.19 6.67e- 7
+## 3 Chinstrap           [68 × 7] &lt;lm&gt;  (Int…    7.57     1.55        4.88 6.99e- 6
+## 4 Chinstrap           [68 × 7] &lt;lm&gt;  bill…    0.222    0.0317      7.01 1.53e- 9
+## 5 Gentoo             [124 × 7] &lt;lm&gt;  (Int…    5.25     1.05        4.98 2.15e- 6
+## 6 Gentoo             [124 × 7] &lt;lm&gt;  bill…    0.205    0.0222      9.24 1.02e-15</code></pre>
+
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></div>
+<div class="next"><a href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-workflow"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li><a class="nav-link" href="#readr-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.1</span> readr 宏包</a></li>
+<li><a class="nav-link" href="#tibble-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.2</span> tibble 宏包</a></li>
+<li>
+<a class="nav-link" href="#ggplot2-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.3</span> ggplot2 宏包</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE"><span class="header-section-number">17.3.1</span> 查看数据</a></li>
+<li><a class="nav-link" href="#%E6%95%A3%E7%82%B9%E5%9B%BE"><span class="header-section-number">17.3.2</span> 散点图</a></li>
+<li><a class="nav-link" href="#%E7%AE%B1%E7%BA%BF%E5%9B%BE"><span class="header-section-number">17.3.3</span> 箱线图</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#dplyr-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.4</span> dplyr 宏包</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E9%80%89%E5%8F%96%E5%88%97"><span class="header-section-number">17.4.1</span> 选取列</a></li>
+<li><a class="nav-link" href="#%E8%A1%8C%E6%96%B9%E5%90%91%E6%8E%92%E5%BA%8F"><span class="header-section-number">17.4.2</span> 行方向排序</a></li>
+<li><a class="nav-link" href="#%E5%88%86%E7%BB%84%E7%BB%9F%E8%AE%A1"><span class="header-section-number">17.4.3</span> 分组统计</a></li>
+<li><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0%E5%88%97"><span class="header-section-number">17.4.4</span> 增加列</a></li>
+<li><a class="nav-link" href="#%E7%AD%9B%E9%80%89"><span class="header-section-number">17.4.5</span> 筛选</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#forcats-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.5</span> forcats 宏包</a></li>
+<li>
+<a class="nav-link" href="#stringr-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.6</span> stringr 宏包</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2"><span class="header-section-number">17.6.1</span> 字符串转换</a></li>
+<li><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%88%E5%B9%B6"><span class="header-section-number">17.6.2</span> 字符串合并</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#tidyr-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.7</span> tidyr 宏包</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E9%95%BF%E8%A1%A8%E6%A0%BC%E5%8F%98%E5%AE%BD%E8%A1%A8%E6%A0%BC"><span class="header-section-number">17.7.1</span> 长表格变宽表格</a></li>
+<li><a class="nav-link" href="#%E5%AE%BD%E8%A1%A8%E6%A0%BC%E5%8F%98%E9%95%BF%E8%A1%A8%E6%A0%BC"><span class="header-section-number">17.7.2</span> 宽表格变长表格</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#purrr-%E5%AE%8F%E5%8C%85"><span class="header-section-number">17.8</span> purrr 宏包</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+bookdown::bs4_book:
+  theme:
+    bootswatch: "litera"
+    primary: "#982a31"
+    fg: "#2b2121"
+    bg: "#ffffff"
+  split_by: chapter
+  split_bib: no

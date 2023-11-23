@@ -1,0 +1,21 @@
+h1:tidyverse-dplyr 数据处理
+h2:新增一列-mutate 新增一列 
+h2:管道 管道 
+h2:向量函数与mutate 向量函数与mutate()
+h2:保存为新的数据框 保存为新的数据框
+h2:选取列-select 选取列 
+h2:修改列名-rename 修改列名 
+h2:筛选-filter 筛选 
+h3:常见的错误 常见的错误
+h3:逻辑算符 逻辑算符
+h2:统计汇总-summarise 统计汇总 
+h2:分组统计-group_by 分组统计 
+h2:排序-arrange 排序 
+h2:左联结-left_join 左联结 
+h2:右联结-right_join 右联结 
+h2:满联结-full_join 满联结 
+h2:内联结inner_join 内联结
+h2:筛选联结 筛选联结
+h2:习题 习题
+h2:延伸阅读 延伸阅读
+

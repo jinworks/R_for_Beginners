@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 16 章 简单数据框 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="library(tidyverse) library(tibble) 事实上，library(tidyverse)已经加装了library(tibble)  16.1 tidyverse 家族 前面陆续介绍了tidyverse家族，家庭主要成员包括 功能 宏包 有颜值担当 ggplot2 数据处理王者 dplyr 数据转换专家 tidyr 数据载入利器 readr 循环加速器 purrr...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 16 章 简单数据框 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="library(tidyverse) library(tibble) 事实上，library(tidyverse)已经加装了library(tibble)  16.1 tidyverse 家族 前面陆续介绍了tidyverse家族，家庭主要成员包括 功能 宏包 有颜值担当 ggplot2 数据处理王者 dplyr 数据转换专家 tidyr 数据载入利器 readr 循环加速器 purrr...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 16 章 简单数据框 | R编程与作图">
+<meta name="twitter:description" content="library(tidyverse) library(tibble) 事实上，library(tidyverse)已经加装了library(tibble)  16.1 tidyverse 家族 前面陆续介绍了tidyverse家族，家庭主要成员包括 功能 宏包 有颜值担当 ggplot2 数据处理王者 dplyr 数据转换专家 tidyr 数据载入利器 readr 循环加速器 purrr...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="active" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-tibble" class="section level1" number="16">
+<h1>
+<span class="header-section-number">第 16 章</span> 简单数据框<a class="anchor" aria-label="anchor" href="#tidyverse-tibble"><i class="fas fa-link"></i></a>
+</h1>
+<div class="sourceCode" id="cb801"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span> </span></code></pre></div>
+<p>事实上，library(tidyverse)已经加装了library(tibble)</p>
+<div id="tidyverse-家族" class="section level2" number="16.1">
+<h2>
+<span class="header-section-number">16.1</span> tidyverse 家族<a class="anchor" aria-label="anchor" href="#tidyverse-%E5%AE%B6%E6%97%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>前面陆续介绍了tidyverse家族，家庭主要成员包括</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">功能</th>
+<th align="left">宏包</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">有颜值担当</td>
+<td align="left">ggplot2</td>
+</tr>
+<tr class="even">
+<td align="left">数据处理王者</td>
+<td align="left">dplyr</td>
+</tr>
+<tr class="odd">
+<td align="left">数据转换专家</td>
+<td align="left">tidyr</td>
+</tr>
+<tr class="even">
+<td align="left">数据载入利器</td>
+<td align="left">readr</td>
+</tr>
+<tr class="odd">
+<td align="left">循环加速器</td>
+<td align="left">purrr</td>
+</tr>
+<tr class="even">
+<td align="left">强化数据框</td>
+<td align="left">tibble</td>
+</tr>
+<tr class="odd">
+<td align="left">字符串处理</td>
+<td align="left">stringr</td>
+</tr>
+<tr class="even">
+<td align="left">因子处理</td>
+<td align="left">forcats</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="人性化的tibble" class="section level2" number="16.2">
+<h2>
+<span class="header-section-number">16.2</span> 人性化的tibble<a class="anchor" aria-label="anchor" href="#%E4%BA%BA%E6%80%A7%E5%8C%96%E7%9A%84tibble"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/tibble.png" width="75%"></div>
+<ul>
+<li>tibble是用来替换data.frame类型的扩展的数据框</li>
+<li>tibble继承了data.frame，是弱类型的。换句话说，tibble是data.frame的子类型</li>
+<li>tibble与data.frame有相同的语法，使用起来更方便</li>
+<li>tibble更早的检查数据，方便写出更干净、更多富有表现力的代码</li>
+</ul>
+<p>tibble对data.frame做了重新的设定：</p>
+<ul>
+<li>tibble，不关心输入类型，可存储任意类型，包括list类型</li>
+<li>tibble，没有行名设置 row.names</li>
+<li>tibble，支持任意的列名</li>
+<li>tibble，会自动添加列名</li>
+<li>tibble，类型只能回收长度为1的输入</li>
+<li>tibble，会懒加载参数，并按顺序运行</li>
+<li>tibble，是tbl_df类型</li>
+</ul>
+</div>
+<div id="tibble-与-data.frame" class="section level2" number="16.3">
+<h2>
+<span class="header-section-number">16.3</span> tibble 与 data.frame<a class="anchor" aria-label="anchor" href="#tibble-%E4%B8%8E-data.frame"><i class="fas fa-link"></i></a>
+</h2>
+<p>传统创建数据框</p>
+<div class="sourceCode" id="cb802"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  b <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   a b
+## 1 1 a
+## 2 2 b
+## 3 3 c
+## 4 4 d
+## 5 5 e</code></pre>
+<p>发现，<code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code>会自动将<strong>字符串型</strong>的变量转换成<strong>因子型</strong>，如果想保持原来的字符串型，就得</p>
+<div class="sourceCode" id="cb804"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  b <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   a b
+## 1 1 a
+## 2 2 b
+## 3 3 c
+## 4 4 d
+## 5 5 e</code></pre>
+<div class="danger">
+<p>
+Note： - 在R 4.0 后，<code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code>
+不会将<strong>字符串型</strong>变量自动转换成<strong>因子型</strong>
+</p>
+</div>
+<p>用tibble创建数据框，不会这么麻烦，输出的就是原来的字符串类型</p>
+<div class="sourceCode" id="cb806"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  b <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##       a b    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d    
+## 5     5 e</code></pre>
+<p>我们有时候喜欢这样，构建两个有关联的变量， 比如</p>
+<div class="sourceCode" id="cb808"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">tb</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##       x     y
+##   &lt;int&gt; &lt;dbl&gt;
+## 1     1     3
+## 2     2     4
+## 3     3     5</code></pre>
+<p>但是，如果用传统的<code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code>来构建，会报错</p>
+<div class="sourceCode" id="cb810"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object 'x' not found</code></pre>
+<div class="sourceCode" id="cb812"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span></span></code></pre></div>
+<pre><code>## function (x, df1, df2, ncp, log = FALSE) 
+## {
+##     if (missing(ncp)) 
+##         .Call(C_df, x, df1, df2, log)
+##     else .Call(C_dnf, x, df1, df2, ncp, log)
+## }
+## &lt;bytecode: 0x127f3b340&gt;
+## &lt;environment: namespace:stats&gt;</code></pre>
+<p>因此，在这一点上<code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble()</a></code>做的比较人性化。</p>
+<p>大家还可以发现tibble另一个优势：tibble输出时，会显示多一行，用来指定每一列的类型。</p>
+<p>tibble用缩写定义了7种类型：</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>类型</th>
+<th>含义</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>int</td>
+<td>代表integer</td>
+</tr>
+<tr class="even">
+<td>dbl</td>
+<td>代表double</td>
+</tr>
+<tr class="odd">
+<td>chr</td>
+<td>代表character向量或字符串</td>
+</tr>
+<tr class="even">
+<td>dttm</td>
+<td>代表日期+时间(date+time)</td>
+</tr>
+<tr class="odd">
+<td>lgl</td>
+<td>代表逻辑判断TRUE或者FALSE</td>
+</tr>
+<tr class="even">
+<td>fctr</td>
+<td>代表因子类型factor</td>
+</tr>
+<tr class="odd">
+<td>date</td>
+<td>代表日期dates</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="tibble数据操作" class="section level2" number="16.4">
+<h2>
+<span class="header-section-number">16.4</span> tibble数据操作<a class="anchor" aria-label="anchor" href="#tibble%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><i class="fas fa-link"></i></a>
+</h2>
+<div id="创建tibble" class="section level3" number="16.4.1">
+<h3>
+<span class="header-section-number">16.4.1</span> 创建tibble<a class="anchor" aria-label="anchor" href="#%E5%88%9B%E5%BB%BAtibble"><i class="fas fa-link"></i></a>
+</h3>
+<p><code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble()</a></code>创建一个tibble类型的data.frame:</p>
+<div class="sourceCode" id="cb814"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##       a b    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d    
+## 5     5 e</code></pre>
+<p>刚才提到了，可以这样，</p>
+<div class="sourceCode" id="cb816"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  b <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">14</span>,</span>
+<span>  c <span class="op">=</span> <span class="va">a</span> <span class="op">+</span> <span class="va">b</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+##       a     b     c
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     1    10    11
+## 2     2    11    13
+## 3     3    12    15
+## 4     4    13    17
+## 5     5    14    19</code></pre>
+<ul>
+<li>为了让每列更加直观，也可以<code><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble()</a></code>创建，数据量不大的时候，挺方便的</li>
+</ul>
+<div class="sourceCode" id="cb818"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">x</span>, <span class="op">~</span><span class="va">y</span>, <span class="op">~</span><span class="va">z</span>,</span>
+<span>  <span class="st">"a"</span>, <span class="fl">2</span>, <span class="fl">3.6</span>,</span>
+<span>  <span class="st">"b"</span>, <span class="fl">1</span>, <span class="fl">8.5</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##   x         y     z
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 a         2   3.6
+## 2 b         1   8.5</code></pre>
+</div>
+<div id="转换成tibble类型" class="section level3" number="16.4.2">
+<h3>
+<span class="header-section-number">16.4.2</span> 转换成tibble类型<a class="anchor" aria-label="anchor" href="#%E8%BD%AC%E6%8D%A2%E6%88%90tibble%E7%B1%BB%E5%9E%8B"><i class="fas fa-link"></i></a>
+</h3>
+<p>转换成tibble类型意思就是说，刚开始不是tibble, 现在转换成tibble， 包括</p>
+<ul>
+<li>data.frame转换成tibble</li>
+<li>vector转换成tibble</li>
+<li>list转换成tibble</li>
+<li>matrix转换成tibble</li>
+</ul>
+<div id="data.frame转换成tibble" class="section level4" number="16.4.2.1">
+<h4>
+<span class="header-section-number">16.4.2.1</span> data.frame转换成tibble<a class="anchor" aria-label="anchor" href="#data.frame%E8%BD%AC%E6%8D%A2%E6%88%90tibble"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb820"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">t1</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="co"># data.frame</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">t1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "data.frame"</code></pre>
+<div class="sourceCode" id="cb822"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">t1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+## 1          5.1         3.5          1.4         0.2
+## 2          4.9         3            1.4         0.2
+## 3          4.7         3.2          1.3         0.2
+## 4          4.6         3.1          1.5         0.2
+## 5          5           3.6          1.4         0.2
+## 6          5.4         3.9          1.7         0.4</code></pre>
+</div>
+<div id="vector转型到tibble" class="section level4" number="16.4.2.2">
+<h4>
+<span class="header-section-number">16.4.2.2</span> vector转型到tibble<a class="anchor" aria-label="anchor" href="#vector%E8%BD%AC%E5%9E%8B%E5%88%B0tibble"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb824"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="co"># Use `tibble::enframe()</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>## # A tibble: 5 × 1
+##   value
+##   &lt;int&gt;
+## 1     1
+## 2     2
+## 3     3
+## 4     4
+## 5     5</code></pre>
+</div>
+<div id="把list转型为tibble" class="section level4" number="16.4.2.3">
+<h4>
+<span class="header-section-number">16.4.2.3</span> 把list转型为tibble<a class="anchor" aria-label="anchor" href="#%E6%8A%8Alist%E8%BD%AC%E5%9E%8B%E4%B8%BAtibble"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb826"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>, z <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##       x     y     z
+##   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+## 1     1 0.762     6
+## 2     2 0.609     5
+## 3     3 0.449     4
+## 4     4 0.905     3
+## 5     5 0.378     2
+## 6     6 0.682     1</code></pre>
+<p>把tibble再转为list? <code>as.list(df)</code></p>
+</div>
+<div id="把matrix转型为tibble" class="section level4" number="16.4.2.4">
+<h4>
+<span class="header-section-number">16.4.2.4</span> 把matrix转型为tibble<a class="anchor" aria-label="anchor" href="#%E6%8A%8Amatrix%E8%BD%AC%E5%9E%8B%E4%B8%BAtibble"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb828"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if
+## `.name_repair` is omitted as of tibble 2.0.0.
+## ℹ Using compatibility `.name_repair`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## # A tibble: 3 × 5
+##       V1     V2     V3      V4     V5
+##    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+## 1 -0.255 -0.105  2.23   0.0852  1.16 
+## 2  0.626  0.638  2.04  -0.762  -0.562
+## 3 -0.325  1.51  -0.830 -0.197  -1.06</code></pre>
+<p>tibble转回matrix? <code>as.matrix(df)</code></p>
+</div>
+</div>
+<div id="tibble简单操作" class="section level3" number="16.4.3">
+<h3>
+<span class="header-section-number">16.4.3</span> tibble简单操作<a class="anchor" aria-label="anchor" href="#tibble%E7%AE%80%E5%8D%95%E6%93%8D%E4%BD%9C"><i class="fas fa-link"></i></a>
+</h3>
+<p>构建一个简单的数据框</p>
+<div class="sourceCode" id="cb831"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
+<span>  y <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">1</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##       x     y
+##   &lt;int&gt; &lt;int&gt;
+## 1     1     2
+## 2     2     1</code></pre>
+<p>增加一列</p>
+<div class="sourceCode" id="cb833"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, w <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 4
+##       x     y     z     w
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1     1     2     0     0
+## 2     2     1     1     0</code></pre>
+<p>增加一行</p>
+<div class="sourceCode" id="cb835"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/add_row.html">add_row</a></span><span class="op">(</span><span class="va">df</span>, x <span class="op">=</span> <span class="fl">99</span>, y <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##       x     y
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2
+## 2     2     1
+## 3    99     9</code></pre>
+<p>在第二行，增加一行</p>
+<div class="sourceCode" id="cb837"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/add_row.html">add_row</a></span><span class="op">(</span><span class="va">df</span>, x <span class="op">=</span> <span class="fl">99</span>, y <span class="op">=</span> <span class="fl">9</span>, .before <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##       x     y
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2
+## 2    99     9
+## 3     2     1</code></pre>
+</div>
+<div id="有用的函数lst" class="section level3" number="16.4.4">
+<h3>
+<span class="header-section-number">16.4.4</span> 有用的函数<code>lst</code><a class="anchor" aria-label="anchor" href="#%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0lst"><i class="fas fa-link"></i></a>
+</h3>
+<p>lst，创建一个list，具有tibble特性的list。</p>
+<div class="sourceCode" id="cb839"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/lst.html">lst</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## $n
+## [1] 5
+## 
+## $x
+## [1] 0.70030508 0.12103882 0.00577521 0.32726819 0.52189998
+## 
+## $y
+## [1] TRUE</code></pre>
+</div>
+<div id="有用的函数enframe" class="section level3" number="16.4.5">
+<h3>
+<span class="header-section-number">16.4.5</span> 有用的函数<code>enframe</code><a class="anchor" aria-label="anchor" href="#%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0enframe"><i class="fas fa-link"></i></a>
+</h3>
+<p><code><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe()</a></code>将矢量快速创建tibble，，创建的tibble只有2列: name和value</p>
+<div class="sourceCode" id="cb841"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##    name value
+##   &lt;int&gt; &lt;int&gt;
+## 1     1     1
+## 2     2     2
+## 3     3     3</code></pre>
+<div class="sourceCode" id="cb843"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">7</span>, c <span class="op">=</span> <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   name  value
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 a         5
+## 2 b         7
+## 3 c         9</code></pre>
+</div>
+<div id="有用的函数deframe" class="section level3" number="16.4.6">
+<h3>
+<span class="header-section-number">16.4.6</span> 有用的函数<code>deframe</code><a class="anchor" aria-label="anchor" href="#%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0deframe"><i class="fas fa-link"></i></a>
+</h3>
+<p><code><a href="https://tibble.tidyverse.org/reference/enframe.html">deframe()</a></code>可以看做是<code><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe()</a></code> 的反操作，把tibble反向转成向量</p>
+<div class="sourceCode" id="cb845"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##   name  value
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 a         5
+## 2 b         7</code></pre>
+<div class="sourceCode" id="cb847"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># change to vector</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">deframe</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## a b 
+## 5 7</code></pre>
+</div>
+<div id="读取文件-1" class="section level3" number="16.4.7">
+<h3>
+<span class="header-section-number">16.4.7</span> 读取文件<a class="anchor" aria-label="anchor" href="#%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>read_csv()读取文件时，生成的直接就是tibble</p>
+<div class="sourceCode" id="cb849"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"./demo_data/wages.csv"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 1379 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (2): sex, race
+## dbl (4): earn, height, ed, age
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## # A tibble: 1,379 × 6
+##      earn height sex    race        ed   age
+##     &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 79571.   73.9 male   white       16    49
+##  2 96397.   66.2 female white       16    62
+##  3 48711.   63.8 female white       16    33
+##  4 80478.   63.2 female other       16    95
+##  5 82089.   63.1 female white       17    43
+##  6 15313.   64.5 female white       15    30
+##  7 47104.   61.5 female white       12    53
+##  8 50960.   73.3 male   white       17    50
+##  9  3213.   72.2 male   hispanic    15    25
+## 10 42997.   72.4 male   white       12    30
+## # ℹ 1,369 more rows</code></pre>
+</div>
+</div>
+<div id="关于行名" class="section level2" number="16.5">
+<h2>
+<span class="header-section-number">16.5</span> 关于行名<a class="anchor" aria-label="anchor" href="#%E5%85%B3%E4%BA%8E%E8%A1%8C%E5%90%8D"><i class="fas fa-link"></i></a>
+</h2>
+<p>data.frame是支持行名的，但tibble不支持行名，<strong>这也是两者不同的地方</strong></p>
+<div class="sourceCode" id="cb852"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#  create data.frame</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># add row name</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>##   x y
+## A 1 3
+## B 2 2
+## C 3 1</code></pre>
+<p>判断是否有行名</p>
+<div class="sourceCode" id="cb854"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">has_rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>但是对于tibble</p>
+<div class="sourceCode" id="cb856"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">tb</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## Warning: Setting row names on a tibble is deprecated.</code></pre>
+<div class="rmdnote">
+<p>需要注意的：</p>
+<ul>
+<li>有时候遇到含有行名的data.frame，转换成tibble后，行名会被丢弃</li>
+<li>如果想保留行名，就需要把行名转换成单独的一列</li>
+</ul>
+</div>
+<p>举个例子</p>
+<div class="sourceCode" id="cb858"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>##                mpg cyl disp
+## Mazda RX4     21.0   6  160
+## Mazda RX4 Wag 21.0   6  160
+## Datsun 710    22.8   4  108</code></pre>
+<p>把行名转换为单独的一列</p>
+<div class="sourceCode" id="cb860"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="va">df</span>, var <span class="op">=</span> <span class="st">"rowname"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##         rowname  mpg cyl disp
+## 1     Mazda RX4 21.0   6  160
+## 2 Mazda RX4 Wag 21.0   6  160
+## 3    Datsun 710 22.8   4  108</code></pre>
+<p>把行索引转换为单独的一列</p>
+<div class="sourceCode" id="cb862"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rowid_to_column</a></span><span class="op">(</span><span class="va">df</span>, var <span class="op">=</span> <span class="st">"rowid"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   rowid  mpg cyl disp
+## 1     1 21.0   6  160
+## 2     2 21.0   6  160
+## 3     3 22.8   4  108</code></pre>
+</div>
+<div id="修复列名" class="section level2" number="16.6">
+<h2>
+<span class="header-section-number">16.6</span> 修复列名<a class="anchor" aria-label="anchor" href="#%E4%BF%AE%E5%A4%8D%E5%88%97%E5%90%8D"><i class="fas fa-link"></i></a>
+</h2>
+<p>规范的来说，数据框的列名应该是唯一。但现实中代码是人写的，因此可能会稀奇古怪的，所幸的是tibble也提供了<strong>人性化的解决方案</strong></p>
+<div class="sourceCode" id="cb864"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, x <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Error in `tibble()`:
+## ! Column name `x` must not be duplicated.
+## Use `.name_repair` to specify repair.
+## Caused by error in `repaired_names()`:
+## ! Names must be unique.
+## ✖ These names are duplicated:
+##   * "x" at locations 1 and 2.</code></pre>
+<ul>
+<li><p><code>.name_repair = "check_unique"</code> 检查列名唯一性，但不做修复（默认）</p></li>
+<li><p><code>.name_repair = "minimal"</code>， 不检查也不修复，维持现状</p></li>
+<li><p><code>.name_repair = "unique"</code> 修复列名，使得列名唯一且不为空</p></li>
+<li><p><code>.name_repair = "universal"</code> 修复列名，使得列名唯一且语法可读</p></li>
+</ul>
+<p>具体使用方法：</p>
+<div class="sourceCode" id="cb866"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, x <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##       x     x
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2</code></pre>
+<div class="sourceCode" id="cb868"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, x <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="st">"unique"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## New names:
+## • `x` -&gt; `x...1`
+## • `x` -&gt; `x...2`</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   x...1 x...2
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2</code></pre>
+<div class="sourceCode" id="cb871"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, x <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="st">"universal"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## New names:
+## • `x` -&gt; `x...1`
+## • `x` -&gt; `x...2`</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   x...1 x...2
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2</code></pre>
+<div class="sourceCode" id="cb874"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>`a 1` <span class="op">=</span> <span class="fl">1</span>, `a 2` <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="st">"universal"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## New names:
+## • `a 1` -&gt; `a.1`
+## • `a 2` -&gt; `a.2`</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##     a.1   a.2
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2</code></pre>
+<p>如果认为<code>x...1</code>, <code>x...2</code> 不符合自己的审美，可以指定修复函数</p>
+<div class="sourceCode" id="cb877"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, x <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="va">make.unique</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##       x   x.1
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2</code></pre>
+<div class="sourceCode" id="cb879"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, x <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/make.unique.html">make.unique</a></span><span class="op">(</span><span class="va">.x</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##       x   x_1
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2</code></pre>
+<div class="sourceCode" id="cb881"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, x <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="va">.</span>, unique <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##       x   x.1
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     2</code></pre>
+<p>注意<code>make.unique(names, sep = ".")</code>和<code>make.names(names, unique = FALSE, allow_ = TRUE)</code> 是基础包的函数，可通过<code>?make.unique()</code>或者<code><a href="https://rdrr.io/r/base/make.names.html">make.names()</a></code>获取说明文档。</p>
+<p>当然也可以自定义函数</p>
+<div class="sourceCode" id="cb883"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fix_names</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\s+"</span>, <span class="st">"_"</span>, <span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>`year 1` <span class="op">=</span> <span class="fl">1</span>, `year 2` <span class="op">=</span> <span class="fl">2</span>, .name_repair <span class="op">=</span> <span class="va">fix_names</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##   year_1 year_2
+##    &lt;dbl&gt;  &lt;dbl&gt;
+## 1      1      2</code></pre>
+<div class="rmdnote">
+<ul>
+<li>感觉越说越复杂了，事实上，我们写数据框的时候，完全可以避免上述问题，只要做到规范列名。</li>
+<li>如果真正遇到比较乱的列名，推荐使用<code><a href="https://sfirke.github.io/janitor/reference/clean_names.html">janitor::clean_names()</a></code>一步到位。</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb885"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor">janitor</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: 'janitor'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test</code></pre>
+<div class="sourceCode" id="cb888"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>`year 1` <span class="op">=</span> <span class="fl">1</span>, `year 2` <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##   year_1 year_2
+##    &lt;dbl&gt;  &lt;dbl&gt;
+## 1      1      2</code></pre>
+</div>
+<div id="list-columns-列表列" class="section level2" number="16.7">
+<h2>
+<span class="header-section-number">16.7</span> <code>List-columns</code> (列表列)<a class="anchor" aria-label="anchor" href="#list-columns-%E5%88%97%E8%A1%A8%E5%88%97"><i class="fas fa-link"></i></a>
+</h2>
+<p>tibble 本质上是向量构成的列表。如下图所示</p>
+<div class="inline-figure"><img src="images/dcl/tibble.png" width="75%"></div>
+<p>大多情况下，我们接触到的向量是原子型向量(atomic vectors)，所谓原子型向量就是向量元素为单个值，比如 <code>"a"</code> 或者 <code>1</code></p>
+<div class="inline-figure"><img src="images/dcl/tibble-atomic.png" width="75%"></div>
+<p>tibble还有可以允许某一列为列表(list)，那么列表构成的列，称之为列表列（list columns）</p>
+<div class="inline-figure"><img src="images/dcl/tibble-list-col.png" width="75%"></div>
+<p>这样一来，<strong>列表列</strong>非常灵活，因为列表元素可以是原子型向量、列表、矩阵或者小的tibble</p>
+<div class="inline-figure"><img src="images/dcl/tibble-list-col-vectors.png" width="75%"></div>
+</div>
+<div id="nested-tibble" class="section level2" number="16.8">
+<h2>
+<span class="header-section-number">16.8</span> nested tibble<a class="anchor" aria-label="anchor" href="#nested-tibble"><i class="fas fa-link"></i></a>
+</h2>
+<p>tibble的列表列装载数据的能力很强大，也很灵活。下面，我们将介绍如何创建和操控有列表列的tibble。</p>
+<div id="creating" class="section level3" number="16.8.1">
+<h3>
+<span class="header-section-number">16.8.1</span> creating<a class="anchor" aria-label="anchor" href="#creating"><i class="fas fa-link"></i></a>
+</h3>
+<p>假定我们这里有一个tibble， 我们有三种方法可以创建列表列</p>
+<ul>
+<li><code><a href="https://tidyr.tidyverse.org/reference/nest.html">nest()</a></code></li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> and <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>
+</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> and <code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code>
+</li>
+</ul>
+<div id="tidyrnest" class="section level4" number="16.8.1.1">
+<h4>
+<span class="header-section-number">16.8.1.1</span> tidyr::nest()<a class="anchor" aria-label="anchor" href="#tidyrnest"><i class="fas fa-link"></i></a>
+</h4>
+<p>使用tidyr::nest()函数，创建有列表列的tibble。</p>
+<div class="inline-figure"><img src="images/dcl/tibble-list-col-tibbles.png" width="75%"></div>
+<div class="sourceCode" id="cb890"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span>, <span class="va">body_mass_g</span><span class="op">)</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 333 × 4
+##    species bill_length_mm bill_depth_mm body_mass_g
+##    &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;       &lt;int&gt;
+##  1 Adelie            39.1          18.7        3750
+##  2 Adelie            39.5          17.4        3800
+##  3 Adelie            40.3          18          3250
+##  4 Adelie            36.7          19.3        3450
+##  5 Adelie            39.3          20.6        3650
+##  6 Adelie            38.9          17.8        3625
+##  7 Adelie            39.2          19.6        4675
+##  8 Adelie            41.1          17.6        3200
+##  9 Adelie            38.6          21.2        3800
+## 10 Adelie            34.6          21.1        4400
+## # ℹ 323 more rows</code></pre>
+<div class="sourceCode" id="cb892"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span>, <span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tb</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   species   data              
+##   &lt;fct&gt;     &lt;list&gt;            
+## 1 Adelie    &lt;tibble [146 × 3]&gt;
+## 2 Gentoo    &lt;tibble [119 × 3]&gt;
+## 3 Chinstrap &lt;tibble [68 × 3]&gt;</code></pre>
+<p><code><a href="https://tidyr.tidyverse.org/reference/nest.html">nest()</a></code> 为每种species创建了一个小的tibble， 每个小的tibble对应一个species</p>
+<div class="sourceCode" id="cb894"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## # A tibble: 146 × 3
+##    bill_length_mm bill_depth_mm body_mass_g
+##             &lt;dbl&gt;         &lt;dbl&gt;       &lt;int&gt;
+##  1           39.1          18.7        3750
+##  2           39.5          17.4        3800
+##  3           40.3          18          3250
+##  4           36.7          19.3        3450
+##  5           39.3          20.6        3650
+##  6           38.9          17.8        3625
+##  7           39.2          19.6        4675
+##  8           41.1          17.6        3200
+##  9           38.6          21.2        3800
+## 10           34.6          21.1        4400
+## # ℹ 136 more rows</code></pre>
+<p>可以看到，<code>tb</code>的整个<code>data</code>列是一个list</p>
+<div class="sourceCode" id="cb896"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span><span class="op">$</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "list"</code></pre>
+<p>如果想偷懒，也可以用<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>的语法</p>
+<div class="sourceCode" id="cb898"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="op">!</span><span class="va">species</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   species   data              
+##   &lt;fct&gt;     &lt;list&gt;            
+## 1 Adelie    &lt;tibble [146 × 3]&gt;
+## 2 Gentoo    &lt;tibble [119 × 3]&gt;
+## 3 Chinstrap &lt;tibble [68 × 3]&gt;</code></pre>
+<p>可以同时创建多个列表列</p>
+<div class="sourceCode" id="cb900"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span><span class="op">(</span>data1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span><span class="op">)</span>, data2 <span class="op">=</span> <span class="va">body_mass_g</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   species   data1              data2             
+##   &lt;fct&gt;     &lt;list&gt;             &lt;list&gt;            
+## 1 Adelie    &lt;tibble [146 × 2]&gt; &lt;tibble [146 × 1]&gt;
+## 2 Gentoo    &lt;tibble [119 × 2]&gt; &lt;tibble [119 × 1]&gt;
+## 3 Chinstrap &lt;tibble [68 × 2]&gt;  &lt;tibble [68 × 1]&gt;</code></pre>
+</div>
+<div id="tidyrsummarise" class="section level4" number="16.8.1.2">
+<h4>
+<span class="header-section-number">16.8.1.2</span> tidyr::summarise()<a class="anchor" aria-label="anchor" href="#tidyrsummarise"><i class="fas fa-link"></i></a>
+</h4>
+<p>第 <a href="tidyverse-dplyr.html#tidyverse-dplyr">11</a> 章介绍数据处理， <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> 和 <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code>组合可以将向量分组后分别压缩成单个值，事实上，<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code>还可以创建列表列。</p>
+<div class="sourceCode" id="cb902"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_collapsed</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_collapsed</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   species   data       
+##   &lt;fct&gt;     &lt;list&gt;     
+## 1 Adelie    &lt;dbl [146]&gt;
+## 2 Chinstrap &lt;dbl [68]&gt; 
+## 3 Gentoo    &lt;dbl [119]&gt;</code></pre>
+<p>data就是构建的列表列，它的每个元素都是一个向量，对应一个species。这种方法和<code><a href="https://tidyr.tidyverse.org/reference/nest.html">nest()</a></code>方法很相似，不同在于，<code>summarise() + list()</code> 构建的列表列其元素是原子型向量，而<code><a href="https://tidyr.tidyverse.org/reference/nest.html">nest()</a></code>构建的是tibble.</p>
+<div class="sourceCode" id="cb904"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_collapsed</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "double"</code></pre>
+<p><code>summarise() + list()</code>的方法还可以在创建列表列之前，对数据简单处理，比如排序</p>
+<div class="sourceCode" id="cb906"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   species   data       
+##   &lt;fct&gt;     &lt;list&gt;     
+## 1 Adelie    &lt;dbl [146]&gt;
+## 2 Chinstrap &lt;dbl [68]&gt; 
+## 3 Gentoo    &lt;dbl [119]&gt;</code></pre>
+<p>或者做筛选</p>
+<div class="sourceCode" id="cb908"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">[</span><span class="va">bill_length_mm</span> <span class="op">&gt;</span> <span class="fl">45</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   species   data      
+##   &lt;fct&gt;     &lt;list&gt;    
+## 1 Adelie    &lt;dbl [3]&gt; 
+## 2 Chinstrap &lt;dbl [62]&gt;
+## 3 Gentoo    &lt;dbl [98]&gt;</code></pre>
+</div>
+<div id="dplyrmutate" class="section level4" number="16.8.1.3">
+<h4>
+<span class="header-section-number">16.8.1.3</span> dplyr::mutate()<a class="anchor" aria-label="anchor" href="#dplyrmutate"><i class="fas fa-link"></i></a>
+</h4>
+<p>第三种方法是用<code>rowwise() + mutate()</code>，比如，下面为每个岛屿(island) 创建一个与该岛企鹅数量等长的随机数向量，简单点说，这个岛屿上企鹅有多少只，那么随机数的个数就有多少个。</p>
+<div class="sourceCode" id="cb910"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">island</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    n_num <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>random <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n_num</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   island    n_num random     
+##   &lt;fct&gt;     &lt;int&gt; &lt;list&gt;     
+## 1 Biscoe      163 &lt;dbl [163]&gt;
+## 2 Dream       123 &lt;dbl [123]&gt;
+## 3 Torgersen    47 &lt;dbl [47]&gt;</code></pre>
+</div>
+</div>
+<div id="unnesting" class="section level3" number="16.8.2">
+<h3>
+<span class="header-section-number">16.8.2</span> Unnesting<a class="anchor" aria-label="anchor" href="#unnesting"><i class="fas fa-link"></i></a>
+</h3>
+<p>用<code><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest()</a></code>函数可以把<strong>列表列</strong>转换成<strong>常规列</strong>的形式，比如上节中的tb</p>
+<div class="sourceCode" id="cb912"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   species   data              
+##   &lt;fct&gt;     &lt;list&gt;            
+## 1 Adelie    &lt;tibble [146 × 3]&gt;
+## 2 Gentoo    &lt;tibble [119 × 3]&gt;
+## 3 Chinstrap &lt;tibble [68 × 3]&gt;</code></pre>
+<p>这里把想要打开的列<code>data</code>，作为参数提供给<code>unnest(cols = )</code></p>
+<div class="sourceCode" id="cb914"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 333 × 4
+##    species bill_length_mm bill_depth_mm body_mass_g
+##    &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;       &lt;int&gt;
+##  1 Adelie            39.1          18.7        3750
+##  2 Adelie            39.5          17.4        3800
+##  3 Adelie            40.3          18          3250
+##  4 Adelie            36.7          19.3        3450
+##  5 Adelie            39.3          20.6        3650
+##  6 Adelie            38.9          17.8        3625
+##  7 Adelie            39.2          19.6        4675
+##  8 Adelie            41.1          17.6        3200
+##  9 Adelie            38.6          21.2        3800
+## 10 Adelie            34.6          21.1        4400
+## # ℹ 323 more rows</code></pre>
+</div>
+<div id="manipulating" class="section level3" number="16.8.3">
+<h3>
+<span class="header-section-number">16.8.3</span> Manipulating<a class="anchor" aria-label="anchor" href="#manipulating"><i class="fas fa-link"></i></a>
+</h3>
+<p>操控列表列是一件有趣的事情，我们常常会借助于行方向的操作(rowwise), 请看第 <a href="#tidyverse-colwise"><strong>??</strong></a> 章。比如找出每个岛屿企鹅的数量，我们需要对data列表列的元素依次迭代，</p>
+<div class="sourceCode" id="cb916"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>num_species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+## # Rowwise: 
+##   species   data               num_species
+##   &lt;fct&gt;     &lt;list&gt;                   &lt;int&gt;
+## 1 Adelie    &lt;tibble [146 × 3]&gt;         146
+## 2 Gentoo    &lt;tibble [119 × 3]&gt;         119
+## 3 Chinstrap &lt;tibble [68 × 3]&gt;           68</code></pre>
+<p>再比如，求每组下企鹅嘴峰长度与嘴峰厚度的相关系数</p>
+<div class="sourceCode" id="cb918"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>corr_coef <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">bill_length_mm</span>, <span class="va">data</span><span class="op">$</span><span class="va">bill_depth_mm</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+## # Rowwise: 
+##   species   data               corr_coef
+##   &lt;fct&gt;     &lt;list&gt;                 &lt;dbl&gt;
+## 1 Adelie    &lt;tibble [146 × 3]&gt;     0.386
+## 2 Gentoo    &lt;tibble [119 × 3]&gt;     0.654
+## 3 Chinstrap &lt;tibble [68 × 3]&gt;      0.654</code></pre>
+</div>
+</div>
+<div id="延伸阅读-1" class="section level2" number="16.9">
+<h2>
+<span class="header-section-number">16.9</span> 延伸阅读<a class="anchor" aria-label="anchor" href="#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>1、阅读Hadley Wickham的<a href="https://r4ds.had.co.nz/">r4ds</a>这本书<a href="https://r4ds.had.co.nz/tibbles.html">第10章</a>。</p>
+<p>2、 tibble的官方主页：<a href="https://tibble.tidyverse.org/">https://tibble.tidyverse.org/</a></p>
+<p>3、创建<strong>列表列</strong>的方法，可以参考<a href="https://tidyr.tidyverse.org/reference/nest.html">nested tibble</a>和
+<a href="https://r4ds.had.co.nz/many-models.html">list-columns</a></p>
+<p>4、本章借鉴了<a href="https://dcl-prog.stanford.edu/">https://dcl-prog.stanford.edu/</a>的图片，特此感谢。</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></div>
+<div class="next"><a href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-tibble"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="nav-link" href="#tidyverse-%E5%AE%B6%E6%97%8F"><span class="header-section-number">16.1</span> tidyverse 家族</a></li>
+<li><a class="nav-link" href="#%E4%BA%BA%E6%80%A7%E5%8C%96%E7%9A%84tibble"><span class="header-section-number">16.2</span> 人性化的tibble</a></li>
+<li><a class="nav-link" href="#tibble-%E4%B8%8E-data.frame"><span class="header-section-number">16.3</span> tibble 与 data.frame</a></li>
+<li>
+<a class="nav-link" href="#tibble%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="header-section-number">16.4</span> tibble数据操作</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%88%9B%E5%BB%BAtibble"><span class="header-section-number">16.4.1</span> 创建tibble</a></li>
+<li><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90tibble%E7%B1%BB%E5%9E%8B"><span class="header-section-number">16.4.2</span> 转换成tibble类型</a></li>
+<li><a class="nav-link" href="#tibble%E7%AE%80%E5%8D%95%E6%93%8D%E4%BD%9C"><span class="header-section-number">16.4.3</span> tibble简单操作</a></li>
+<li><a class="nav-link" href="#%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0lst"><span class="header-section-number">16.4.4</span> 有用的函数lst</a></li>
+<li><a class="nav-link" href="#%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0enframe"><span class="header-section-number">16.4.5</span> 有用的函数enframe</a></li>
+<li><a class="nav-link" href="#%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0deframe"><span class="header-section-number">16.4.6</span> 有用的函数deframe</a></li>
+<li><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6-1"><span class="header-section-number">16.4.7</span> 读取文件</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%A1%8C%E5%90%8D"><span class="header-section-number">16.5</span> 关于行名</a></li>
+<li><a class="nav-link" href="#%E4%BF%AE%E5%A4%8D%E5%88%97%E5%90%8D"><span class="header-section-number">16.6</span> 修复列名</a></li>
+<li><a class="nav-link" href="#list-columns-%E5%88%97%E8%A1%A8%E5%88%97"><span class="header-section-number">16.7</span> List-columns (列表列)</a></li>
+<li>
+<a class="nav-link" href="#nested-tibble"><span class="header-section-number">16.8</span> nested tibble</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#creating"><span class="header-section-number">16.8.1</span> creating</a></li>
+<li><a class="nav-link" href="#unnesting"><span class="header-section-number">16.8.2</span> Unnesting</a></li>
+<li><a class="nav-link" href="#manipulating"><span class="header-section-number">16.8.3</span> Manipulating</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB-1"><span class="header-section-number">16.9</span> 延伸阅读</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

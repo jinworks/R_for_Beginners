@@ -1,0 +1,7 @@
+h1:tidyverse-tidyr2 数据规整2
+h2:fill-缺失值填充  缺失值填充
+h2:expand-与-complete  与 
+h2:expand_grid-与-crossing  与 
+h2:separate-与-unite  与 
+h2:删除缺失值所在行drop_na与replace_na 删除缺失值所在行drop_na()与replace_na()
+

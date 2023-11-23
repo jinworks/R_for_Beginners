@@ -1,0 +1,23 @@
+h1:tidyverse-workflow 回望tidyverse之旅
+fig:tidyverse-workflow-2 图片来源Silvia Canelón在R-Ladies Chicago的报告
+h2:readr-宏包 readr 宏包
+h2:tibble-宏包 tibble 宏包
+h2:ggplot2-宏包 ggplot2 宏包
+h3:查看数据 查看数据
+h3:散点图 散点图
+h3:箱线图 箱线图
+h2:dplyr-宏包 dplyr 宏包
+h3:选取列 选取列
+h3:行方向排序 行方向排序
+h3:分组统计 分组统计
+h3:增加列 增加列
+h3:筛选 筛选
+h2:forcats-宏包 forcats 宏包
+h2:stringr-宏包 stringr 宏包
+h3:字符串转换 字符串转换
+h3:字符串合并 字符串合并
+h2:tidyr-宏包 tidyr 宏包
+h3:长表格变宽表格 长表格变宽表格
+h3:宽表格变长表格 宽表格变长表格
+h2:purrr-宏包 purrr 宏包
+

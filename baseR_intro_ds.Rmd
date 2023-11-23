@@ -1,0 +1,87 @@
+
+\mainmatter
+
+# (PART) R编程基础 {-}
+
+# R语言介绍及资料推荐 {#baseR-intro-ds}
+## R语言的特点
+R语言是用于统计分析、图形表示和报告的编程语言:
+
+-   R 是免费的，R 可运行于多种平台之上，包括Windows、UNIX 和 Mac OS X
+-   R语言做统计分析，实现了经典的、现代的统计方法，如参数和非参数假设检验、线性回归、广义线性回归、非线性回归、可加模型、树回归、混合模型、方差分析、判别、聚类、时间序列分析等。
+-   R 拥有顶尖水准的**制图**功能，ggplot2画图，是颜值担当，非常好看，一直被模仿，从未被超越
+-   R 应用广泛，拥有丰富的**库包**，统计科研工作者广泛使用R进行计算和发表算法。R有上万扩展包
+- tidyverse来编程，代码可读性强，用的是**人类语言**， 非常好学 
+- Rmarkdown 可以生成html、word或者pdf格式的可重复性报告文档，可以方便快捷做幻灯片、海报、论文、书籍、网页。
+-   活跃的**社区**
+
+## R能干什么
+
+### 数据科学流程
+Hadley Wickham将[数据科学流程](https://r4ds.had.co.nz/)分解成6个环节
+
+```{r intro-ds-6, out.width = '80%', fig.align='center', echo = FALSE}
+knitr::include_graphics("images/data-science-explore.png")
+```
+
+即数据导入、数据规整、数据处理、可视化、建模以及形成可重复性报告，整个分析和探索过程都在一个程序代码中完成，这种方式对训练我们的数据思维非常有帮助。
+
+
+### tidyverse家族
+
+R 语言的强大还在于各种宏包。但由于各种包接口不统一，语法不一致，也带来一些困扰。为了解决这个问题，RStudio 公司的[Hadley Wickham](http://hadley.nz) 与其带领的团队推出了`tidyverse`宏包， [tidyverse](https://www.tidyverse.org)将常用的宏包整合在一起，并保持了语法的一致性。
+本书将通过一些例子不断地展示`tidyverse`在数据分析和可视化的应用。
+
+```{r intro-ds-7, out.width = '70%', fig.align='center', echo = FALSE}
+knitr::include_graphics("images/tidyverse.png")
+```
+
+[tidyverse](https://www.tidyverse.org/)套餐，其主要成员包括
+
+
+| 功能 | 宏包        |
+|:------|:-------------|
+颜值担当 | ggplot2 |
+数据处理王者 | dplyr |
+数据转换专家  | tidyr |
+数据载入利器 | readr |
+循环加速器 | purrr |
+强化数据框 | tibble |
+字符串处理 | stringr |
+因子处理   | forcats |
+
+
+ 
+###  R & tidyverse 四大优势
+
+| 序号 | 内容   |  代码演示   |
+|:---|:---|:---|
+| 1     |  统计分析           |   `r xfun::embed_file('./exercises/01_stats.R')` |
+| 2     |  可视化ggplot2         |   `r xfun::embed_file('./exercises/02_visual.R')` |
+| 3     |  探索性分析     |   `r xfun::embed_file('./exercises/03_eda.R')` |
+| 4     |  可重复性报告   |   `r xfun::embed_file('./exercises/04_reproducible.Rmd')` |
+
+
+##  推荐资料
+### 教程
+- 王敏杰 (2023). 数据科学中的 R 语言，https://bookdown.org/wangminjie/R4DS/, 2nd ed. 讲基本的数据整理、汇总。
+- 李东风(2023). R语言教程, https://www.math.pku.edu.cn/teachers/lidf/docs/Rbook/html/_Rbook/index.html
+- Hadley Wickham and Garrett Grolemund(2022). R for Data Science，https://r4ds.hadley.nz/, 2nd ed. 讲基本的数据整理、汇总。
+- Hadley Wickham(2019). Advanced R, 2nd ed., https://adv-r.hadley.nz/, Chapman & Hall/CRC The R Series. 高级R编程，属于对R高级编程技术的讲解
+- Hadley Wickham(2016). ggplot2 Elegant Graphics for Data Analysis, 2nd ed., https://ggplot2-book.org/, Springer. 优雅易用的R作图功能
+- Susan Holmes, Wolfgang Huber(2020). Modern Statistics for Modern Biology, https://www.huber.embl.de/msmb/index.html.
+R的统计功能在生物学中的应用。
+- 汤银才（2008），《R语言与统计分析》，高等教育出版社。
+
+### R 语言社区推荐
+
+R 语言社区非常友好，可以在这里找到你问题的答案（一般直接从浏览器搜索问题就好）。下面的前两个有丰富且漂亮的画图代码（强推）：
+
+- Statistical tools for high-throughput data analysis: <http://sthda.com/english/> (e.g., <http://sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/>)
+
+- The R graph gallery: <https://r-graph-gallery.com/> (e.g., <https://r-graph-gallery.com/piechart-ggplot2.html>)
+
+- R-Bloggers: <https://www.r-bloggers.com/>
+
+- stackoverflow: <https://stackoverflow.com/questions/tagged/r>
+  

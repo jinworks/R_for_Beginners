@@ -1,0 +1,848 @@
+{
+    "sources": [
+        {
+            "URL": "http://r4ds.had.co.nz/",
+            "author": [
+                {
+                    "family": "Grolemund",
+                    "given": "Garrett"
+                },
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "edition": "1 edition",
+            "id": "Wickham2017",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "note": "ISBN 978-1491910399",
+            "publisher": "O’Reilly Media",
+            "publisher-place": "Houston",
+            "title": "R for data science: Import, tidy, transform, visualize, and model data",
+            "title-short": "R for data science",
+            "type": "book"
+        },
+        {
+            "URL": "https://www.tidytextmining.com/",
+            "author": [
+                {
+                    "family": "Silge",
+                    "given": "Julia"
+                },
+                {
+                    "family": "Robinson",
+                    "given": "David"
+                }
+            ],
+            "edition": "1 edition",
+            "id": "Julia2017",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "note": "ISBN 978-1491981658",
+            "publisher": "O’Reilly Media",
+            "title": "Text mining with r: A tidy approach",
+            "title-short": "Text mining with r",
+            "type": "book"
+        },
+        {
+            "URL": "https://rstudio-education.github.io/hopr/",
+            "author": [
+                {
+                    "family": "Grolemund",
+                    "given": "Garrett"
+                }
+            ],
+            "edition": "1 edition",
+            "id": "Garrett2014",
+            "issued": {
+                "date-parts": [
+                    [
+                        2014
+                    ]
+                ]
+            },
+            "note": "ISBN 978-1449359010",
+            "publisher": "O’Reilly Media",
+            "publisher-place": "Houston",
+            "title": "Hands-on programming with r",
+            "type": "book"
+        },
+        {
+            "DOI": "10.18637/jss.v059.i10",
+            "URL": "http://dx.doi.org/10.18637/jss.v059.i10",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "container-title": "Journal of Statistical Software",
+            "id": "wickham2014",
+            "issue": "10",
+            "issued": {
+                "date-parts": [
+                    [
+                        2014
+                    ]
+                ]
+            },
+            "language": "en",
+            "title": "Tidy Data",
+            "type": "article-journal",
+            "volume": "59"
+        },
+        {
+            "ISBN": "978-3-319-24277-4",
+            "URL": "https://ggplot2.tidyverse.org",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "wickham2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "publisher": "Springer-Verlag New York",
+            "title": "ggplot2: Elegant graphics for data analysis",
+            "title-short": "ggplot2",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=patchwork",
+            "author": [
+                {
+                    "family": "Pedersen",
+                    "given": "Thomas Lin"
+                }
+            ],
+            "id": "pedersen2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "note": "R package version 1.1.1",
+            "title": "patchwork: The composer of plots",
+            "title-short": "patchwork",
+            "type": "book"
+        },
+        {
+            "ISBN": "1-138-30451-4",
+            "abstract": "Book on geographic data with R.",
+            "author": [
+                {
+                    "family": "Lovelace",
+                    "given": "Robin"
+                },
+                {
+                    "family": "Nowosad",
+                    "given": "Jakub"
+                },
+                {
+                    "family": "Muenchow",
+                    "given": "Jannes"
+                }
+            ],
+            "id": "lovelace_geocomputation_2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "publisher": "CRC Press",
+            "title": "Geocomputation with R",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=usethis",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                },
+                {
+                    "family": "Bryan",
+                    "given": "Jennifer"
+                }
+            ],
+            "id": "wickham_and_bryan2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 2.0.1",
+            "title": "usethis: Automate package and project setup",
+            "title-short": "usethis",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1007/978-1-4614-7138-7",
+            "URL": "http://dx.doi.org/10.1007/978-1-4614-7138-7",
+            "author": [
+                {
+                    "family": "James",
+                    "given": "Gareth"
+                },
+                {
+                    "family": "Witten",
+                    "given": "Daniela"
+                },
+                {
+                    "family": "Hastie",
+                    "given": "Trevor"
+                },
+                {
+                    "family": "Tibshirani",
+                    "given": "Robert"
+                }
+            ],
+            "id": "james2013c",
+            "issued": {
+                "date-parts": [
+                    [
+                        2013
+                    ]
+                ]
+            },
+            "publisher": "Springer New York",
+            "title": "An introduction to statistical learning",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1201/9780367816377",
+            "URL": "http://dx.doi.org/10.1201/9780367816377",
+            "author": [
+                {
+                    "family": "Boehmke",
+                    "given": "Brad"
+                },
+                {
+                    "family": "Greenwell",
+                    "given": "Brandon"
+                }
+            ],
+            "id": "boehmke2019j",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019,
+                        11,
+                        7
+                    ]
+                ]
+            },
+            "publisher": "Chapman and Hall/CRC",
+            "title": "Hands-on machine learning with R",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1201/9781315119588",
+            "URL": "http://dx.doi.org/10.1201/9781315119588",
+            "author": [
+                {
+                    "family": "Matloff",
+                    "given": "Norman"
+                }
+            ],
+            "id": "matloff2017a",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017,
+                        9,
+                        19
+                    ]
+                ]
+            },
+            "publisher": "Chapman and Hall/CRC",
+            "title": "Statistical regression and classification",
+            "type": "book"
+        },
+        {
+            "URL": "https://asdar-book.org/",
+            "author": [
+                {
+                    "family": "Bivand",
+                    "given": "Roger S."
+                },
+                {
+                    "family": "Pebesma",
+                    "given": "Edzer"
+                },
+                {
+                    "family": "Gomez-Rubio",
+                    "given": "Virgilio"
+                }
+            ],
+            "id": "applied2013",
+            "issued": {
+                "date-parts": [
+                    [
+                        2013
+                    ]
+                ]
+            },
+            "publisher": "Springer, NY",
+            "title": "Applied spatial data analysis with R, second edition",
+            "type": "book"
+        },
+        {
+            "URL": "https://r4ds.had.co.nz/",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                },
+                {
+                    "family": "Grolemund",
+                    "given": "Garrett"
+                }
+            ],
+            "id": "r4ds",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "publisher": "O’Reilly",
+            "publisher-place": "Sebastopol CA",
+            "title": "R for data science",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=systemfonts",
+            "author": [
+                {
+                    "family": "Pedersen",
+                    "given": "Thomas Lin"
+                },
+                {
+                    "family": "Ooms",
+                    "given": "Jeroen"
+                },
+                {
+                    "family": "Govett",
+                    "given": "Devon"
+                }
+            ],
+            "id": "pederson2021_fonts",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 1.0.2",
+            "title": "systemfonts: System native font finding",
+            "title-short": "systemfonts",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=ggridges",
+            "author": [
+                {
+                    "family": "Wilke",
+                    "given": "Claus O."
+                }
+            ],
+            "id": "wilke2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 0.5.3",
+            "title": "ggridges: Ridgeline plots in ’ggplot2’",
+            "title-short": "ggridges",
+            "type": "book"
+        },
+        {
+            "URL": "http://www.rstudio.com/",
+            "author": [
+                {
+                    "literal": "RStudio Team"
+                }
+            ],
+            "id": "rstudio2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "publisher": "RStudio, PBC",
+            "publisher-place": "Boston, MA",
+            "title": "RStudio: Integrated development environment for R",
+            "title-short": "RStudio",
+            "type": "book"
+        },
+        {
+            "DOI": "10.21105/joss.01686",
+            "URL": "http://dx.doi.org/10.21105/joss.01686",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                },
+                {
+                    "family": "Averick",
+                    "given": "Mara"
+                },
+                {
+                    "family": "Bryan",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Chang",
+                    "given": "Winston"
+                },
+                {
+                    "family": "McGowan",
+                    "given": "Lucy"
+                },
+                {
+                    "family": "François",
+                    "given": "Romain"
+                },
+                {
+                    "family": "Grolemund",
+                    "given": "Garrett"
+                },
+                {
+                    "family": "Hayes",
+                    "given": "Alex"
+                },
+                {
+                    "family": "Henry",
+                    "given": "Lionel"
+                },
+                {
+                    "family": "Hester",
+                    "given": "Jim"
+                },
+                {
+                    "family": "Kuhn",
+                    "given": "Max"
+                },
+                {
+                    "family": "Pedersen",
+                    "given": "Thomas"
+                },
+                {
+                    "family": "Miller",
+                    "given": "Evan"
+                },
+                {
+                    "family": "Bache",
+                    "given": "Stephan"
+                },
+                {
+                    "family": "Müller",
+                    "given": "Kirill"
+                },
+                {
+                    "family": "Ooms",
+                    "given": "Jeroen"
+                },
+                {
+                    "family": "Robinson",
+                    "given": "David"
+                },
+                {
+                    "family": "Seidel",
+                    "given": "Dana"
+                },
+                {
+                    "family": "Spinu",
+                    "given": "Vitalie"
+                },
+                {
+                    "family": "Takahashi",
+                    "given": "Kohske"
+                },
+                {
+                    "family": "Vaughan",
+                    "given": "Davis"
+                },
+                {
+                    "family": "Wilke",
+                    "given": "Claus"
+                },
+                {
+                    "family": "Woo",
+                    "given": "Kara"
+                },
+                {
+                    "family": "Yutani",
+                    "given": "Hiroaki"
+                }
+            ],
+            "container-title": "Journal of Open Source Software",
+            "id": "wickham2019",
+            "issue": "43",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019,
+                        11,
+                        21
+                    ]
+                ]
+            },
+            "page": "1686",
+            "title": "Welcome to the tidyverse",
+            "type": "article-journal",
+            "volume": "4"
+        },
+        {
+            "URL": "https://www.tmwr.org/",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2021,
+                        8,
+                        15
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Kuhn",
+                    "given": "Max"
+                },
+                {
+                    "family": "Silge",
+                    "given": "Julia"
+                }
+            ],
+            "id": "kuhn2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "title": "Tidy modeling with R",
+            "type": ""
+        },
+        {
+            "URL": "https://bookdown.org/yihui/bookdown",
+            "author": [
+                {
+                    "family": "Xie",
+                    "given": "Yihui"
+                }
+            ],
+            "id": "xie2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "note": "ISBN 978-1138700109",
+            "publisher": "Chapman and Hall/CRC",
+            "publisher-place": "Boca Raton, Florida",
+            "title": "bookdown: Authoring books and technical documents with R markdown",
+            "title-short": "bookdown",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1201/9781351201315",
+            "URL": "http://dx.doi.org/10.1201/9781351201315",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "wickham2019a",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019,
+                        5,
+                        24
+                    ]
+                ]
+            },
+            "publisher": "Chapman and Hall/CRC",
+            "title": "Advanced R",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=dplyr",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                },
+                {
+                    "family": "François",
+                    "given": "Romain"
+                },
+                {
+                    "family": "Henry",
+                    "given": "Lionel"
+                },
+                {
+                    "family": "Müller",
+                    "given": "Kirill"
+                }
+            ],
+            "id": "wickham2021_dplyr",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 1.0.7",
+            "title": "dplyr: A grammar of data manipulation",
+            "title-short": "dplyr",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=readr",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                },
+                {
+                    "family": "Hester",
+                    "given": "Jim"
+                }
+            ],
+            "id": "wickham2021_readr",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 2.0.0",
+            "title": "readr: Read rectangular text data",
+            "title-short": "readr",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=purrr",
+            "author": [
+                {
+                    "family": "Henry",
+                    "given": "Lionel"
+                },
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "henry2020_purrr",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "note": "R package version 0.3.4",
+            "title": "purrr: Functional programming tools",
+            "title-short": "purrr",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=tidyr",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "wickham2021_tidyr",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 1.1.3",
+            "title": "tidyr: Tidy messy data",
+            "title-short": "tidyr",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=stringr",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "wickham2019_stringr",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "note": "R package version 1.4.0",
+            "title": "stringr: Simple, consistent wrappers for common string operations",
+            "title-short": "stringr",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=forcats",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "wickham2021_forcats",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 0.5.1",
+            "title": "forcats: Tools for working with categorical variables (factors)",
+            "title-short": "forcats",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=tibble",
+            "author": [
+                {
+                    "family": "Müller",
+                    "given": "Kirill"
+                },
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "muller2021_tibble",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "R package version 3.1.3",
+            "title": "tibble: Simple data frames",
+            "title-short": "tibble",
+            "type": "book"
+        },
+        {
+            "URL": "https://CRAN.R-project.org/package=magrittr",
+            "author": [
+                {
+                    "family": "Bache",
+                    "given": "Stefan Milton"
+                },
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "id": "bache_2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "note": "R package version 2.0.1",
+            "title": "magrittr: A forward-pipe operator for R",
+            "title-short": "magrittr",
+            "type": "book"
+        },
+        {
+            "URL": "https://clauswilke.com/dataviz/",
+            "author": [
+                {
+                    "family": "Wilke",
+                    "given": "Claus O."
+                }
+            ],
+            "id": "wilke2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "publisher": "O’Reilly Media",
+            "publisher-place": "Sebastopol, CA",
+            "title": "Fundamentals of data visualization",
+            "type": "book"
+        },
+        {
+            "URL": "https://socviz.co/",
+            "author": [
+                {
+                    "family": "Healy",
+                    "given": "Kieran"
+                }
+            ],
+            "id": "healy2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "publisher": "Princeton University Press",
+            "publisher-place": "Princeton, NJ",
+            "title": "Data visualization: A practical introduction",
+            "title-short": "Data visualization",
+            "type": "book"
+        }
+    ],
+    "project_biblios": [
+        "references.bib"
+    ]
+}

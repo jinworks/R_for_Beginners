@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 9 章 子集选取 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="子集选取单独作一章，说明它确实很重要。    上一章讲对象、数据类型和数据结构等概念。为了方便理解，我这里打个比方， 对象就是我们在计算机里新建了存储空间，好比一个盒子， 我们可以往盒子里面装东西（赋值），可以查看里面的内容或者对里面的内容做计算（函数），也可以从盒子里取出部分东西（子集选取）。 子集选取，就是从盒子里取东西出来3。  9.1 向量...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 9 章 子集选取 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="子集选取单独作一章，说明它确实很重要。    上一章讲对象、数据类型和数据结构等概念。为了方便理解，我这里打个比方， 对象就是我们在计算机里新建了存储空间，好比一个盒子， 我们可以往盒子里面装东西（赋值），可以查看里面的内容或者对里面的内容做计算（函数），也可以从盒子里取出部分东西（子集选取）。 子集选取，就是从盒子里取东西出来3。  9.1 向量...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 9 章 子集选取 | R编程与作图">
+<meta name="twitter:description" content="子集选取单独作一章，说明它确实很重要。    上一章讲对象、数据类型和数据结构等概念。为了方便理解，我这里打个比方， 对象就是我们在计算机里新建了存储空间，好比一个盒子， 我们可以往盒子里面装东西（赋值），可以查看里面的内容或者对里面的内容做计算（函数），也可以从盒子里取出部分东西（子集选取）。 子集选取，就是从盒子里取东西出来3。  9.1 向量...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="active" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="baseR-subsetting" class="section level1" number="9">
+<h1>
+<span class="header-section-number">第 9 章</span> 子集选取<a class="anchor" aria-label="anchor" href="#baseR-subsetting"><i class="fas fa-link"></i></a>
+</h1>
+<p>子集选取单独作一章，说明它确实很重要。</p>
+<!-- 上一章讲对象、数据类型和数据结构等概念。为了方便理解，我这里打个比方， -->
+<!-- **对象**就是我们在计算机里新建了存储空间，好比一个盒子， -->
+<!-- 我们可以往盒子里面装东西，比如鞋子、袜子、糖果东西。**数据类型**就是指我们装的东西的类型，比如是吃的还是用的呢， -->
+<!-- 只不过计算机用的是机器语言，称之为，数值型、字符串型、因子型等等。 -->
+<!-- **数据结构**就是盒子里东西的摆放次序，是相同的（同质）放一起，还是不同的（异质）放一起， -->
+<!-- 相同的放一起就是向量、矩阵；不同的放一起可能是列表和数据框。 -->
+<p>上一章讲对象、数据类型和数据结构等概念。为了方便理解，我这里打个比方，
+<strong>对象</strong>就是我们在计算机里新建了存储空间，好比一个盒子，
+我们可以往盒子里面装东西（<strong>赋值</strong>），可以查看里面的内容或者对里面的内容做计算（<strong>函数</strong>），也可以从盒子里取出<strong>部分</strong>东西（<strong>子集选取</strong>）。</p>
+<p><strong>子集选取</strong>，就是从盒子里取东西出来<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;操控盒子里的东西，比如把糖果变大，这个过程叫函数.&lt;/p&gt;"><sup>3</sup></a>。</p>
+<div id="向量" class="section level2" number="9.1">
+<h2>
+<span class="header-section-number">9.1</span> 向量<a class="anchor" aria-label="anchor" href="#%E5%90%91%E9%87%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>对于原子型向量，我们有至少四种选取子集的方法</p>
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">2.2</span>, <span class="fl">3.3</span>, <span class="fl">4.4</span>, <span class="fl">5.5</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>正整数： 指定向量元素中的位置</li>
+</ul>
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1.1</code></pre>
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1.1 3.3</code></pre>
+<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 3.3 1.1</code></pre>
+<ul>
+<li>负整数：删除指定位置的元素</li>
+</ul>
+<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fl">2</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1.1 3.3 4.4 5.5</code></pre>
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="op">-</span><span class="fl">4</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1.1 2.2 5.5</code></pre>
+<ul>
+<li>逻辑向量：将<code>TRUE</code>对应位置的元素提取出来</li>
+</ul>
+<div class="inline-figure"><img src="images/vector-subset.png" width="80%"></div>
+<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1.1 3.3 5.5</code></pre>
+<p>常用的一种情形；筛选出大于某个值的所有元素</p>
+<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">3</span></span></code></pre></div>
+<pre><code>## [1] FALSE FALSE  TRUE  TRUE  TRUE</code></pre>
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">3</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 3.3 4.4 5.5</code></pre>
+<ul>
+<li>如果是命名向量</li>
+</ul>
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span> <span class="op">=</span> <span class="fl">11</span>, <span class="st">"b"</span> <span class="op">=</span> <span class="fl">12</span>, <span class="st">"c"</span> <span class="op">=</span> <span class="fl">13</span>, <span class="st">"d"</span> <span class="op">=</span> <span class="fl">14</span><span class="op">)</span></span>
+<span><span class="va">y</span></span></code></pre></div>
+<pre><code>##  a  b  c  d 
+## 11 12 13 14</code></pre>
+<p>我们可以用命名向量，返回其对应位置的向量</p>
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"c"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>##  d  c  a 
+## 14 13 11</code></pre>
+</div>
+<div id="列表-1" class="section level2" number="9.2">
+<h2>
+<span class="header-section-number">9.2</span> 列表<a class="anchor" aria-label="anchor" href="#%E5%88%97%E8%A1%A8-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>对列表取子集，和向量的方法一样。向量的子集仍然是向量，使用<code>[</code>提取列表的子集，总是返回列表</p>
+<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"one"</span>   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"two"</span>   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span>  <span class="st">"three"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">l</span></span></code></pre></div>
+<pre><code>## $one
+## [1] "a" "b" "c"
+## 
+## $two
+## [1] 1 2 3 4 5
+## 
+## $three
+## [1]  TRUE FALSE</code></pre>
+<p>使用位置索引</p>
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## $one
+## [1] "a" "b" "c"</code></pre>
+<p>也可以使用元素名</p>
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span><span class="op">[</span><span class="st">"one"</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## $one
+## [1] "a" "b" "c"</code></pre>
+<p>如果想提取列表某个元素的值，需要使用 <code>[[</code></p>
+<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] "a" "b" "c"</code></pre>
+<p>也可以使用其中的元素名，比如<code>[["one"]]</code>，</p>
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span><span class="op">[[</span><span class="st">"one"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] "a" "b" "c"</code></pre>
+<p>取出<code>one</code>位置上的元素，需要写<code>[["one"]]</code>，程序员觉得要写太多的字符了，太麻烦了，所以用<code>$</code>来简写</p>
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span><span class="op">$</span><span class="va">one</span></span></code></pre></div>
+<pre><code>## [1] "a" "b" "c"</code></pre>
+<p>所以请记住</p>
+<ul>
+<li>
+<code>[</code> 和<code>[[</code>的区别</li>
+<li>
+<code>x$y</code> 是 <code>x[["y"]]</code>的简写</li>
+</ul>
+</div>
+<div id="矩阵-1" class="section level2" number="9.3">
+<h2>
+<span class="header-section-number">9.3</span> 矩阵<a class="anchor" aria-label="anchor" href="#%E7%9F%A9%E9%98%B5-1"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, nrow <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">a</span></span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<p>我们取第1行到第2行的2-3列，<code>[1:2, 2:3]</code>，中间以逗号分隔，于是得到一个新的矩阵</p>
+<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    4    7
+## [2,]    5    8</code></pre>
+<p>默认情况下, <code>[</code> 会将获取的数据，以尽可能低的维度形式呈现。比如</p>
+<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1 4</code></pre>
+<p>表示第1行的第1、2列，此时不是<span class="math inline">\(1 \times 2\)</span>矩阵，而是包含了两个元素的向量。
+<strong>以尽可能低的维度形式呈现</strong>，换句话说，这个1, 4长的像个矩阵，又有点像向量，向量的维度比矩阵低，那就是向量吧。</p>
+<p>有些时候，我们想保留所有的行或者列，比如</p>
+<ul>
+<li>行方向，只选取第 1 行到第 2 行</li>
+<li>列方向，选取所有列</li>
+</ul>
+<p>可以这样简写</p>
+<div class="sourceCode" id="cb243"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="op">]</span></span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8</code></pre>
+</div>
+<div id="数据框-1" class="section level2" number="9.4">
+<h2>
+<span class="header-section-number">9.4</span> 数据框<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E6%A1%86-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>数据框具有list和matrix的双重属性，因此</p>
+<ul>
+<li>当选取数据框的某几列的时候，可以和list一样，指定元素位置索引，比如<code>df[1:2]</code>选取前两列</li>
+<li>也可以像矩阵一样，按照行和列的标识选取，比如<code>df[1:3, ]</code>选取前三行的所有列</li>
+</ul>
+<div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
+<span>  y <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">1</span>,</span>
+<span>  z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>##   x y z
+## 1 1 4 a
+## 2 2 3 b
+## 3 3 2 c
+## 4 4 1 d</code></pre>
+<div id="like-a-list" class="section level3" number="9.4.1">
+<h3>
+<span class="header-section-number">9.4.1</span> Like a list<a class="anchor" aria-label="anchor" href="#like-a-list"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb247"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>##   x z
+## 1 1 a
+## 2 2 b
+## 3 3 c
+## 4 4 d</code></pre>
+<div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">[[</span><span class="st">"x"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">x</span></span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+</div>
+<div id="like-a-matrix" class="section level3" number="9.4.2">
+<h3>
+<span class="header-section-number">9.4.2</span> Like a matrix<a class="anchor" aria-label="anchor" href="#like-a-matrix"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<pre><code>##   x z
+## 1 1 a
+## 2 2 b
+## 3 3 c
+## 4 4 d</code></pre>
+<p>也可以通过行和列的位置</p>
+<div class="sourceCode" id="cb255"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="op">]</span></span></code></pre></div>
+<pre><code>##   x y z
+## 1 1 4 a
+## 2 2 3 b
+## 3 3 2 c</code></pre>
+<p>当遇到单行或单列的时候，也和矩阵一样，数据会降维</p>
+<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="st">"x"</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<p>如果想避免降维，需要多写一句话</p>
+<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="st">"x"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span></code></pre></div>
+<pre><code>##   x
+## 1 1
+## 2 2
+## 3 3
+## 4 4</code></pre>
+<p>这样输出的还是矩阵形式，但程序员总是偷懒的，有时候我们也容易忘记写<code>drop = FALSE</code>，
+所以我比较喜欢下面的<code>tibble</code>.</p>
+</div>
+</div>
+<div id="增强型数据框" class="section level2" number="9.5">
+<h2>
+<span class="header-section-number">9.5</span> 增强型数据框<a class="anchor" aria-label="anchor" href="#%E5%A2%9E%E5%BC%BA%E5%9E%8B%E6%95%B0%E6%8D%AE%E6%A1%86"><i class="fas fa-link"></i></a>
+</h2>
+<p>tibble是增强型的data.frame，选取tibble的行或者列，即使遇到单行或者单列的时候，数据也不会降维，总是返回tibble，即仍然是数据框的形式。</p>
+<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
+<span>  y <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">1</span>,</span>
+<span>  z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">tb</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##       x     y z    
+##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;
+## 1     1     4 a    
+## 2     2     3 b    
+## 3     3     2 c    
+## 4     4     1 d</code></pre>
+<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span><span class="op">[</span><span class="st">"x"</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 1
+##       x
+##   &lt;int&gt;
+## 1     1
+## 2     2
+## 3     3
+## 4     4</code></pre>
+<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tb</span><span class="op">[</span>, <span class="st">"x"</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 1
+##       x
+##   &lt;int&gt;
+## 1     1
+## 2     2
+## 3     3
+## 4     4</code></pre>
+<p>除此以外，<code>tibble</code>还有很多优良的<a href="https://tibble.tidyverse.org/">特性</a>。</p>
+</div>
+<div id="作业" class="section level2" number="9.6">
+<h2>
+<span class="header-section-number">9.6</span> 作业<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E4%B8%9A"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li><p>如何获取<code>matrix(1:9, nrow = 3)</code>上对角元? 对角元？</p></li>
+<li><p>对数据框，思考<code>df["x"]</code>， <code>df[["x"]]</code>， <code>df$x</code>三者的区别?</p></li>
+<li><p>如果<code>x</code>是一个矩阵，请问 <code>x[] &lt;- 0</code> 和<code>x &lt;- 0</code> 有什么区别？</p></li>
+<li><p>不添加参数<code>na.rm = TRUE</code>的前提下，用<code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>计算向量<code>x</code>的元素之和</p></li>
+</ol>
+<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="cn">NA</span>, <span class="fl">2</span>, <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+<p>提示：</p>
+<ul>
+<li>使用<code>is.na(x)</code> 检查向量元素是否为缺失值，并保存为新的对象x_missing</li>
+<li>将所有缺失值赋值为0</li>
+<li>然后 <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> 计算</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>找出<code>x</code>向量中的偶数</li>
+</ol>
+<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+
+</div>
+</div>
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></div>
+<div class="next"><a href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#baseR-subsetting"><span class="header-section-number">9</span> 子集选取</a></li>
+<li><a class="nav-link" href="#%E5%90%91%E9%87%8F"><span class="header-section-number">9.1</span> 向量</a></li>
+<li><a class="nav-link" href="#%E5%88%97%E8%A1%A8-1"><span class="header-section-number">9.2</span> 列表</a></li>
+<li><a class="nav-link" href="#%E7%9F%A9%E9%98%B5-1"><span class="header-section-number">9.3</span> 矩阵</a></li>
+<li>
+<a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A1%86-1"><span class="header-section-number">9.4</span> 数据框</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#like-a-list"><span class="header-section-number">9.4.1</span> Like a list</a></li>
+<li><a class="nav-link" href="#like-a-matrix"><span class="header-section-number">9.4.2</span> Like a matrix</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E5%A2%9E%E5%BC%BA%E5%9E%8B%E6%95%B0%E6%8D%AE%E6%A1%86"><span class="header-section-number">9.5</span> 增强型数据框</a></li>
+<li><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A"><span class="header-section-number">9.6</span> 作业</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

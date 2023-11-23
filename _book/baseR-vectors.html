@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 4 章 向量 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="向量是R语言最基础的数据类型。 我们把6这个数放入盒子（对象） x， x &lt;- 6 现在，我们想多装一些数据（有顺序、好取出），比如3,4,5,6,7。为了方便管理，那我们就希望这些数有一定的顺序，并且按照一定的结构组织在一起，我能想到的最好的结构就是—我们小时候吃的冰糖葫芦，中间用一根木棒把水果串起来，有先后顺序，而且当做一个整体方便取出。 对应到R语言里，我们可以用 c()...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 4 章 向量 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="向量是R语言最基础的数据类型。 我们把6这个数放入盒子（对象） x， x &lt;- 6 现在，我们想多装一些数据（有顺序、好取出），比如3,4,5,6,7。为了方便管理，那我们就希望这些数有一定的顺序，并且按照一定的结构组织在一起，我能想到的最好的结构就是—我们小时候吃的冰糖葫芦，中间用一根木棒把水果串起来，有先后顺序，而且当做一个整体方便取出。 对应到R语言里，我们可以用 c()...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 4 章 向量 | R编程与作图">
+<meta name="twitter:description" content="向量是R语言最基础的数据类型。 我们把6这个数放入盒子（对象） x， x &lt;- 6 现在，我们想多装一些数据（有顺序、好取出），比如3,4,5,6,7。为了方便管理，那我们就希望这些数有一定的顺序，并且按照一定的结构组织在一起，我能想到的最好的结构就是—我们小时候吃的冰糖葫芦，中间用一根木棒把水果串起来，有先后顺序，而且当做一个整体方便取出。 对应到R语言里，我们可以用 c()...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="active" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="baseR-vectors" class="section level1" number="4">
+<h1>
+<span class="header-section-number">第 4 章</span> 向量<a class="anchor" aria-label="anchor" href="#baseR-vectors"><i class="fas fa-link"></i></a>
+</h1>
+<p>向量是R语言最基础的数据类型。</p>
+<p>我们把6这个数放入盒子（对象） <code>x</code>，</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">6</span></span></code></pre></div>
+<p>现在，我们想多装一些数据（有顺序、好取出），比如<code>3,4,5,6,7</code>。为了方便管理，那我们就希望这些数有一定的顺序，并且按照一定的结构组织在一起，我能想到的最好的结构就是—我们小时候吃的冰糖葫芦，中间用一根木棒把水果串起来，有先后顺序，而且当做一个整体方便取出。</p>
+<div class="inline-figure"><img src="images/vector_like11.jpg" width="30%"></div>
+<p>对应到R语言里，我们可以用 <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> 函数实现类似<strong>结构</strong>，一个水果对应一个数值</p>
+<div class="inline-figure"><img src="images/vector_like.jpg" width="100%"></div>
+<p>对应到R语言里，我们可以用 <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> 函数实现类似<strong>结构</strong></p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>## [1] 3 4 5 6 7</code></pre>
+<p>我们观察到<code><a href="https://rdrr.io/r/base/c.html">c()</a></code>函数构造向量的几个要求</p>
+<ul>
+<li>这里的<code>c</code>就是 combine 或 concatenate 的意思</li>
+<li>它要求元素之间用<strong>英文的逗号</strong>分隔</li>
+<li>且元素的数据类型是统一的，比如这里都是数值</li>
+</ul>
+<p>这样，<code><a href="https://rdrr.io/r/base/c.html">c()</a></code> 函数把一组数据聚合到了一起，就构成了一个<strong>向量</strong>。</p>
+<div id="聚合成新向量" class="section level3" number="4.0.1">
+<h3>
+<span class="header-section-number">4.0.1</span> 聚合成新向量<a class="anchor" aria-label="anchor" href="#%E8%81%9A%E5%90%88%E6%88%90%E6%96%B0%E5%90%91%E9%87%8F"><i class="fas fa-link"></i></a>
+</h3>
+<p><code><a href="https://rdrr.io/r/base/c.html">c()</a></code> 函数还可以把两个向量聚合成一个新的向量。</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">low</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">high</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">low</span>, <span class="va">high</span><span class="op">)</span></span>
+<span><span class="va">sequence</span></span></code></pre></div>
+<pre><code>## [1] 1 2 3 4 5 6</code></pre>
+</div>
+<div id="命名向量named-vector" class="section level3" number="4.0.2">
+<h3>
+<span class="header-section-number">4.0.2</span> 命名向量(named vector)<a class="anchor" aria-label="anchor" href="#%E5%91%BD%E5%90%8D%E5%90%91%E9%87%8Fnamed-vector"><i class="fas fa-link"></i></a>
+</h3>
+<p>相比与向量<code>c(5, 6, 7, 8)</code>， 每个元素可以有自己的名字</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'a'</span> <span class="op">=</span> <span class="fl">5</span>, <span class="st">'b'</span> <span class="op">=</span> <span class="fl">6</span>, <span class="st">'c'</span> <span class="op">=</span> <span class="fl">7</span>, <span class="st">'d'</span> <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>## a b c d 
+## 5 6 7 8</code></pre>
+<p>或者</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'c'</span>, <span class="st">'d'</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code>## a b c d 
+## 5 6 7 8</code></pre>
+</div>
+<div id="数值型向量" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> 数值型向量<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E5%80%BC%E5%9E%8B%E5%90%91%E9%87%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>向量的元素都是数值类型，因此也叫数值型向量。数值型的向量，有 integer 和 double 两种：</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">2L</span>, <span class="fl">3L</span><span class="op">)</span>    <span class="co"># 整数型</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>   <span class="co"># 双精度类型，常用写法</span></span></code></pre></div>
+<p>如果向量元素很多，用手工一个个去输入，那就成了体力活，不现实。<strong>在特定情况下</strong>，有几种偷懒方法:</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> 函数可以生成等差数列，<code>from</code> 参数指定数列的起始值，<code>to</code> 参数指定数列的终止值，<code>by</code> 参数指定数值的间距：</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">10</span>, by <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="va">s1</span></span></code></pre></div>
+<pre><code>##  [1]  0.0  0.5  1.0  1.5  2.0  2.5  3.0  3.5  4.0  4.5  5.0  5.5  6.0  6.5  7.0
+## [16]  7.5  8.0  8.5  9.0  9.5 10.0</code></pre>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/rep.html">rep()</a></code> 是 repeat（重复）的意思，可以用于产生重复出现的数字序列：<code>x</code> 用于重复的向量，<code>times</code> 参数可以指定要生成的个数，<code>each</code> 参数可以指定每个元素重复的次数</li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">s2</span></span></code></pre></div>
+<pre><code>## [1] 0 1 0 1 0 1</code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">s3</span></span></code></pre></div>
+<pre><code>## [1] 0 0 0 1 1 1</code></pre>
+<ul>
+<li>
+<code>m:n</code>，如果单纯是要生成数值间距为1的数列，用 <code>m:n</code> 更快捷，它产生从 m 到 n 的间距为1的数列</li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s4</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span>  <span class="co"># Colon operator (with by = 1):</span></span>
+<span><span class="va">s4</span></span></code></pre></div>
+<pre><code>##  [1]  0  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s5</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">:</span><span class="fl">1</span></span>
+<span><span class="va">s5</span></span></code></pre></div>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+</div>
+<div id="字符串型向量" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> 字符串型向量<a class="anchor" aria-label="anchor" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%9E%8B%E5%90%91%E9%87%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>字符串（String）数据类型，实际上就是文本类型，必须用单引号或者是双引号包含，例如：</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>    </span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'Dave'</span><span class="op">)</span>    </span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"hello"</span>, <span class="st">"baby"</span>, <span class="st">"I love you!"</span><span class="op">)</span> </span></code></pre></div>
+<p>需要注意的是，<code>x1</code>是字符串型向量，<code>x2</code>是数值型向量</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span><span class="op">)</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="逻辑型向量" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> 逻辑型向量<a class="anchor" aria-label="anchor" href="#%E9%80%BB%E8%BE%91%E5%9E%8B%E5%90%91%E9%87%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>逻辑型常称为布尔型（Boolean）， 它的常量值只有 <code>TRUE</code> 和 <code>FALSE</code>。注意 <code>TRUE</code> 和 <code>FALSE</code> 是在R语言中的保留词汇，所谓保留词汇，就是专用词，类似圆周率<span class="math inline">\(\pi\)</span>(<code>pi</code>)，特指某个含义，请勿将保留词汇用作变量名。</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">T</span>, <span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">F</span><span class="op">)</span>            <span class="co"># Equivalent, but not recommended</span></span></code></pre></div>
+<p><code>TRUE</code>和<code>FALSE</code>必须都大写，不能写成下面这些形式</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">True</span>, <span class="va">False</span><span class="op">)</span>          </span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">true</span>, <span class="va">false</span><span class="op">)</span>          </span></code></pre></div>
+<p>注意以下两者不要混淆，<code>x1</code>是逻辑型向量，<code>x2</code>是字符串型向量</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>             <span class="co"># logical</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRUE"</span>, <span class="st">"FALSE"</span><span class="op">)</span>         <span class="co"># character</span></span></code></pre></div>
+<p>因为<code>TRUE</code>和<code>FALSE</code>是专用词，不加引号，如果加了引号，就是字符串型向量。</p>
+</div>
+<div id="因子型向量" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> 因子型向量<a class="anchor" aria-label="anchor" href="#%E5%9B%A0%E5%AD%90%E5%9E%8B%E5%90%91%E9%87%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>因子型可以看作是字符串向量的增强版，它是带有层级（Levels）的字符串向量。比如这里四个季节的名称，他们构成一个向量</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">four_seasons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"spring"</span>, <span class="st">"summer"</span>, <span class="st">"autumn"</span>, <span class="st">"winter"</span><span class="op">)</span></span>
+<span><span class="va">four_seasons</span></span></code></pre></div>
+<pre><code>## [1] "spring" "summer" "autumn" "winter"</code></pre>
+<p>我们使用 <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code> 函数可以将这里的字符串向量转换成因子型向量</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">four_seasons_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">four_seasons</span><span class="op">)</span></span>
+<span><span class="va">four_seasons_factor</span></span></code></pre></div>
+<pre><code>## [1] spring summer autumn winter
+## Levels: autumn spring summer winter</code></pre>
+<p>查看因子型向量的时候，也会输出了层级信息，默认的情况，它是按照字符串首字母的顺序排序，当然也可以指定顺序，这个时候，我们就需要指定层级信息，比如指定我对四个季节喜欢的顺序为c(“summer”, “winter”, “spring”, “autumn”)</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">four_seasons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"spring"</span>, <span class="st">"summer"</span>, <span class="st">"autumn"</span>, <span class="st">"winter"</span><span class="op">)</span></span>
+<span><span class="va">four_seasons_factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">four_seasons</span>, </span>
+<span>                              levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"summer"</span>, <span class="st">"winter"</span>, <span class="st">"spring"</span>, <span class="st">"autumn"</span><span class="op">)</span></span>
+<span>                              <span class="op">)</span></span>
+<span><span class="va">four_seasons_factor</span></span></code></pre></div>
+<pre><code>## [1] spring summer autumn winter
+## Levels: summer winter spring autumn</code></pre>
+</div>
+<div id="小结" class="section level2" number="4.5">
+<h2>
+<span class="header-section-number">4.5</span> 小结<a class="anchor" aria-label="anchor" href="#%E5%B0%8F%E7%BB%93"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/create_vectors.png" width="100%"></div>
+</div>
+<div id="习题" class="section level2" number="4.6">
+<h2>
+<span class="header-section-number">4.6</span> 习题<a class="anchor" aria-label="anchor" href="#%E4%B9%A0%E9%A2%98"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>请说出fun3的结果</li>
+</ul>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"programming"</span>, <span class="st">"in"</span>, <span class="st">"R"</span><span class="op">)</span> </span>
+<span><span class="va">fun2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Have"</span>, <span class="st">"fun"</span><span class="op">)</span></span>
+<span><span class="va">fun3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">fun2</span>, <span class="va">fun</span><span class="op">)</span></span>
+<span><span class="va">fun3</span></span></code></pre></div>
+<ul>
+<li>数据类型必须一致是构建向量的基本要求，如果数值型、字符串型和逻辑型写在一起，用<code><a href="https://rdrr.io/r/base/c.html">c()</a></code>函数构成向量，猜猜会发生什么？</li>
+</ul>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"USA"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<ul>
+<li>形容温度的文字</li>
+</ul>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temperatures</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"warm"</span>, <span class="st">"hot"</span>, <span class="st">"cold"</span><span class="op">)</span></span></code></pre></div>
+<p>要求转换成因子类型向量，并按照温度从高到低排序</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></div>
+<div class="next"><a href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li>
+<a class="nav-link" href="#baseR-vectors"><span class="header-section-number">4</span> 向量</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E8%81%9A%E5%90%88%E6%88%90%E6%96%B0%E5%90%91%E9%87%8F"><span class="header-section-number">4.0.1</span> 聚合成新向量</a></li>
+<li><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E5%90%91%E9%87%8Fnamed-vector"><span class="header-section-number">4.0.2</span> 命名向量(named vector)</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E5%9E%8B%E5%90%91%E9%87%8F"><span class="header-section-number">4.1</span> 数值型向量</a></li>
+<li><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%9E%8B%E5%90%91%E9%87%8F"><span class="header-section-number">4.2</span> 字符串型向量</a></li>
+<li><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%9E%8B%E5%90%91%E9%87%8F"><span class="header-section-number">4.3</span> 逻辑型向量</a></li>
+<li><a class="nav-link" href="#%E5%9B%A0%E5%AD%90%E5%9E%8B%E5%90%91%E9%87%8F"><span class="header-section-number">4.4</span> 因子型向量</a></li>
+<li><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="header-section-number">4.5</span> 小结</a></li>
+<li><a class="nav-link" href="#%E4%B9%A0%E9%A2%98"><span class="header-section-number">4.6</span> 习题</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

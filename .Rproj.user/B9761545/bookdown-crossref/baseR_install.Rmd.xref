@@ -1,0 +1,16 @@
+h1:baseR-install 安装与环境配置
+h2:安装-r-和-rstudio 安装 R 和 Rstudio
+h3:第一步安装-r 第一步安装 R
+h3:第二步安装-r-编译工具 第二步安装 R 编译工具
+h4:windows Windows
+h4:macos-compile-r-for-macos-httpsmac.r-project.orgtools macOS (compile R for macOS )
+h3:第三步安装-rstudio 第三步安装 RStudio
+h3:配置.rmakevars以及.zshrc-可选单细胞数据分析时可能需要至少在macos系统是需要的 配置以及 (可选；单细胞数据分析时可能需要，至少在MacOS系统是需要的)
+h4:配置.rmakevars使得r可以调用clang和openmp请根据自己的系统来配置 配置使得R可以调用clang和openmp（请根据自己的系统来配置）
+h4:配置.zshrc使得r可以调用python-module 配置.zshrc使得R可以调用python module
+h3:必要的配置可选 必要的配置(可选)
+h3:包的安装与加载 包的安装与加载
+h2:开始 开始
+h2:脚本 脚本
+h2:注释 注释
+

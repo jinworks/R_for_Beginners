@@ -1,0 +1,15 @@
+h1:tidyverse-ggplot2-colors ggplot2之数据可视化中的配色
+h2:可视化颜色 可视化颜色
+h2:修改ggplot2中的颜色 修改ggplot2中的颜色
+h3:use-gray-colors Use gray colors
+h3:continuous-colors Continuous colors
+h2:colorbrewer配色包 ColorBrewer配色包
+h3:use-rcolorbrewer-palettes Use RColorBrewer palettes
+h2:配色建议 配色建议
+h2:color-wheel color-wheel
+h2:colorspace配色包 colorspace配色包
+h3:配色模板 配色模板
+h3:在ggplot2中使用 在ggplot2中使用
+h3:使用案例1 使用案例1
+h3:使用案例2 使用案例2
+

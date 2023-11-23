@@ -1,0 +1,28 @@
+h1:tidyverse-tibble 简单数据框
+h2:tidyverse-家族 tidyverse 家族
+h2:人性化的tibble 人性化的tibble
+h2:tibble-与-data.frame tibble 与 data.frame
+h2:tibble数据操作 tibble数据操作
+h3:创建tibble 创建tibble
+h3:转换成tibble类型 转换成tibble类型
+h4:data.frame转换成tibble data.frame转换成tibble
+h4:vector转型到tibble vector转型到tibble
+h4:把list转型为tibble 把list转型为tibble
+h4:把matrix转型为tibble 把matrix转型为tibble
+h3:tibble简单操作 tibble简单操作
+h3:有用的函数lst 有用的函数
+h3:有用的函数enframe 有用的函数
+h3:有用的函数deframe 有用的函数
+h3:读取文件 读取文件
+h2:关于行名 关于行名
+h2:修复列名 修复列名
+h2:list-columns-列表列  (列表列)
+h2:nested-tibble nested tibble
+h3:creating creating
+h4:tidyrnest tidyr::nest()
+h4:tidyrsummarise tidyr::summarise()
+h4:dplyrmutate dplyr::mutate()
+h3:unnesting Unnesting
+h3:manipulating Manipulating
+h2:延伸阅读 延伸阅读
+

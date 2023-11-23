@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 11 章 数据处理 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="我们用一个应用场景，复习上两章讲的数据类型和数据结构等概念。比如，这里有一个表格 如果构建学生们的成绩，需要用到是向量，一列就可以了。 如果构建学生的各科成绩，需要用到是矩阵，因为此时需要多列，不同的列对应不同的科目。 如果构建学生综合信息（性别，年龄，各科成绩，是否喜欢R），需要用到的是列表，因为除了各科成绩列，还需要其它数据类型的列。...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 11 章 数据处理 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="我们用一个应用场景，复习上两章讲的数据类型和数据结构等概念。比如，这里有一个表格 如果构建学生们的成绩，需要用到是向量，一列就可以了。 如果构建学生的各科成绩，需要用到是矩阵，因为此时需要多列，不同的列对应不同的科目。 如果构建学生综合信息（性别，年龄，各科成绩，是否喜欢R），需要用到的是列表，因为除了各科成绩列，还需要其它数据类型的列。...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 11 章 数据处理 | R编程与作图">
+<meta name="twitter:description" content="我们用一个应用场景，复习上两章讲的数据类型和数据结构等概念。比如，这里有一个表格 如果构建学生们的成绩，需要用到是向量，一列就可以了。 如果构建学生的各科成绩，需要用到是矩阵，因为此时需要多列，不同的列对应不同的科目。 如果构建学生综合信息（性别，年龄，各科成绩，是否喜欢R），需要用到的是列表，因为除了各科成绩列，还需要其它数据类型的列。...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="active" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-dplyr" class="section level1" number="11">
+<h1>
+<span class="header-section-number">第 11 章</span> 数据处理<a class="anchor" aria-label="anchor" href="#tidyverse-dplyr"><i class="fas fa-link"></i></a>
+</h1>
+<p>我们用一个应用场景，复习上两章讲的数据类型和数据结构等概念。比如，这里有一个表格</p>
+<ul>
+<li>如果构建学生们的成绩，需要用到是<strong>向量</strong>，一列就可以了。</li>
+<li>如果构建学生的各科成绩，需要用到是<strong>矩阵</strong>，因为此时需要多列，不同的列对应不同的科目。</li>
+<li>如果构建学生综合信息（性别，年龄，各科成绩，是否喜欢R），需要用到的是<strong>列表</strong>，因为除了各科成绩列，还需要其它数据类型的列。</li>
+<li>当然，构建学生综合信息的表格，最好还是用<strong>数据框</strong>，因为这些信息是等长的，而且符合人的理解习惯, 所以，我们会经常和数据框打交道。</li>
+</ul>
+<p>数据框的特性很丰富，在于：</p>
+<ul>
+<li>第一，它是列表的特殊形式，可以存储不同类型的数据。</li>
+<li>第二，它要求每个元素长度必须一致，因此长的像矩阵。</li>
+<li>第三，它的每个元素就是一个是向量，而R语言有个优良特性，就是向量化操作，因此，使用函数非常方便。</li>
+</ul>
+<p>本章我们介绍tidyverse里被誉为“瑞士军刀”的数据处理的工具dplyr宏包。首先，我们加载该宏包</p>
+<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<p>dplyr 定义了数据处理的规范语法，其中主要包含以下10个主要的函数。</p>
+<ul>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code> , <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>
+</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code>
+</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join()</a></code>， <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join()</a></code>
+</li>
+</ul>
+<p>我们用一个案例依次讲解这些函数的功能。假定这里有三位同学的英语和数学成绩</p>
+<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"demo_data"</span>, <span class="st">"score.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   name  type    score
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1 Alice english    80
+## 2 Alice math       60
+## 3 Bob   english    70
+## 4 Bob   math       69
+## 5 Carol english    80
+## 6 Carol math       90</code></pre>
+<div id="新增一列-mutate" class="section level2" number="11.1">
+<h2>
+<span class="header-section-number">11.1</span> 新增一列 <code>mutate()</code><a class="anchor" aria-label="anchor" href="#%E6%96%B0%E5%A2%9E%E4%B8%80%E5%88%97-mutate"><i class="fas fa-link"></i></a>
+</h2>
+<p>同学们表现不错，分别得到额外的奖励分 <code>c(2, 5, 9, 8, 5, 6)</code></p>
+<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reward</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">9</span>, <span class="fl">8</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<p>那么，如何把奖励分加到表中呢？用<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>函数可以这样写
+第一次觉得这个单词很陌生，可以理解为modify</p>
+<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>.data <span class="op">=</span> <span class="va">df</span>, extra <span class="op">=</span> <span class="va">reward</span><span class="op">)</span> </span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80     2
+## 2 Alice math       60     5
+## 3 Bob   english    70     9
+## 4 Bob   math       69     8
+## 5 Carol english    80     5
+## 6 Carol math       90     6</code></pre>
+<p><code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>函数的功能是给数据框新增一列，使用语法为 <code>mutate(.data = df, name = value)</code>：</p>
+<ul>
+<li>第一个参数<code>.data</code>，接受要处理的数据框，比如这里的<code>df</code>。</li>
+<li>第二个参数是<code>Name-value</code>对, 比如<code>extra = reward</code>，
+<ul>
+<li>等号左边，是我们为新增的一列取的名字，比如这里的<code>extra</code>，因为数据框每一列都是要有名字的；</li>
+<li>等号右边，是打算并入数据框的向量，比如这里的<code>reward</code>，它是装着学生成绩的<strong>向量</strong>。注意，向量的长度，
+<ul>
+<li>要么与数据框的行数等长，比如这里向量长度为6；</li>
+<li>要么长度为1，即，新增的这一列所有的值都是一样的(循环补齐机制)。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- 如果向量的长度与数据框的行数相等，那么刚好与数据框的行对齐，相当于给每行增加了一个新值。 --><div class="inline-figure"><img src="images/dplyr-mutate.png" width="60%"></div>
+<p>因为<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>函数处理的是数据框，并且固定放置在第一位置上（<strong>几乎所有dplyr的函数都是这样要求的</strong>），所以这个<code>.data</code>可以偷懒不写，直接写<code>mutate(df, extra = reward)</code>。另外，如果想同时新增多个列，只需要提供多个<code>Name-value</code>对即可，比如</p>
+<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">df</span>, </span>
+<span>       extra1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">9</span>, <span class="fl">8</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>       extra2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>       extra3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span></span>
+<span>       <span class="op">)</span> </span></code></pre></div>
+</div>
+<div id="管道" class="section level2" number="11.2">
+<h2>
+<span class="header-section-number">11.2</span> 管道 <code>%&gt;%</code><a class="anchor" aria-label="anchor" href="#%E7%AE%A1%E9%81%93"><i class="fas fa-link"></i></a>
+</h2>
+<p>实际运用中，我们经常要使用函数，比如计算向量<code>c(1:10)</code>所有元素值的和</p>
+<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 55</code></pre>
+<p>现在有个与上面的等价的写法，就是使用管道操作符<a href="https://magrittr.tidyverse.org/"><code>%&gt;%</code></a>。</p>
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 55</code></pre>
+<p>这条语句的意思是<code>f(x)</code> 写成 <code>x %&gt;% f()</code>，这里向量 <code>c(1:10)</code> 通过管道操作符 <code>%&gt;%</code> ，传递到函数<code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>的第一个参数位置，即<code>sum(c(1:10))</code>， 这个 <code>%&gt;%</code> 管道操作符还是很形象的。在Windows系统中可以通过<code>Ctrl + Shift + M</code> 快捷键产生 <code>%&gt;%</code>，苹果系统对应的快捷键是<code>Cmd + Shift + M</code>。</p>
+<div class="inline-figure"><img src="images/keyboard/keyboard_pipe.png" width="100%"></div>
+<div class="inline-figure">通过下图图示可以看到管道操作符就像生产线上的传送带一样，将数据运入函数中。
+<img src="images/pipe1.png" width="45%">
+</div>
+<p>当执行多个函数操作的时候，管道操作符 <code>%&gt;%</code> 就显得格外方便，代码可读性也更强。比如</p>
+<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 10.48809</code></pre>
+<p>使用管道操作符</p>
+<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 10.48809</code></pre>
+<p>那么，之前增加学生奖励分成绩的语句 <code>mutate(df, extra = reward)</code>，也可以使用管道</p>
+<div class="inline-figure"><img src="images/pipe2.png" width="65%"></div>
+<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># using `%&gt;%`</span></span>
+<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>extra <span class="op">=</span> <span class="va">reward</span><span class="op">)</span> </span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score extra
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80     2
+## 2 Alice math       60     5
+## 3 Bob   english    70     9
+## 4 Bob   math       69     8
+## 5 Carol english    80     5
+## 6 Carol math       90     6</code></pre>
+<p>是不是很赞<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;从R4.1开始，支持 &lt;code&gt;|&amp;gt;&lt;/code&gt; 作为管道符号，但大家似乎已经习惯与 &lt;code&gt;%&amp;gt;%&lt;/code&gt;&lt;/p&gt;"><sup>4</sup></a>。</p>
+<div class="inline-figure"><img src="images/mutate-function.png" width="50%"></div>
+</div>
+<div id="向量函数与mutate" class="section level2" number="11.3">
+<h2>
+<span class="header-section-number">11.3</span> 向量函数与mutate()<a class="anchor" aria-label="anchor" href="#%E5%90%91%E9%87%8F%E5%87%BD%E6%95%B0%E4%B8%8Emutate"><i class="fas fa-link"></i></a>
+</h2>
+<p><code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>函数的本质还是第 <a href="baseR-operators.html#baseR-operators">6</a> 章介绍向量函数和向量化操作，只不过是换作在数据框中完成，这样更能形成“据框进、数据框出”的思维，方便快捷地构思并统计任务<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://dcl-prog.stanford.edu/data-structure-basics.html" class="uri"&gt;https://dcl-prog.stanford.edu/data-structure-basics.html&lt;/a&gt; &lt;/p&gt;'><sup>5</sup></a>。</p>
+<p>比如，我们想计算每位同学分数的平方，然后构建数据框新的一列，我们可以用第 <a href="baseR-functions.html#baseR-functions">7</a> 章函数的方法，自定义<code>calc_square()</code>函数</p>
+<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">calc_square</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>new_col <span class="op">=</span> <span class="fu">calc_square</span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    score new_col
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Alice english    80    6400
+## 2 Alice math       60    3600
+## 3 Bob   english    70    4900
+## 4 Bob   math       69    4761
+## 5 Carol english    80    6400
+## 6 Carol math       90    8100</code></pre>
+<p>在<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>中引用数据框的某一<strong>列名</strong>，实际上是引用了列名对应的<strong>整个向量</strong>, 所以，这里我们传递<code>score</code>到<code>calc_square()</code>，就是把整个<code>score</code>向量传递给<code>calc_square()</code>.</p>
+<div class="inline-figure"><img src="images/mutate-calc-square1.png" width="70%"></div>
+<p>几何算符（这里是平方）是向量化的，因此<code>calc_square()</code>会对输入的<code>score</code>向量，返回一个等长的向量。</p>
+<div class="inline-figure"><img src="images/mutate-calc-square2.png" width="90%"></div>
+<p><code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> 拿到这个新的向量后，就在原有数据框中添加新的一列<code>new_col</code></p>
+<div class="inline-figure"><img src="images/mutate-calc-square3.png" width="50%"></div>
+</div>
+<div id="保存为新的数据框" class="section level2" number="11.4">
+<h2>
+<span class="header-section-number">11.4</span> 保存为新的数据框<a class="anchor" aria-label="anchor" href="#%E4%BF%9D%E5%AD%98%E4%B8%BA%E6%96%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E6%A1%86"><i class="fas fa-link"></i></a>
+</h2>
+<p>现在有个问题，此时 <code>df</code> 有没发生变化？是否包含额外的奖励分呢？
+事实上，此时<code>df</code>并没有发生改变，还是原来的状态。如果需要保存计算结果，就需要把计算的结果重新赋值给新的对象，当然，也可以赋值给<code>df</code>本身，这样<code>df</code>存储的数据就<strong>更新</strong>为计算后的结果。</p>
+<p>好，现在我们把添加奖励分、计算总成绩和保存结果这三个步骤一气呵成的完成</p>
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>extra <span class="op">=</span> <span class="va">reward</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="va">score</span> <span class="op">+</span> <span class="va">extra</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80     2    82
+## 2 Alice math       60     5    65
+## 3 Bob   english    70     9    79
+## 4 Bob   math       69     8    77
+## 5 Carol english    80     5    85
+## 6 Carol math       90     6    96</code></pre>
+<div class="inline-figure"><img src="images/Pipe_baking_magrittr_backAssign.gif" width="65%"></div>
+</div>
+<div id="选取列-select" class="section level2" number="11.5">
+<h2>
+<span class="header-section-number">11.5</span> 选取列 <code>select()</code><a class="anchor" aria-label="anchor" href="#%E9%80%89%E5%8F%96%E5%88%97-select"><i class="fas fa-link"></i></a>
+</h2>
+<p><code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>顾名思义选择，就是选择数据框的某一列，或者某几列。</p>
+<div class="inline-figure"><img src="images/dplyr-select.png" width="80%"></div>
+<p>我们以上面学生成绩的数据框为例，这里选择<code>name</code>列 </p>
+<div class="sourceCode" id="cb303"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 1
+##   name 
+##   &lt;chr&gt;
+## 1 Alice
+## 2 Alice
+## 3 Bob  
+## 4 Bob  
+## 5 Carol
+## 6 Carol</code></pre>
+<p>注意，结果是只有一列的数据框（仍然数据框喔，<strong>数据框进数据框出是dplyr函数的第二个特点</strong>）。如果要选取多列，就再多写几个列名就行了</p>
+<div class="sourceCode" id="cb305"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">extra</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##   name  extra
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Alice     2
+## 2 Alice     5
+## 3 Bob       9
+## 4 Bob       8
+## 5 Carol     5
+## 6 Carol     6</code></pre>
+<div class="sourceCode" id="cb307"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">score</span>, <span class="va">extra</span>, <span class="va">total</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  score extra total
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice    80     2    82
+## 2 Alice    60     5    65
+## 3 Bob      70     9    79
+## 4 Bob      69     8    77
+## 5 Carol    80     5    85
+## 6 Carol    90     6    96</code></pre>
+<p>如果不想要某列，可以在变量前面加 <code>-</code> 或者 <code>!</code>，两者的结果是一样的。</p>
+<div class="sourceCode" id="cb309"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  score extra total
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice    80     2    82
+## 2 Alice    60     5    65
+## 3 Bob      70     9    79
+## 4 Bob      69     8    77
+## 5 Carol    80     5    85
+## 6 Carol    90     6    96</code></pre>
+<div class="sourceCode" id="cb311"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="va">type</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  score extra total
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice    80     2    82
+## 2 Alice    60     5    65
+## 3 Bob      70     9    79
+## 4 Bob      69     8    77
+## 5 Carol    80     5    85
+## 6 Carol    90     6    96</code></pre>
+<p>也可以通过位置索引进行选取，比如选取头三列</p>
+<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   name  type    score
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1 Alice english    80
+## 2 Alice math       60
+## 3 Bob   english    70
+## 4 Bob   math       69
+## 5 Carol english    80
+## 6 Carol math       90</code></pre>
+<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##   type    score
+##   &lt;chr&gt;   &lt;dbl&gt;
+## 1 english    80
+## 2 math       60
+## 3 english    70
+## 4 math       69
+## 5 english    80
+## 6 math       90</code></pre>
+<p>如果要选取数据框的列很多，我们也可以先观察列名的特征，用特定的函数进行选取，比如选取以”s”开头的列</p>
+<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"s"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 1
+##   score
+##   &lt;dbl&gt;
+## 1    80
+## 2    60
+## 3    70
+## 4    69
+## 5    80
+## 6    90</code></pre>
+<p>选取以”e”结尾的列</p>
+<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with</a></span><span class="op">(</span><span class="st">"e"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   name  type    score
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1 Alice english    80
+## 2 Alice math       60
+## 3 Bob   english    70
+## 4 Bob   math       69
+## 5 Carol english    80
+## 6 Carol math       90</code></pre>
+<p>选取含有以”score”的列</p>
+<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"score"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 1
+##   score
+##   &lt;dbl&gt;
+## 1    80
+## 2    60
+## 3    70
+## 4    69
+## 5    80
+## 6    90</code></pre>
+<p>当然，也可以通过变量的类型来选取，比如选取所有字符串类型的列</p>
+<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html">where</a></span><span class="op">(</span><span class="va">is.character</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##   name  type   
+##   &lt;chr&gt; &lt;chr&gt;  
+## 1 Alice english
+## 2 Alice math   
+## 3 Bob   english
+## 4 Bob   math   
+## 5 Carol english
+## 6 Carol math</code></pre>
+<p>选取所有数值类型的列</p>
+<div class="sourceCode" id="cb325"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   score extra total
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1    80     2    82
+## 2    60     5    65
+## 3    70     9    79
+## 4    69     8    77
+## 5    80     5    85
+## 6    90     6    96</code></pre>
+<p>选取所有数值类型的并且以”s”开头的列</p>
+<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"t"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 1
+##   total
+##   &lt;dbl&gt;
+## 1    82
+## 2    65
+## 3    79
+## 4    77
+## 5    85
+## 6    96</code></pre>
+<p>选取以”s”开头或者以”e”结尾的列</p>
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"s"</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with</a></span><span class="op">(</span><span class="st">"e"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   score name  type   
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+## 1    80 Alice english
+## 2    60 Alice math   
+## 3    70 Bob   english
+## 4    69 Bob   math   
+## 5    80 Carol english
+## 6    90 Carol math</code></pre>
+<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"s"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   name  type    extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english     2    82
+## 2 Alice math        5    65
+## 3 Bob   english     9    79
+## 4 Bob   math        8    77
+## 5 Carol english     5    85
+## 6 Carol math        6    96</code></pre>
+</div>
+<div id="修改列名-rename" class="section level2" number="11.6">
+<h2>
+<span class="header-section-number">11.6</span> 修改列名 <code>rename()</code><a class="anchor" aria-label="anchor" href="#%E4%BF%AE%E6%94%B9%E5%88%97%E5%90%8D-rename"><i class="fas fa-link"></i></a>
+</h2>
+<p>用<code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code>修改列的名字, 具体方法是<code>rename(.data, new_name = old_name)</code>，和<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>一样，等号左边是新的变量名，右边是已经存在的变量名（这是dplyr函数的第三个特征<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;有一个例外是recode函数&lt;/p&gt;"><sup>6</sup></a>）。比如，我们这里将<code>total</code>修改为<code>total_score</code>
+</p>
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">type</span>, <span class="va">total</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>total_score <span class="op">=</span> <span class="va">total</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   name  type    total_score
+##   &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;
+## 1 Alice english          82
+## 2 Alice math             65
+## 3 Bob   english          79
+## 4 Bob   math             77
+## 5 Carol english          85
+## 6 Carol math             96</code></pre>
+</div>
+<div id="筛选-filter" class="section level2" number="11.7">
+<h2>
+<span class="header-section-number">11.7</span> 筛选 <code>filter()</code><a class="anchor" aria-label="anchor" href="#%E7%AD%9B%E9%80%89-filter"><i class="fas fa-link"></i></a>
+</h2>
+<p>前面<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>是列方向的选择，而用<code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>函数，我们可以对数据框<strong>行方向</strong>进行筛选，选出符合特定条件的某些行。</p>
+<div class="inline-figure"><img src="images/dplyr-filter.png" width="65%"></div>
+<p>注意，这里filter()函数不是字面上“过滤掉”的意思，而是保留符合条件的行，也就说keep，不是drop的意思。 第一次会有一点点迷惑，我相信习惯就好了。</p>
+<p>比如这里把<strong>成绩等于90分的</strong>同学筛选出来 。</p>
+<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span>score <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Error in `filter()`:
+## ! We detected a named input.
+## ℹ This usually means that you've used `=` instead of `==`.
+## ℹ Did you mean `score == 90`?</code></pre>
+<p>注意，这里判断是否相等要使用 <code>==</code> 而不是 <code>=</code></p>
+<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">==</span> <span class="fl">90</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 5
+##   name  type  score extra total
+##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Carol math     90     6    96</code></pre>
+<p>R提供了其他比较关系的算符: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code> (equal), <code>!=</code> (not equal), <code>%in%</code>, <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> 和 <code>!is.na()</code> .</p>
+<p>比如把<strong>成绩大于等于80分的</strong>同学筛选出来</p>
+<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">&gt;=</span> <span class="fl">80</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80     2    82
+## 2 Carol english    80     5    85
+## 3 Carol math       90     6    96</code></pre>
+<p>也可以限定多个条件进行筛选, 比如，限定英语学科，同时要求成绩高于75分的所有条目筛选出来</p>
+<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"english"</span>, <span class="va">score</span> <span class="op">&gt;=</span> <span class="fl">75</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80     2    82
+## 2 Carol english    80     5    85</code></pre>
+<p>也就说，逗号分隔的两个条件都要满足。</p>
+<div id="常见的错误" class="section level3" number="11.7.1">
+<h3>
+<span class="header-section-number">11.7.1</span> 常见的错误<a class="anchor" aria-label="anchor" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%99%E8%AF%AF"><i class="fas fa-link"></i></a>
+</h3>
+<p><code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>函数两个常见的错误:</p>
+<ul>
+<li>把 “=” 误认为 “==”</li>
+</ul>
+<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"english"</span><span class="op">)</span>   <span class="co"># error</span></span>
+<span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"english"</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>忘记引号</li>
+</ul>
+<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="va">english</span><span class="op">)</span>   <span class="co"># error</span></span>
+<span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"english"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="逻辑算符" class="section level3" number="11.7.2">
+<h3>
+<span class="header-section-number">11.7.2</span> 逻辑算符<a class="anchor" aria-label="anchor" href="#%E9%80%BB%E8%BE%91%E7%AE%97%E7%AC%A6"><i class="fas fa-link"></i></a>
+</h3>
+<p>多个参数的情形，本质上是逻辑与的关系，每个条件都返回TRUE</p>
+<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"english"</span> <span class="op">&amp;</span> <span class="va">score</span> <span class="op">&gt;=</span> <span class="fl">75</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80     2    82
+## 2 Carol english    80     5    85</code></pre>
+<p>当然也可以使用其他的布尔算符 (&amp; is “and,” | is “or,” and ! is “not.”).</p>
+<p>比如，以下代码找出成绩等于70<strong>或者</strong>等于90的行</p>
+<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">==</span> <span class="fl">70</span> <span class="op">|</span> <span class="va">score</span> <span class="op">==</span> <span class="fl">90</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Bob   english    70     9    79
+## 2 Carol math       90     6    96</code></pre>
+<p>在filter()中有一个非常有效的等价方法，即使用 <code>x %in% y</code>，意思是<strong>如果当前x的值是向量y的一员，那么就选出当前行</strong>，因此，我们可以重写上面代码:</p>
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Bob   english    70     9    79
+## 2 Carol math       90     6    96</code></pre>
+<p>当然还可以配合一些函数使用，比如把最高分的同学找出来</p>
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 5
+##   name  type  score extra total
+##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Carol math     90     6    96</code></pre>
+<p>把成绩高于均值的找出来</p>
+<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice english    80     2    82
+## 2 Carol english    80     5    85
+## 3 Carol math       90     6    96</code></pre>
+</div>
+</div>
+<div id="统计汇总-summarise" class="section level2" number="11.8">
+<h2>
+<span class="header-section-number">11.8</span> 统计汇总 <code>summarise()</code><a class="anchor" aria-label="anchor" href="#%E7%BB%9F%E8%AE%A1%E6%B1%87%E6%80%BB-summarise"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/dplyr-summarize.png" width="70%"></div>
+<p><code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>函数非常强大，主要用于统计汇总，往往与其他函数配合使用，比如计算所有同学考试成绩的均值 </p>
+<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
+##   mean_score
+##        &lt;dbl&gt;
+## 1       74.8</code></pre>
+<p>计算所有同学的考试成绩的标准差</p>
+<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span> sd_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
+##   sd_score
+##      &lt;dbl&gt;
+## 1     10.6</code></pre>
+<p>还可以同时完成多个统计</p>
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>  mean_score   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>  median_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,</span>
+<span>  n            <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  sum          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 4
+##   mean_score median_score     n   sum
+##        &lt;dbl&gt;        &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       74.8           75     6   449</code></pre>
+<p><code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> 与 <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> 一样，也是创建新的变量（新的一列），仍然遵循<strong>等号左边是新的列名，等号右边是基于原变量的统计</strong>。
+区别在于，<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>是在原数据框的基础上增加新的一列；而<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>在成立的新的数据框中创建一列。</p>
+</div>
+<div id="分组统计-group_by" class="section level2" number="11.9">
+<h2>
+<span class="header-section-number">11.9</span> 分组统计 <code>group_by()</code><a class="anchor" aria-label="anchor" href="#%E5%88%86%E7%BB%84%E7%BB%9F%E8%AE%A1-group_by"><i class="fas fa-link"></i></a>
+</h2>
+<p>实际运用中，<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>函数往往配合<code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>一起使用，即，先分组再统计。</p>
+<div class="inline-figure"><img src="images/dplyr-group-by.png" width="65%"></div>
+<p>比如，我们想统计每个学生的平均成绩，那么就需要先按照学生<code>name</code>分组，然后每组求平均 </p>
+<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">total</span><span class="op">)</span>,</span>
+<span>    sd_score   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">total</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   name  mean_score sd_score
+##   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Alice       73.5    12.0 
+## 2 Bob         78       1.41
+## 3 Carol       90.5     7.78</code></pre>
+</div>
+<div id="排序-arrange" class="section level2" number="11.10">
+<h2>
+<span class="header-section-number">11.10</span> 排序 <code>arrange()</code><a class="anchor" aria-label="anchor" href="#%E6%8E%92%E5%BA%8F-arrange"><i class="fas fa-link"></i></a>
+</h2>
+<p><code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code>这个很好理解的，就是按照某个变量排序。</p>
+<div class="inline-figure"><img src="images/dplyr-arrange.png" width="55%"></div>
+<p>比如我们按照考试总成绩从低到高排序，然后输出 </p>
+<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">total</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice math       60     5    65
+## 2 Bob   math       69     8    77
+## 3 Bob   english    70     9    79
+## 4 Alice english    80     2    82
+## 5 Carol english    80     5    85
+## 6 Carol math       90     6    96</code></pre>
+<p>默认情况是从小到大排序，如果从高到低降序排序呢，有两种方法，第一种方法是在用于排序的变量前面加 <code>-</code> 号，</p>
+<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="op">-</span><span class="va">total</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Carol math       90     6    96
+## 2 Carol english    80     5    85
+## 3 Alice english    80     2    82
+## 4 Bob   english    70     9    79
+## 5 Bob   math       69     8    77
+## 6 Alice math       60     5    65</code></pre>
+<p>第二种方法可读性更强些，需要使用<code><a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a></code>函数</p>
+<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">total</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Carol math       90     6    96
+## 2 Carol english    80     5    85
+## 3 Alice english    80     2    82
+## 4 Bob   english    70     9    79
+## 5 Bob   math       69     8    77
+## 6 Alice math       60     5    65</code></pre>
+<p>也可对多个变量依次排序。比如，我们先按学科类型排序，然后按照成绩从高到底降序排列</p>
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">type</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">total</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   name  type    score extra total
+##   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Carol english    80     5    85
+## 2 Alice english    80     2    82
+## 3 Bob   english    70     9    79
+## 4 Carol math       90     6    96
+## 5 Bob   math       69     8    77
+## 6 Alice math       60     5    65</code></pre>
+</div>
+<div id="左联结-left_join" class="section level2" number="11.11">
+<h2>
+<span class="header-section-number">11.11</span> 左联结 <code>left_join()</code><a class="anchor" aria-label="anchor" href="#%E5%B7%A6%E8%81%94%E7%BB%93-left_join"><i class="fas fa-link"></i></a>
+</h2>
+<p>实际操作中，也会遇到数据框合并的情形。假定我们已经统计了每个同学的平均成绩，存放在<code>df1</code></p>
+<p></p>
+<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="va">df_new</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span> </span>
+<span>    mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">total</span><span class="op">)</span> </span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">df1</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   name  mean_score
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Alice       73.5
+## 2 Bob         78  
+## 3 Carol       90.5</code></pre>
+<p>现在我们又有新一个数据框<code>df2</code>，它包含一些同学的年龄信息</p>
+<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>      name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Dave"</span><span class="op">)</span>,</span>
+<span>      age <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">13</span>, <span class="fl">14</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">df2</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   name    age
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Alice    12
+## 2 Bob      13
+## 3 Dave     14</code></pre>
+<p>可以使用 <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join()</a></code>函数 把两个数据框<code>df1</code>和<code>df2</code>合并连接在一起。这两个数据框是通过姓名<code>name</code>连接的，因此需要指定<code>by = "name"</code>，代码如下</p>
+<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, by <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   name  mean_score   age
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice       73.5    12
+## 2 Bob         78      13
+## 3 Carol       90.5    NA</code></pre>
+<p>用管道 <code>%&gt;%</code>写，可读性更强</p>
+<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># using %&gt;%</span></span>
+<span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   name  mean_score   age
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice       73.5    12
+## 2 Bob         78      13
+## 3 Carol       90.5    NA</code></pre>
+<p>大家注意到最后一行Carol的年龄是<code>NA</code>， 大家想想为什么呢？</p>
+</div>
+<div id="右联结-right_join" class="section level2" number="11.12">
+<h2>
+<span class="header-section-number">11.12</span> 右联结 <code>right_join()</code><a class="anchor" aria-label="anchor" href="#%E5%8F%B3%E8%81%94%E7%BB%93-right_join"><i class="fas fa-link"></i></a>
+</h2>
+<p>我们再试试<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join()</a></code> </p>
+<div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   name  mean_score   age
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice       73.5    12
+## 2 Bob         78      13
+## 3 Dave        NA      14</code></pre>
+<p>Carol同学的信息没有显示？ Dave 同学显示了但没有考试成绩？大家想想又为什么呢？</p>
+<p>事实上，答案就在函数的名字上，<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join()</a></code>是左联结，即以左边数据框<code>df1</code>中的学生姓名<code>name</code>为准，在右边数据框<code>df2</code>里，有<code>Alice</code>和<code>Bob</code>的年龄，那么就对应联结过来，没有<code>Carol</code>的年龄，自然就为缺失值<code>NA</code>。</p>
+<p><code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join()</a></code>是右联结，要以右边数据框<code>df2</code>中的学生姓名<code>name</code>为准，即<code>Alice</code>，<code>Bob</code>和<code>Dave</code>，而<code>df1</code>只有<code>Alice</code>和<code>Bob</code>的信息，没有<code>Dave</code>的信息，因此<code>Dave</code>对应的成绩为<code>NA</code>。</p>
+</div>
+<div id="满联结-full_join" class="section level2" number="11.13">
+<h2>
+<span class="header-section-number">11.13</span> 满联结 <code>full_join()</code><a class="anchor" aria-label="anchor" href="#%E6%BB%A1%E8%81%94%E7%BB%93-full_join"><i class="fas fa-link"></i></a>
+</h2>
+<p>有时候，我们不想丢失项，可以使用<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join()</a></code>，该函数确保条目是完整的，信息缺失的地方为<code>NA</code>。 </p>
+<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   name  mean_score   age
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice       73.5    12
+## 2 Bob         78      13
+## 3 Carol       90.5    NA
+## 4 Dave        NA      14</code></pre>
+</div>
+<div id="内联结inner_join" class="section level2" number="11.14">
+<h2>
+<span class="header-section-number">11.14</span> 内联结<code>inner_join()</code><a class="anchor" aria-label="anchor" href="#%E5%86%85%E8%81%94%E7%BB%93inner_join"><i class="fas fa-link"></i></a>
+</h2>
+<p>只保留name条目相同地记录</p>
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##   name  mean_score   age
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alice       73.5    12
+## 2 Bob         78      13</code></pre>
+</div>
+<div id="筛选联结" class="section level2" number="11.15">
+<h2>
+<span class="header-section-number">11.15</span> 筛选联结<a class="anchor" aria-label="anchor" href="#%E7%AD%9B%E9%80%89%E8%81%94%E7%BB%93"><i class="fas fa-link"></i></a>
+</h2>
+<p>筛选联结，有两个<code>semi_join(x, y)</code>和<code>anti_join(x, y)</code>，函数不改变数据框<code>x</code>的变量的数量，主要影响的是<code>x</code>的观测，也就说会剔除一些行，其功能类似<code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code></p>
+<ul>
+<li>半联结<code>semi_join(x, y)</code>，保留name与df2的name相一致的所有行</li>
+</ul>
+<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##   name  mean_score
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Alice       73.5
+## 2 Bob         78</code></pre>
+<p>可以看作对<code>df1</code>做筛选</p>
+<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
+<span>  <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">df2</span><span class="op">$</span><span class="va">name</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##   name  mean_score
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Alice       73.5
+## 2 Bob         78</code></pre>
+<ul>
+<li>反联结<code>anti_join(x, y)</code>，丢弃name与df2的name相一致的所有行</li>
+</ul>
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">anti_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##   name  mean_score
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Carol       90.5</code></pre>
+<p>仍然可以看作对<code>df1</code>做筛选</p>
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
+<span> <span class="op">!</span> <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">df2</span><span class="op">$</span><span class="va">name</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 1 × 2
+##   name  mean_score
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Carol       90.5</code></pre>
+</div>
+<div id="习题-4" class="section level2" number="11.16">
+<h2>
+<span class="header-section-number">11.16</span> 习题<a class="anchor" aria-label="anchor" href="#%E4%B9%A0%E9%A2%98-4"><i class="fas fa-link"></i></a>
+</h2>
+<p>1、总结 dplyr 系列函数的三个特征。</p>
+<p>2、用本章中的数据框<code>df</code>运行以下代码，然后理解代码含义。</p>
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>3、 统计每位同学成绩高于75分的科目数</p>
+<p>4、运行以下代码，比较差异在什么地方。</p>
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>mean_score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>5、排序，要求按照score从大往小排，但希望all是最下面一行。</p>
+<pre><code>## # A tibble: 6 × 2
+##   name  score
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 a1        2
+## 2 a2        5
+## 3 a3        3
+## 4 a4        7
+## 5 a5        6
+## 6 all      23</code></pre>
+</div>
+<div id="延伸阅读" class="section level2" number="11.17">
+<h2>
+<span class="header-section-number">11.17</span> 延伸阅读<a class="anchor" aria-label="anchor" href="#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>推荐<a href="https://dplyr.tidyverse.org/">https://dplyr.tidyverse.org/</a>.</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf">cheatsheet</a></li>
+<li><a href="https://tidydatatutor.com/vis.html" class="uri">https://tidydatatutor.com/vis.html</a></li>
+<li>作业：读懂并运行下面的代码</li>
+</ul>
+<a href="data:text/x-markdown;base64,LS0tCnRpdGxlOiAnR29pbmcgZGVlcGVyIHdpdGggZHBseXInCmF1dGhvcjogIueOi+Wwj+S6jCAyMDE5MDAwMSIKZGF0ZTogImByIFN5cy5EYXRlKClgIgpvdXRwdXQ6CiAgcGRmX2RvY3VtZW50OiAKICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleAogICAgZXh0cmFfZGVwZW5kZW5jaWVzOgogICAgICBjdGV4OiBVVEY4CiAgICBudW1iZXJfc2VjdGlvbnM6IHllcwpjbGFzc29wdGlvbnM6ICJoeXBlcnJlZiwgMTJwdCwgYTRwYXBlciIKLS0tCgoKIyBMb2FkaW5nIGRwbHlyIGFuZCB0aGUgbnljZmxpZ2h0czEzIGRhdGFzZXQKCmBgYHtyLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQojIGxvYWQgcGFja2FnZXMKbGlicmFyeShkcGx5cikKbGlicmFyeShueWNmbGlnaHRzMTMpCgojIHByaW50IHRoZSBmbGlnaHRzIGRhdGFzZXQgZnJvbSBueWNmbGlnaHRzMTMKZmxpZ2h0cwpgYGAKCgoKIyBDaG9vc2luZyBjb2x1bW5zOiBzZWxlY3QsIHJlbmFtZQoKYGBge3J9CiMgYmVzaWRlcyBqdXN0IHVzaW5nIHNlbGVjdCgpIHRvIHBpY2sgY29sdW1ucy4uLgpmbGlnaHRzICU+JSBzZWxlY3QoY2FycmllciwgZmxpZ2h0KQoKIyAuLi55b3UgY2FuIHVzZSB0aGUgbWludXMgc2lnbiB0byBoaWRlIGNvbHVtbnMKZmxpZ2h0cyAlPiUgc2VsZWN0KC1tb250aCwgLWRheSkKYGBgCgpgYGB7ciByZXN1bHRzPSdoaWRlJ30KIyBoaWRlIGEgcmFuZ2Ugb2YgY29sdW1ucwpmbGlnaHRzICU+JSBzZWxlY3QoLShkZXBfdGltZTphcnJfZGVsYXkpKQoKIyBoaWRlIGFueSBjb2x1bW4gd2l0aCBhIG1hdGNoaW5nIG5hbWUKZmxpZ2h0cyAlPiUgc2VsZWN0KC1jb250YWlucygidGltZSIpKQpgYGAKCmBgYHtyfQojIHBpY2sgY29sdW1ucyB1c2luZyBhIGNoYXJhY3RlciB2ZWN0b3Igb2YgY29sdW1uIG5hbWVzCmNvbHMgPC0gYygiY2FycmllciIsICJmbGlnaHQiLCAidGFpbG51bSIpCmZsaWdodHMgJT4lIHNlbGVjdChhbGxfb2YoY29scykpCmBgYAoKCmBgYHtyfQojIGFsbF9vZigpICB2cyBhbnlfb2YoKQpjb2xzIDwtIGMoImNhcnJpZXIiLCAiZmxpZ2h0IiwgInRhaWxudW1fdHR0IikKZmxpZ2h0cyAlPiUgc2VsZWN0KGFueV9vZihjb2xzKSkKYGBgCgoKCmBgYHtyfQojIHNlbGVjdCgpIGNhbiBiZSB1c2VkIHRvIHJlbmFtZSBjb2x1bW5zLCB0aG91Z2ggYWxsIGNvbHVtbnMgbm90IG1lbnRpb25lZCBhcmUgZHJvcHBlZApmbGlnaHRzICU+JSBzZWxlY3QodGFpbCA9IHRhaWxudW0pCgojIHJlbmFtZSgpIGRvZXMgdGhlIHNhbWUgdGhpbmcsIGV4Y2VwdCBhbGwgY29sdW1ucyBub3QgbWVudGlvbmVkIGFyZSBrZXB0CmZsaWdodHMgJT4lIHJlbmFtZSh0YWlsID0gdGFpbG51bSkKYGBgCgoKIyBDaG9vc2luZyByb3dzOiBmaWx0ZXIsIGJldHdlZW4sIHNsaWNlLCBzbGljZV9zYW1wbGUsIHNsaWNlX21heCwgZGlzdGluY3QKCmBgYHtyfQojIGZpbHRlcigpIHN1cHBvcnRzIHRoZSB1c2Ugb2YgbXVsdGlwbGUgY29uZGl0aW9ucwpmbGlnaHRzICU+JSBmaWx0ZXIoZGVwX3RpbWUgPj0gNjAwLCBkZXBfdGltZSA8PSA2MDUpCmBgYAoKYGBge3IgcmVzdWx0cz0naGlkZSd9CiMgYmV0d2VlbigpIGlzIGEgY29uY2lzZSBhbHRlcm5hdGl2ZSBmb3IgZGV0ZXJtaW5nIGlmIG51bWVyaWMgdmFsdWVzIGZhbGwgaW4gYSByYW5nZQpmbGlnaHRzICU+JSBmaWx0ZXIoYmV0d2VlbihkZXBfdGltZSwgNjAwLCA2MDUpKQoKIyBzaWRlIG5vdGU6IGlzLm5hKCkgY2FuIGFsc28gYmUgdXNlZnVsIHdoZW4gZmlsdGVyaW5nCmZsaWdodHMgJT4lIGZpbHRlcighaXMubmEoZGVwX3RpbWUpKQpgYGAKCgpgYGB7cn0KIyBzbGljZSgpIGZpbHRlcnMgcm93cyBieSBwb3NpdGlvbgpmbGlnaHRzICU+JSBzbGljZSgxMDAwOjEwMDUpCgojIGtlZXAgdGhlIGZpcnN0IHRocmVlIHJvd3Mgd2l0aGluIGVhY2ggZ3JvdXAKZmxpZ2h0cyAlPiUKICBncm91cF9ieShtb250aCwgZGF5KSAlPiUKICBzbGljZSgxOjMpCgojIHNhbXBsZSB0aHJlZSByb3dzIGZyb20gZWFjaCBncm91cApmbGlnaHRzICU+JQogIGdyb3VwX2J5KG1vbnRoLCBkYXkpICU+JQogIHNsaWNlX3NhbXBsZShuID0gMykKCiMga2VlcCB0aHJlZSByb3dzIGZyb20gZWFjaCBncm91cCB3aXRoIHRoZSB0b3AgZGVwX2RlbGF5CmZsaWdodHMgJT4lCiAgZ3JvdXBfYnkobW9udGgsIGRheSkgJT4lCiAgc2xpY2VfbWF4KGRlcF9kZWxheSwgbiA9IDMpCgojIGFsc28gc29ydCBieSBkZXBfZGVsYXkgd2l0aGluIGVhY2ggZ3JvdXAKZmxpZ2h0cyAlPiUKICBncm91cF9ieShtb250aCwgZGF5KSAlPiUKICBzbGljZV9tYXgoZGVwX2RlbGF5LCBuID0gMykgJT4lCiAgYXJyYW5nZShkZXNjKGRlcF9kZWxheSkpCmBgYAoKCmBgYHtyfQojIHVuaXF1ZSByb3dzIGNhbiBiZSBpZGVudGlmaWVkIHVzaW5nIHVuaXF1ZSgpIGZyb20gYmFzZSBSCmZsaWdodHMgJT4lCiAgc2VsZWN0KG9yaWdpbiwgZGVzdCkgJT4lCiAgdW5pcXVlKCkKYGBgCgpgYGB7ciByZXN1bHRzPSdoaWRlJ30KIyBkcGx5ciBwcm92aWRlcyBhbiBhbHRlcm5hdGl2ZSB0aGF0IGlzIG1vcmUgImVmZmljaWVudCIKZmxpZ2h0cyAlPiUKICBzZWxlY3Qob3JpZ2luLCBkZXN0KSAlPiUKICBkaXN0aW5jdCgpCgojIHNpZGUgbm90ZTogd2hlbiBjaGFpbmluZywgeW91IGRvbid0IGhhdmUgdG8gaW5jbHVkZSB0aGUgcGFyZW50aGVzZXMgaWYgdGhlcmUgYXJlIG5vIGFyZ3VtZW50cwpmbGlnaHRzICU+JQogIHNlbGVjdChvcmlnaW4sIGRlc3QpICU+JQogIGRpc3RpbmN0KCkKYGBgCgoKIyBBZGRpbmcgbmV3IHZhcmlhYmxlczogbXV0YXRlLCB0cmFuc211dGUsIGFkZF9yb3duYW1lcwoKYGBge3J9CiMgbXV0YXRlKCkgY3JlYXRlcyBhIG5ldyB2YXJpYWJsZSAoYW5kIGtlZXBzIGFsbCBleGlzdGluZyB2YXJpYWJsZXMpCmZsaWdodHMgJT4lIG11dGF0ZShzcGVlZCA9IGRpc3RhbmNlIC8gYWlyX3RpbWUgKiA2MCkKCiMgdHJhbnNtdXRlKCkgb25seSBrZWVwcyB0aGUgbmV3IHZhcmlhYmxlcwpmbGlnaHRzICU+JSB0cmFuc211dGUoc3BlZWQgPSBkaXN0YW5jZSAvIGFpcl90aW1lICogNjApCmBgYAoKCmBgYHtyfQojIGV4YW1wbGUgZGF0YSBmcmFtZSB3aXRoIHJvdyBuYW1lcwptdGNhcnMgJT4lIGhlYWQoKQoKIyBhZGRfcm93bmFtZXMoKSB0dXJucyByb3cgbmFtZXMgaW50byBhbiBleHBsaWNpdCB2YXJpYWJsZQptdGNhcnMgJT4lCiAgYWRkX3Jvd25hbWVzKCJtb2RlbCIpICU+JQogIGhlYWQoKQoKIyBzaWRlIG5vdGU6IGRwbHlyIG5vIGxvbmdlciBwcmludHMgcm93IG5hbWVzIChldmVyKSBmb3IgbG9jYWwgZGF0YSBmcmFtZXMKbXRjYXJzICU+JSBhc190aWJibGUoKQpgYGAKCgojIEdyb3VwaW5nIGFuZCBjb3VudGluZzogc3VtbWFyaXNlLCB0YWxseSwgY291bnQsIGdyb3VwX3NpemUsIG5fZ3JvdXBzLCB1bmdyb3VwCgpgYGB7cn0KIyBzdW1tYXJpc2UoKSBjYW4gYmUgdXNlZCB0byBjb3VudCB0aGUgbnVtYmVyIG9mIHJvd3MgaW4gZWFjaCBncm91cApmbGlnaHRzICU+JQogIGdyb3VwX2J5KG1vbnRoKSAlPiUKICBzdW1tYXJpc2UoY250ID0gbigpKQpgYGAKCmBgYHtyIHJlc3VsdHM9J2hpZGUnfQojIHRhbGx5KCkgYW5kIGNvdW50KCkgY2FuIGRvIHRoaXMgbW9yZSBjb25jaXNlbHkKZmxpZ2h0cyAlPiUKICBncm91cF9ieShtb250aCkgJT4lCiAgdGFsbHkoKQoKZmxpZ2h0cyAlPiUgY291bnQobW9udGgpCmBgYAoKYGBge3J9CiMgeW91IGNhbiBzb3J0IGJ5IHRoZSBjb3VudApmbGlnaHRzICU+JQogIGdyb3VwX2J5KG1vbnRoKSAlPiUKICBzdW1tYXJpc2UoY250ID0gbigpKSAlPiUKICBhcnJhbmdlKGRlc2MoY250KSkKYGBgCgpgYGB7ciByZXN1bHRzPSdoaWRlJ30KIyB0YWxseSgpIGFuZCBjb3VudCgpIGhhdmUgYSBzb3J0IHBhcmFtZXRlciBmb3IgdGhpcyBwdXJwb3NlCmZsaWdodHMgJT4lCiAgZ3JvdXBfYnkobW9udGgpICU+JQogIHRhbGx5KHNvcnQgPSBUUlVFKQoKZmxpZ2h0cyAlPiUgY291bnQobW9udGgsIHNvcnQgPSBUUlVFKQpgYGAKCmBgYHtyfQojIHlvdSBjYW4gc3VtIG92ZXIgYSBzcGVjaWZpYyB2YXJpYWJsZSBpbnN0ZWFkIG9mIHNpbXBseSBjb3VudGluZyByb3dzCmZsaWdodHMgJT4lCiAgZ3JvdXBfYnkobW9udGgpICU+JQogIHN1bW1hcmlzZShkaXN0ID0gc3VtKGRpc3RhbmNlKSkKYGBgCgpgYGB7ciByZXN1bHRzPSdoaWRlJ30KIyB0YWxseSgpIGFuZCBjb3VudCgpIGhhdmUgYSB3dCBwYXJhbWV0ZXIgZm9yIHRoaXMgcHVycG9zZQpmbGlnaHRzICU+JQogIGdyb3VwX2J5KG1vbnRoKSAlPiUKICB0YWxseSh3dCA9IGRpc3RhbmNlKQoKZmxpZ2h0cyAlPiUgY291bnQobW9udGgsIHd0ID0gZGlzdGFuY2UpCmBgYAoKYGBge3J9CiMgZ3JvdXBfc2l6ZSgpIHJldHVybnMgdGhlIGNvdW50cyBhcyBhIHZlY3RvcgpmbGlnaHRzICU+JQogIGdyb3VwX2J5KG1vbnRoKSAlPiUKICBncm91cF9zaXplKCkKCiMgbl9ncm91cHMoKSBzaW1wbHkgcmVwb3J0cyB0aGUgbnVtYmVyIG9mIGdyb3VwcwpmbGlnaHRzICU+JQogIGdyb3VwX2J5KG1vbnRoKSAlPiUKICBuX2dyb3VwcygpCmBgYAoKYGBge3J9CiMgZ3JvdXAgYnkgdHdvIHZhcmlhYmxlcywgc3VtbWFyaXNlLCBhcnJhbmdlIChvdXRwdXQgaXMgcG9zc2libHkgY29uZnVzaW5nKQpmbGlnaHRzICU+JQogIGdyb3VwX2J5KG1vbnRoLCBkYXkpICU+JQogIHN1bW1hcmlzZShjbnQgPSBuKCkpICU+JQogIGFycmFuZ2UoZGVzYyhjbnQpKSAlPiUKICBwcmludChuID0gMTApCgojIHVuZ3JvdXAoKSBiZWZvcmUgYXJyYW5naW5nIHRvIGFycmFuZ2UgYWNyb3NzIGFsbCBncm91cHMKZmxpZ2h0cyAlPiUKICBncm91cF9ieShtb250aCwgZGF5KSAlPiUKICBzdW1tYXJpc2UoY250ID0gbigpKSAlPiUKICB1bmdyb3VwKCkgJT4lCiAgYXJyYW5nZShkZXNjKGNudCkpCmBgYAoKCiMgQ3JlYXRpbmcgZGF0YSBmcmFtZXM6IHRpYmJsZSgpCgpgdGliYmxlKClgIGlzIGEgYmV0dGVyIHdheSB0aGFuIGBkYXRhLmZyYW1lKClgIGZvciBjcmVhdGluZyBkYXRhIGZyYW1lcy4gQmVuZWZpdHMgb2YgYHRpYmJsZSgpYDoKCiogWW91IGNhbiB1c2UgcHJldmlvdXNseSBkZWZpbmVkIGNvbHVtbnMgdG8gY29tcHV0ZSBuZXcgY29sdW1ucy4KKiBJdCBuZXZlciBjb2VyY2VzIGNvbHVtbiB0eXBlcy4KKiBJdCBuZXZlciBtdW5nZXMgY29sdW1uIG5hbWVzLgoqIEl0IG5ldmVyIGFkZHMgcm93IG5hbWVzLiAKKiBJdCBvbmx5IHJlY3ljbGVzIGxlbmd0aCAxIGlucHV0LgoqIEl0IHJldHVybnMgYSBsb2NhbCBkYXRhIGZyYW1lIChhIHRibF9kZikuCgpgYGB7cn0KIyB0aWJibGUoKSBleGFtcGxlCnRpYmJsZShhID0gMTo2LCBiID0gYSAqIDIsIGMgPSAic3RyaW5nIiwgImQrZSIgPSAxKSAlPiUgZ2xpbXBzZSgpCgojIGRhdGEuZnJhbWUoKSBleGFtcGxlCmRhdGEuZnJhbWUoYSA9IDE6NiwgYyA9ICJzdHJpbmciLCAiZCtlIiA9IDEpICU+JSBnbGltcHNlKCkKYGBgCgoKIyBWaWV3aW5nIG1vcmUgb3V0cHV0OiBwcmludCwgVmlldwoKYGBge3J9CiMgc3BlY2lmeSB0aGF0IHlvdSB3YW50IHRvIHNlZSBtb3JlIHJvd3MKZmxpZ2h0cyAlPiUgcHJpbnQobiA9IDE1KQpgYGAKCmBgYHtyIGV2YWw9RkFMU0V9CiMgc3BlY2lmeSB0aGF0IHlvdSB3YW50IHRvIHNlZSBBTEwgcm93cyAoZG9uJ3QgcnVuIHRoaXMhKQpmbGlnaHRzICU+JSBwcmludChuID0gSW5mKQpgYGAKCmBgYHtyfQojIHNwZWNpZnkgdGhhdCB5b3Ugd2FudCB0byBzZWUgYWxsIGNvbHVtbnMKZmxpZ2h0cyAlPiUgcHJpbnQod2lkdGggPSBJbmYpCmBgYAoKYGBge3IgZXZhbD1GQUxTRX0KIyBzaG93IHVwIHRvIDEwMDAgcm93cyBhbmQgYWxsIGNvbHVtbnMKZmxpZ2h0cyAlPiUgVmlldygpCgojIHNldCBvcHRpb24gdG8gc2VlIGFsbCBjb2x1bW5zIGFuZCBmZXdlciByb3dzCm9wdGlvbnMoZHBseXIud2lkdGggPSBJbmYsIGRwbHlyLnByaW50X21pbiA9IDYpCgojIHJlc2V0IG9wdGlvbnMgKG9yIGp1c3QgY2xvc2UgUikKb3B0aW9ucyhkcGx5ci53aWR0aCA9IE5VTEwsIGRwbHlyLnByaW50X21pbiA9IDEwKQpgYGAKCgojIHBsb3QKCmBgYHtyfQpsaWJyYXJ5KGdncGxvdDIpCgpmbGlnaHRzICU+JQogIGdyb3VwX2J5KGRlc3QpICU+JQogIHN1bW1hcml6ZSgKICAgIGNvdW50ID0gbigpLAogICAgZGlzdCA9IG1lYW4oZGlzdGFuY2UsIG5hLnJtID0gVFJVRSksCiAgICBkZWxheSA9IG1lYW4oYXJyX2RlbGF5LCBuYS5ybSA9IFRSVUUpCiAgKSAlPiUKICBmaWx0ZXIoZGVsYXkgPiAwLCBjb3VudCA+IDIwLCBkZXN0ICE9ICJITkwiKSAlPiUKICBnZ3Bsb3QobWFwcGluZyA9IGFlcyh4ID0gZGlzdCwgeSA9IGRlbGF5KSkgKwogIGdlb21fcG9pbnQoYWVzKHNpemUgPSBjb3VudCksIGFscGhhID0gMSAvIDMpICsKICBnZW9tX3Ntb290aChzZSA9IEZBTFNFKQpgYGAKCgoK" download="nycflights.Rmd">Download nycflights.Rmd</a>
+
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></div>
+<div class="next"><a href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-dplyr"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="nav-link" href="#%E6%96%B0%E5%A2%9E%E4%B8%80%E5%88%97-mutate"><span class="header-section-number">11.1</span> 新增一列 mutate()</a></li>
+<li><a class="nav-link" href="#%E7%AE%A1%E9%81%93"><span class="header-section-number">11.2</span> 管道 %&gt;%</a></li>
+<li><a class="nav-link" href="#%E5%90%91%E9%87%8F%E5%87%BD%E6%95%B0%E4%B8%8Emutate"><span class="header-section-number">11.3</span> 向量函数与mutate()</a></li>
+<li><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E4%B8%BA%E6%96%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E6%A1%86"><span class="header-section-number">11.4</span> 保存为新的数据框</a></li>
+<li><a class="nav-link" href="#%E9%80%89%E5%8F%96%E5%88%97-select"><span class="header-section-number">11.5</span> 选取列 select()</a></li>
+<li><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%88%97%E5%90%8D-rename"><span class="header-section-number">11.6</span> 修改列名 rename()</a></li>
+<li>
+<a class="nav-link" href="#%E7%AD%9B%E9%80%89-filter"><span class="header-section-number">11.7</span> 筛选 filter()</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%99%E8%AF%AF"><span class="header-section-number">11.7.1</span> 常见的错误</a></li>
+<li><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E7%AE%97%E7%AC%A6"><span class="header-section-number">11.7.2</span> 逻辑算符</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E6%B1%87%E6%80%BB-summarise"><span class="header-section-number">11.8</span> 统计汇总 summarise()</a></li>
+<li><a class="nav-link" href="#%E5%88%86%E7%BB%84%E7%BB%9F%E8%AE%A1-group_by"><span class="header-section-number">11.9</span> 分组统计 group_by()</a></li>
+<li><a class="nav-link" href="#%E6%8E%92%E5%BA%8F-arrange"><span class="header-section-number">11.10</span> 排序 arrange()</a></li>
+<li><a class="nav-link" href="#%E5%B7%A6%E8%81%94%E7%BB%93-left_join"><span class="header-section-number">11.11</span> 左联结 left_join()</a></li>
+<li><a class="nav-link" href="#%E5%8F%B3%E8%81%94%E7%BB%93-right_join"><span class="header-section-number">11.12</span> 右联结 right_join()</a></li>
+<li><a class="nav-link" href="#%E6%BB%A1%E8%81%94%E7%BB%93-full_join"><span class="header-section-number">11.13</span> 满联结 full_join()</a></li>
+<li><a class="nav-link" href="#%E5%86%85%E8%81%94%E7%BB%93inner_join"><span class="header-section-number">11.14</span> 内联结inner_join()</a></li>
+<li><a class="nav-link" href="#%E7%AD%9B%E9%80%89%E8%81%94%E7%BB%93"><span class="header-section-number">11.15</span> 筛选联结</a></li>
+<li><a class="nav-link" href="#%E4%B9%A0%E9%A2%98-4"><span class="header-section-number">11.16</span> 习题</a></li>
+<li><a class="nav-link" href="#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="header-section-number">11.17</span> 延伸阅读</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

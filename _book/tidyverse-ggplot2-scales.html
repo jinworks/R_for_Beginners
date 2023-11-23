@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 20 章 ggplot2之标度 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="用 ggplot2 画图，有种恋爱的感觉: “你懂我的图谋不轨，我懂你的故作矜持” 这一章我们一起学习ggplot2中的scales语法，推荐大家阅读Hadley Wickham最新版的《ggplot2: Elegant Graphics for Data Analysis》，但如果需要详细了解标度参数体系，还是要看ggplot2官方文档 ggplot2图层语法框架  图 19.1:...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 20 章 ggplot2之标度 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="用 ggplot2 画图，有种恋爱的感觉: “你懂我的图谋不轨，我懂你的故作矜持” 这一章我们一起学习ggplot2中的scales语法，推荐大家阅读Hadley Wickham最新版的《ggplot2: Elegant Graphics for Data Analysis》，但如果需要详细了解标度参数体系，还是要看ggplot2官方文档 ggplot2图层语法框架  图 19.1:...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 20 章 ggplot2之标度 | R编程与作图">
+<meta name="twitter:description" content="用 ggplot2 画图，有种恋爱的感觉: “你懂我的图谋不轨，我懂你的故作矜持” 这一章我们一起学习ggplot2中的scales语法，推荐大家阅读Hadley Wickham最新版的《ggplot2: Elegant Graphics for Data Analysis》，但如果需要详细了解标度参数体系，还是要看ggplot2官方文档 ggplot2图层语法框架  图 19.1:...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="active" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-ggplot2-scales" class="section level1" number="20">
+<h1>
+<span class="header-section-number">第 20 章</span> ggplot2之标度<a class="anchor" aria-label="anchor" href="#tidyverse-ggplot2-scales"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p>用 ggplot2 画图，有种恋爱的感觉:
+“你懂我的图谋不轨，我懂你的故作矜持”</p>
+</blockquote>
+<p>这一章我们一起学习ggplot2中的scales语法，推荐大家阅读Hadley Wickham最新版的<a href="https://ggplot2-book.org/">《ggplot2: Elegant Graphics for Data Analysis》</a>，但如果需要详细了解<strong>标度</strong>参数体系，还是要看<a href="https://cran.r-project.org/web/packages/ggplot2/index.html">ggplot2官方文档</a></p>
+<p>ggplot2图层语法框架</p>
+<div class="figure">
+<span style="display:block;" id="fig:unnamed-chunk-1"></span>
+<img src="images/ggplot2_system.png" alt="ggplot2图层语法框架" width="100%"><p class="caption">
+图 19.1: ggplot2图层语法框架
+</p>
+</div>
+<div id="标度" class="section level2" number="20.1">
+<h2>
+<span class="header-section-number">20.1</span> 标度<a class="anchor" aria-label="anchor" href="#%E6%A0%87%E5%BA%A6"><i class="fas fa-link"></i></a>
+</h2>
+<p>在 <a href="tidyverse-ggplot2-geom.html#tidyverse-ggplot2-geom">19</a>章，我们了解到ggplot2中，映射是数据转化到图形属性，这里的图形属性是指视觉可以感知的东西，比如大小，形状，颜色和位置等。我们今天讨论的标度（scale）是控制着数据到图形属性映射的函数，每一种标度都是从数据空间的某个区域（标度的定义域）到图形属性空间的某个区域（标度的值域）的一个函数。</p>
+<p>简单点来说，<strong>标度是用于调整数据映射的图形属性</strong>。
+在ggplot2中，每一种图形属性都拥有一个默认的标度，也许你对这个默认的标度不满意，可以就需要学习如何修改默认的标度。比如，
+系统默认<code>"a"</code>对应红色，<code>"b"</code>对应蓝色，我们想让<code>"a"</code>对应紫色，<code>"b"</code>对应橙色。</p>
+</div>
+<div id="图形属性和变量类型" class="section level2" number="20.2">
+<h2>
+<span class="header-section-number">20.2</span> 图形属性和变量类型<a class="anchor" aria-label="anchor" href="#%E5%9B%BE%E5%BD%A2%E5%B1%9E%E6%80%A7%E5%92%8C%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><i class="fas fa-link"></i></a>
+</h2>
+<p>还是用我们熟悉的<code><a href="https://ggplot2.tidyverse.org/reference/mpg.html">ggplot2::mpg</a></code>，可能有同学说，我画图没接触到<code>scale</code>啊，比如</p>
+<div class="sourceCode" id="cb1130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb1132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mpg</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">displ</span>, y <span class="op">=</span> <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-1-1.png" width="672"></div>
+<p>能画个很漂亮的图，那是因为ggplot2默认缺省条件下，已经很美观了。（据说Hadley Wickham很后悔使用了这么漂亮的缺省值，因为很漂亮了大家都不认真学画图了。马云好像也说后悔创立了阿里巴巴？）</p>
+<p>事实上，根据映射关系和变量名，我们将标度写完整，应该是这样的</p>
+<div class="sourceCode" id="cb1133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">displ</span>, y <span class="op">=</span> <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html">scale_colour_discrete</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-2-1.png" width="672"></div>
+<p>如果每次都要手动设置一次标度函数，那将是比较繁琐的事情。因此ggplot2使用了默认了设置，如果不满意ggplot2的默认值，可以手动调整或者改写标度，比如</p>
+<div class="sourceCode" id="cb1134"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">displ</span>, y <span class="op">=</span> <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"This is my x axis"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"This is my y axis"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_colour_brewer</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-3-1.png" width="672"></div>
+</div>
+<div id="坐标轴和图例是同样的东西" class="section level2" number="20.3">
+<h2>
+<span class="header-section-number">20.3</span> 坐标轴和图例是同样的东西<a class="anchor" aria-label="anchor" href="#%E5%9D%90%E6%A0%87%E8%BD%B4%E5%92%8C%E5%9B%BE%E4%BE%8B%E6%98%AF%E5%90%8C%E6%A0%B7%E7%9A%84%E4%B8%9C%E8%A5%BF"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-figure"><img src="images/ggplot2-scales.png" width="85%"></div>
+</div>
+<div id="丰富的标度体系" class="section level2" number="20.4">
+<h2>
+<span class="header-section-number">20.4</span> 丰富的标度体系<a class="anchor" aria-label="anchor" href="#%E4%B8%B0%E5%AF%8C%E7%9A%84%E6%A0%87%E5%BA%A6%E4%BD%93%E7%B3%BB"><i class="fas fa-link"></i></a>
+</h2>
+<p>注意到，标度函数是由”_“分割的三个部分构成的
+- scale
+- 视觉属性名 (e.g., colour, shape or x)
+- 标度名 (e.g., continuous, discrete, brewer).</p>
+<div class="inline-figure"><img src="images/ggplot2_scales_cheat.jpg" width="100%"></div>
+<p>每个标度函数内部都有丰富的参数系统</p>
+<div class="sourceCode" id="cb1135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1135-1"><a href="tidyverse-ggplot2-scales.html#cb1135-1" tabindex="-1"></a><span class="fu">scale_colour_manual</span>(</span>
+<span id="cb1135-2"><a href="tidyverse-ggplot2-scales.html#cb1135-2" tabindex="-1"></a>  <span class="at">palette =</span> <span class="cf">function</span>(), </span>
+<span id="cb1135-3"><a href="tidyverse-ggplot2-scales.html#cb1135-3" tabindex="-1"></a>  <span class="at">limits =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1135-4"><a href="tidyverse-ggplot2-scales.html#cb1135-4" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">waiver</span>(),</span>
+<span id="cb1135-5"><a href="tidyverse-ggplot2-scales.html#cb1135-5" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">waiver</span>(),</span>
+<span id="cb1135-6"><a href="tidyverse-ggplot2-scales.html#cb1135-6" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="fu">waiver</span>(),</span>
+<span id="cb1135-7"><a href="tidyverse-ggplot2-scales.html#cb1135-7" tabindex="-1"></a>  <span class="at">minor_breaks =</span> <span class="fu">waiver</span>(),</span>
+<span id="cb1135-8"><a href="tidyverse-ggplot2-scales.html#cb1135-8" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">waiver</span>(),</span>
+<span id="cb1135-9"><a href="tidyverse-ggplot2-scales.html#cb1135-9" tabindex="-1"></a>  ...</span>
+<span id="cb1135-10"><a href="tidyverse-ggplot2-scales.html#cb1135-10" tabindex="-1"></a>)</span></code></pre></div>
+<ul>
+<li><p>参数<code>name</code>，坐标和图例的名字，如果不想要图例的名字，就可以 <code>name = NULL</code></p></li>
+<li><p>参数<code>limits</code>, 坐标或图例的范围区间。连续性<code>c(n, m)</code>，离散型<code>c("a", "b", "c")</code></p></li>
+<li><p>参数<code>breaks</code>, 控制显示在坐标轴或者图例上的值（元素）</p></li>
+<li>
+<p>参数<code>labels</code>, 坐标和图例的间隔标签</p>
+<ul>
+<li>一般情况下，内置函数会自动完成</li>
+<li>也可人工指定一个字符型向量，与<code>breaks</code>提供的字符型向量一一对应</li>
+<li>也可以是函数，把<code>breaks</code>提供的字符型向量当做函数的输入</li>
+<li>
+<code>NULL</code>，就是去掉标签</li>
+</ul>
+</li>
+<li>
+<p>参数<code>values</code> 指的是（颜色、形状等）视觉属性值,</p>
+<ul>
+<li>要么，与数值的顺序一致；</li>
+<li>要么，与<code>breaks</code>提供的字符型向量长度一致</li>
+<li>要么，用命名向量<code>c("数据标签" = "视觉属性")</code>提供</li>
+</ul>
+</li>
+<li><p>参数<code>expand</code>, 控制参数溢出量</p></li>
+<li><p>参数<code>range</code>, 设置尺寸大小范围，比如针对点的相对大小</p></li>
+</ul>
+<!-- 把scale理解make, scale_x_continuous() == 使得x坐标连续型的 --><p>下面，我们通过具体的案例讲解如何使用参数，把图形变成我们想要的模样。</p>
+</div>
+<div id="案例详解" class="section level2" number="20.5">
+<h2>
+<span class="header-section-number">20.5</span> 案例详解<a class="anchor" aria-label="anchor" href="#%E6%A1%88%E4%BE%8B%E8%AF%A6%E8%A7%A3"><i class="fas fa-link"></i></a>
+</h2>
+<p>先导入一个数据</p>
+<div class="sourceCode" id="cb1136"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gapdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"./demo_data/gapminder.csv"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 1704 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (2): country, continent
+## dbl (4): year, lifeExp, pop, gdpPercap
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb1138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op">&lt;-</span> <span class="va">gapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">continent</span>, <span class="va">country</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">lifeExp</span>, <span class="va">gdpPercap</span>, <span class="va">pop</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by 'continent'. You can override using the
+## `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb1140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span></span></code></pre></div>
+<pre><code>## # A tibble: 142 × 5
+## # Groups:   continent [5]
+##    continent country                  lifeExp gdpPercap       pop
+##    &lt;chr&gt;     &lt;chr&gt;                      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Africa    Algeria                     59.0     4426. 19875406.
+##  2 Africa    Angola                      37.9     3607.  7309390.
+##  3 Africa    Benin                       48.8     1155.  4017497.
+##  4 Africa    Botswana                    54.6     5032.   971186.
+##  5 Africa    Burkina Faso                44.7      844.  7548677.
+##  6 Africa    Burundi                     44.8      472.  4651608.
+##  7 Africa    Cameroon                    48.1     1775.  9816648.
+##  8 Africa    Central African Republic    43.9      959.  2560963 
+##  9 Africa    Chad                        46.8     1165.  5329256.
+## 10 Africa    Comoros                     52.4     1314.   361684.
+## # ℹ 132 more rows</code></pre>
+<div class="sourceCode" id="cb1142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">continent</span>, size <span class="op">=</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-9-1.png" width="672"></div>
+<div class="sourceCode" id="cb1143"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">continent</span>, size <span class="op">=</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-10-1.png" width="672"></div>
+<div class="sourceCode" id="cb1144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">continent</span>, size <span class="op">=</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">3000</span>, <span class="fl">10000</span>, <span class="fl">30000</span><span class="op">)</span>,</span>
+<span>                  labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/dollar_format.html">dollar</a></span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-11-1.png" width="672"></div>
+<div class="sourceCode" id="cb1145"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">continent</span>, size <span class="op">=</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span></span>
+<span>      name <span class="op">=</span> <span class="st">"GDP per capita"</span>,</span>
+<span>      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">3000</span>, <span class="fl">10000</span>, <span class="fl">30000</span><span class="op">)</span>,</span>
+<span>      labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/unit_format.html">unit_format</a></span><span class="op">(</span>unit <span class="op">=</span> <span class="st">"dollar"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-12-1.png" width="672"></div>
+<div class="sourceCode" id="cb1146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">continent</span>, size <span class="op">=</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-13-1.png" width="672"></div>
+<p>离散变量映射到色彩的情形，可以使用<a href="https://colorbrewer2.org">ColorBrewer</a>色彩。</p>
+<div class="sourceCode" id="cb1147"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">continent</span>, size <span class="op">=</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-14-1.png" width="672"></div>
+<div class="sourceCode" id="cb1148"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newgapdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">continent</span>, size <span class="op">=</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span></span>
+<span>      name <span class="op">=</span> <span class="st">"continents"</span>,</span>
+<span>      values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Africa"</span> <span class="op">=</span> <span class="st">"red"</span>, <span class="st">"Americas"</span> <span class="op">=</span> <span class="st">"blue"</span>, <span class="st">"Asia"</span> <span class="op">=</span> <span class="st">"orange"</span>,</span>
+<span>                 <span class="st">"Europe"</span> <span class="op">=</span> <span class="st">"black"</span>, <span class="st">"Oceania"</span> <span class="op">=</span> <span class="st">"gray"</span><span class="op">)</span>,</span>
+<span>      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span><span class="op">)</span>,</span>
+<span>      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"africa"</span>, <span class="st">"americas"</span>, <span class="st">"asia"</span>, <span class="st">"europe"</span>, <span class="st">"oceania"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span> <span class="op">+</span></span>
+<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span></span>
+<span>     name <span class="op">=</span> <span class="st">"population size"</span>,</span>
+<span>     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2e8</span>, <span class="fl">5e8</span>, <span class="fl">7e8</span><span class="op">)</span>,</span>
+<span>     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"200 million"</span>, <span class="st">"500 million"</span>, <span class="st">"700 million"</span><span class="op">)</span></span>
+<span>   <span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_scales_files/figure-html/ggplot2-scales-15-1.png" width="672"></div>
+</div>
+<div id="用标度还是主题" class="section level2" number="20.6">
+<h2>
+<span class="header-section-number">20.6</span> 用标度还是主题？<a class="anchor" aria-label="anchor" href="#%E7%94%A8%E6%A0%87%E5%BA%A6%E8%BF%98%E6%98%AF%E4%B8%BB%E9%A2%98"><i class="fas fa-link"></i></a>
+</h2>
+<p>那什么时候用标度，什么时候用主题？这里有个原则：主题风格不会增加标签，也不会改变变量的范围，主题只会改变字体、大小、颜色等等。</p>
+</div>
+<div id="作业-1" class="section level2" number="20.7">
+<h2>
+<span class="header-section-number">20.7</span> 作业<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E4%B8%9A-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>用 ggplot2 重复这张lego图</p>
+<div class="inline-figure"><img src="images/lego_example.jpg" width="65%" style="display: block; margin: auto auto auto 0;"></div>
+</div>
+<div id="参考资料-1" class="section level2" number="20.8">
+<h2>
+<span class="header-section-number">20.8</span> 参考资料<a class="anchor" aria-label="anchor" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99-1"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://ggplot2tor.com/scales/" class="uri">https://ggplot2tor.com/scales/</a></li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></div>
+<div class="next"><a href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-ggplot2-scales"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="nav-link" href="#%E6%A0%87%E5%BA%A6"><span class="header-section-number">20.1</span> 标度</a></li>
+<li><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E5%B1%9E%E6%80%A7%E5%92%8C%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="header-section-number">20.2</span> 图形属性和变量类型</a></li>
+<li><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E8%BD%B4%E5%92%8C%E5%9B%BE%E4%BE%8B%E6%98%AF%E5%90%8C%E6%A0%B7%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="header-section-number">20.3</span> 坐标轴和图例是同样的东西</a></li>
+<li><a class="nav-link" href="#%E4%B8%B0%E5%AF%8C%E7%9A%84%E6%A0%87%E5%BA%A6%E4%BD%93%E7%B3%BB"><span class="header-section-number">20.4</span> 丰富的标度体系</a></li>
+<li><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E8%AF%A6%E8%A7%A3"><span class="header-section-number">20.5</span> 案例详解</a></li>
+<li><a class="nav-link" href="#%E7%94%A8%E6%A0%87%E5%BA%A6%E8%BF%98%E6%98%AF%E4%B8%BB%E9%A2%98"><span class="header-section-number">20.6</span> 用标度还是主题？</a></li>
+<li><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A-1"><span class="header-section-number">20.7</span> 作业</a></li>
+<li><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99-1"><span class="header-section-number">20.8</span> 参考资料</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

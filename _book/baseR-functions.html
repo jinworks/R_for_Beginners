@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 7 章 函数 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="上一节课我们认识了向量操作符，体会到了向量化操作的强大，事实上，向量操作符是一种函数。R 语言的强大就在于它拥有丰富的函数，这里的函数和我们高中数学中的函数 y = f(x) 没什么区别。  7.1 基础函数 R 语言内置了很多统计函数，比如对于向量x x &lt;- c(2, 7, 8, 9, 3) 打印向量x print(x) ## [1] 2 7 8 9 3 求开方 sqrt(x) ##...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 7 章 函数 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="上一节课我们认识了向量操作符，体会到了向量化操作的强大，事实上，向量操作符是一种函数。R 语言的强大就在于它拥有丰富的函数，这里的函数和我们高中数学中的函数 y = f(x) 没什么区别。  7.1 基础函数 R 语言内置了很多统计函数，比如对于向量x x &lt;- c(2, 7, 8, 9, 3) 打印向量x print(x) ## [1] 2 7 8 9 3 求开方 sqrt(x) ##...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 7 章 函数 | R编程与作图">
+<meta name="twitter:description" content="上一节课我们认识了向量操作符，体会到了向量化操作的强大，事实上，向量操作符是一种函数。R 语言的强大就在于它拥有丰富的函数，这里的函数和我们高中数学中的函数 y = f(x) 没什么区别。  7.1 基础函数 R 语言内置了很多统计函数，比如对于向量x x &lt;- c(2, 7, 8, 9, 3) 打印向量x print(x) ## [1] 2 7 8 9 3 求开方 sqrt(x) ##...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="active" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="baseR-functions" class="section level1" number="7">
+<h1>
+<span class="header-section-number">第 7 章</span> 函数<a class="anchor" aria-label="anchor" href="#baseR-functions"><i class="fas fa-link"></i></a>
+</h1>
+<p>上一节课我们认识了向量操作符，体会到了向量化操作的强大，事实上，向量操作符是一种函数。R 语言的强大就在于它拥有丰富的函数，这里的函数和我们高中数学中的函数 <code>y = f(x)</code> 没什么区别。</p>
+<div id="基础函数" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> 基础函数<a class="anchor" aria-label="anchor" href="#%E5%9F%BA%E7%A1%80%E5%87%BD%E6%95%B0"><i class="fas fa-link"></i></a>
+</h2>
+<p>R 语言内置了很多统计函数，比如对于向量<code>x</code></p>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>打印向量<code>x</code></p>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 2 7 8 9 3</code></pre>
+<p>求开方</p>
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 1.414214 2.645751 2.828427 3.000000 1.732051</code></pre>
+<p>求自然对数</p>
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 0.6931472 1.9459101 2.0794415 2.1972246 1.0986123</code></pre>
+<p>求向量元素之和</p>
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 29</code></pre>
+<p>求向量元素的均值</p>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 5.8</code></pre>
+<p>求向量元素的标准差</p>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 3.114482</code></pre>
+<p>找出向量元素中的最小值</p>
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>找出向量元素中的最大值</p>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 9</code></pre>
+<p>计算向量元素的个数</p>
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>对向量元素大小排序</p>
+<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 2 3 7 8 9</code></pre>
+<p>找出向量元素的唯一值，就是给出<strong>去重后</strong>的数据</p>
+<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"g"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "a" "b" "c" "d" "g"</code></pre>
+<p>给出向量的分位数</p>
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   0%  25%  50%  75% 100% 
+##    2    3    7    8    9</code></pre>
+<p>判断是否为数值型/字符串型</p>
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>转化成字符串型</p>
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "2" "7" "8" "9" "3"</code></pre>
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># as.logical(x)</span></span>
+<span><span class="co"># as.numeric(x)</span></span></code></pre></div>
+<p>判断向量元素是否大于5</p>
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">5</span></span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE  TRUE  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">5</span>, <span class="st">"big"</span>, <span class="st">"small"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "small" "big"   "big"   "big"   "small"</code></pre>
+</div>
+<div id="向量的函数" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> 向量的函数<a class="anchor" aria-label="anchor" href="#%E5%90%91%E9%87%8F%E7%9A%84%E5%87%BD%E6%95%B0"><i class="fas fa-link"></i></a>
+</h2>
+<p>用在向量上的函数，可以分为向量化函数(vectorized function)和汇总类函数(summary function)，</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:unnamed-chunk-18"></span>
+<img src="images/vector-function.png" alt="这两类函数在 Tidyverse 框架中，应用非常广泛。" width="65%"><p class="caption">
+图 7.1: 这两类函数在 Tidyverse 框架中，应用非常广泛。
+</p>
+</div>
+<p>当然，也会有例外，比如<code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code>函数，它返回的向量通常不会与输入的向量等长，既不属于向量化函数，也不属于汇总类函数。</p>
+</div>
+<div id="课堂练习" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> 课堂练习<a class="anchor" aria-label="anchor" href="#%E8%AF%BE%E5%A0%82%E7%BB%83%E4%B9%A0"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>向量<code>x &lt;- c(2, 7, 8, 9, 3)</code>的平方，加上5</li>
+</ul>
+<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">5</span></span></code></pre></div>
+<pre><code>## [1]  9 54 69 86 14</code></pre>
+<ul>
+<li>向量的元素减去其均值</li>
+</ul>
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] -3.8  1.2  2.2  3.2 -2.8</code></pre>
+<ul>
+<li>向量标准化（向量减去其均值之后，除以标准差）</li>
+</ul>
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] -1.2201065  0.3852968  0.7063774  1.0274581 -0.8990258</code></pre>
+<ul>
+<li>如果想对更多的向量，也做标准化处理呢？</li>
+</ul>
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">y</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] -1.4599928 -0.1622214  0.4866643  0.8111071  1.1355499 -0.8111071</code></pre>
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">7</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span>, <span class="fl">9</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">z</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] -1.1932699  0.1704671  0.1704671  0.6250461  1.0796251 -1.6478489  1.0796251
+## [8] -0.2841119</code></pre>
+<p>简单重复比较累，有没有一劳永逸的方法？</p>
+</div>
+<div id="自定义函数" class="section level2" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> 自定义函数<a class="anchor" aria-label="anchor" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_std</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>   <span class="va">res</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span> <span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_std</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>   <span class="va">...</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>创建，由<code>function(...)</code>创建一个函数</li>
+<li>参数，由<code>(...)</code> 里指定参数，比如<code>function(x)</code>中的参数为 <code>x</code>
+</li>
+<li>函数主体，一般情况下，在<code>function(...)</code>后跟随一对大括号<code><a href="https://rdrr.io/r/base/Paren.html">{ }</a></code>，在大括号里声明具体函数功能，在代码最后一行，可以用<code>return</code>返回计算后的值。当然，如果函数的目的只是返回最后一行代码计算的值，这个<code>return</code>可以省略。</li>
+<li>函数名，<code>function() { }</code> 赋值给新对象，比如这里的<code>my_std</code>，相当于给函数取一名字，方便以后使用。</li>
+<li>函数调用，现在这个函数名字叫<code>my_std</code>，需要用这个函数的时候，就调用它的名字<code>my_std()</code>。</li>
+</ul>
+<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">my_std</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="co"># 或者</span></span>
+<span><span class="fu">my_std</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>     <span class="co"># 或者</span></span>
+<span></span>
+<span><span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu">my_std</span><span class="op">(</span><span class="va">input</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="使用宏包的函数" class="section level2" number="7.5">
+<h2>
+<span class="header-section-number">7.5</span> 使用宏包的函数<a class="anchor" aria-label="anchor" href="#%E4%BD%BF%E7%94%A8%E5%AE%8F%E5%8C%85%E7%9A%84%E5%87%BD%E6%95%B0"><i class="fas fa-link"></i></a>
+</h2>
+<div id="安装宏包与使用宏包" class="section level3" number="7.5.1">
+<h3>
+<span class="header-section-number">7.5.1</span> 安装宏包与使用宏包<a class="anchor" aria-label="anchor" href="#%E5%AE%89%E8%A3%85%E5%AE%8F%E5%8C%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h3>
+<p>安装宏包 <code>install.packages("dplyr")</code> 相当于你买了一台电视机，安装一次就够了; 加载 <code><a href="https://dplyr.tidyverse.org">library("dplyr")</a></code>相当于你每次要看电视，就需要插上电、打开电视的动作，运行<code><a href="https://dplyr.tidyverse.org">library("dplyr")</a></code>才能用里面的函数。</p>
+<div class="inline-figure"><img src="images/what-is-install.jpg" width="100%"></div>
+<p>各种宏包也为我们准备了不同的函数，我们在使用前一般会先加载该宏包，比如后面章节我们会用的<code>dplyr</code>宏包中的<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>函数，它用于选取数据框的某列</p>
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">height</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="指定函数的所属宏包" class="section level3" number="7.5.2">
+<h3>
+<span class="header-section-number">7.5.2</span> 指定函数的所属宏包<a class="anchor" aria-label="anchor" href="#%E6%8C%87%E5%AE%9A%E5%87%BD%E6%95%B0%E7%9A%84%E6%89%80%E5%B1%9E%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h3>
+<p>但是，其它宏包可能也有<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>函数，比如<code>MASS</code>和<code>skimr</code>，如果同时加载了<code>dplyr</code>，<code>MASS</code>和<code>skimr</code>三个宏包，在程序中使用<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>函数，就会造成混淆和报错。这个时候就需要给每个函数指定是来源哪个宏包，具体方法就是在宏包和函数之间添加<code>::</code>，比如<code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code>，<code>skimr::select()</code> 或者<code><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">MASS::select()</a></code>。</p>
+<p>至此，我们接触到了三类函数</p>
+<ul>
+<li><strong>内置的函数</strong></li>
+<li><strong>自定义的函数</strong></li>
+<li><strong>宏包的函数</strong></li>
+</ul>
+</div>
+</div>
+<div id="如何获取帮助" class="section level2" number="7.6">
+<h2>
+<span class="header-section-number">7.6</span> 如何获取帮助<a class="anchor" aria-label="anchor" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%B8%AE%E5%8A%A9"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>记住和学习所有的函数几乎是不可能的</li>
+<li>打开函数的帮助页面(<code>Rstudio</code>右下面板的<code>Help</code>选项卡)</li>
+</ul>
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="va">sqrt</span></span>
+<span><span class="op">?</span><span class="va">gather</span></span>
+<span><span class="op">?</span><span class="va">ggplot2</span></span></code></pre></div>
+<p>比如：</p>
+<div class="inline-figure"><img src="images/Rhelp.png" width="90%"></div>
+</div>
+<div id="习题-3" class="section level2" number="7.7">
+<h2>
+<span class="header-section-number">7.7</span> 习题<a class="anchor" aria-label="anchor" href="#%E4%B9%A0%E9%A2%98-3"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>根据方差的数学表达式，写出<strong>方差</strong>的计算函数，并与基础函数<code><a href="https://rdrr.io/r/stats/cor.html">var()</a></code>的结果对比</li>
+</ol>
+<p><span class="math display">\[
+\mathrm{Var}(x) = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \bar{x}) ^2
+\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>自定义函数，它的作用是将输入的身高height(cm)与体重weight(kg)计算之后的BMI结果返回，BMI的计算公式为：</li>
+</ol>
+<p><span class="math display">\[
+\mathrm{BMI} = \frac{weight(kg)}{height(m)^2}  
+\]</span></p>
+<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">get_bmi</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">height</span>, <span class="va">weight</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># ...</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">get_bmi</span><span class="op">(</span><span class="fl">175</span>, <span class="fl">65</span><span class="op">)</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>对于给定的向量 <code>vector</code>和阈值<code>threshold</code>，求出<code>vector</code>中所有大于该阈值的元素的均值</li>
+</ol>
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mean_above_threshod</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">vector</span>, <span class="va">threshold</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="阅读" class="section level2" number="7.8">
+<h2>
+<span class="header-section-number">7.8</span> 阅读<a class="anchor" aria-label="anchor" href="#%E9%98%85%E8%AF%BB"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>推荐您阅读(<a href="https://r4ds.had.co.nz/functions.html" class="uri">https://r4ds.had.co.nz/functions.html</a>)</li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></div>
+<div class="next"><a href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#baseR-functions"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%87%BD%E6%95%B0"><span class="header-section-number">7.1</span> 基础函数</a></li>
+<li><a class="nav-link" href="#%E5%90%91%E9%87%8F%E7%9A%84%E5%87%BD%E6%95%B0"><span class="header-section-number">7.2</span> 向量的函数</a></li>
+<li><a class="nav-link" href="#%E8%AF%BE%E5%A0%82%E7%BB%83%E4%B9%A0"><span class="header-section-number">7.3</span> 课堂练习</a></li>
+<li><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="header-section-number">7.4</span> 自定义函数</a></li>
+<li>
+<a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AE%8F%E5%8C%85%E7%9A%84%E5%87%BD%E6%95%B0"><span class="header-section-number">7.5</span> 使用宏包的函数</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8F%E5%8C%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%AE%8F%E5%8C%85"><span class="header-section-number">7.5.1</span> 安装宏包与使用宏包</a></li>
+<li><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%87%BD%E6%95%B0%E7%9A%84%E6%89%80%E5%B1%9E%E5%AE%8F%E5%8C%85"><span class="header-section-number">7.5.2</span> 指定函数的所属宏包</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%B8%AE%E5%8A%A9"><span class="header-section-number">7.6</span> 如何获取帮助</a></li>
+<li><a class="nav-link" href="#%E4%B9%A0%E9%A2%98-3"><span class="header-section-number">7.7</span> 习题</a></li>
+<li><a class="nav-link" href="#%E9%98%85%E8%AF%BB"><span class="header-section-number">7.8</span> 阅读</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+h1:tidyverse-ggplot2-gganimate ggplot2之让你的数据动起来
+h2:为什么要使用动图 为什么要使用动图
+h2:gganimate宏包 宏包
+h3:先来一张静态图 先来一张静态图
+h3:相对复杂点的例子 相对复杂点的例子
+h2:the-grammar-of-animation The grammar of animation
+h2:希望动画随哪个变量动起来 希望动画随哪个变量动起来
+h3:transition_states transition_states
+h3:transition_time transition_time
+h3:transition_reveal transition_reveal
+h3:transition_filter transition_filter
+h3:transition_layers transition_layers
+h3:其他 其他
+h2:希望坐标轴随数据动起来 希望坐标轴随数据动起来
+h3:view_follow view_follow
+h3:其它 其它
+h2:希望动画有个记忆 希望动画有个记忆
+h3:shadow_wake shadow_wake()
+h3:shadow_trail shadow_trail()
+h3:shadow_mark shadow_mark()
+h2:定义新数据出现和旧数据退去的方式 定义新数据出现和旧数据退去的方式
+h3:enterexit_fade enter/exit_fade()
+h3:enter_growexit_shrink enter_grow()/exit_shrink()
+h2:控制变化的节奏 控制变化的节奏
+h2:标签 标签
+h2:保存 保存
+h3:renderer-options Renderer options
+h3:常用方法 常用方法
+h2:案例演示一 案例演示一
+h2:案例演示二 案例演示二
+h3:常规的方法 常规的方法
+h3:炫酷点的 炫酷点的
+h2:案例演示三 案例演示三
+h2:课后作业 课后作业
+h3:作业1 作业1
+h3:作业2 作业2
+

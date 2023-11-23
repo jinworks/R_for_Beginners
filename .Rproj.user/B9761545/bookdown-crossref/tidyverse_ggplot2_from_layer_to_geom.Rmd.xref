@@ -1,0 +1,32 @@
+h1:tidyverse-ggplot2-from-layer-to-geom ggplot2之从图层到几何形状
+h2:图层的五大元素 图层的五大元素
+h2:加载宏包 加载宏包
+h2:stat_identity stat_identity()
+h2:stat_count stat_count()
+h2:stat_bin stat_bin()
+h2:stat_density stat_density()
+h2:stat_boxplot stat_boxplot()
+h2:stat_ydensity stat_ydensity()
+h2:stat_bindot stat_bindot()
+h2:stat_sum stat_sum()
+h2:stat_smooth stat_smooth()
+h2:stat_bin_2d stat_bin_2d()
+h2:stat_bin_hex stat_bin_hex()
+h2:stat_density_2d stat_density_2d()
+h3:先看看有等高线的情形 先看看有等高线的情形
+h3:看看无等高线的情形 看看无等高线的情形
+h2:stat_ellipse stat_ellipse()
+h2:stat_summary stat_summary
+h3:自定义函数 自定义函数
+h3:添加文本 添加文本
+h3:更多 更多
+h2:stat_summary_bin stat_summary_bin
+h2:stat_function stat_function()
+h2:stat_spoke stat_spoke()
+h2:stat_quantile stat_quantile()
+h2:stat_summary_2d stat_summary_2d()
+h3:测试 测试
+h2:stat_summary_hex stat_summary_hex()
+h2:stat_contour-and-stat_contour_filled stat_contour() and stat_contour_filled()
+h2:课后作业 课后作业
+

@@ -1,0 +1,20 @@
+h1:part-可重复性文档rmarkdown以及练习 (PART) 可重复性文档Rmarkdown以及练习
+h1:tidyverse-rmarkdown 可重复性文档
+h2:什么是rmarkdown 什么是Rmarkdown
+h2:markdown-基本语法 markdown 基本语法
+h2:elements-of-rmarkdown Elements of RMarkdown
+h2:r-code-chunks R Code chunks
+h2:生成html文档 生成html文档
+h2:生成word文档 生成word文档
+h2:生成pdf文档 生成pdf文档
+h2:使用方法 使用方法
+h3:插入公式 插入公式
+h3:插入图片 插入图片
+h3:运行代码 运行代码
+h3:表格 表格
+tab:tables-mtcars A caption
+h3:生成图片 生成图片
+h3:文本内计算 文本内计算
+h2:案例代码 案例代码
+h2:延伸阅读 延伸阅读
+

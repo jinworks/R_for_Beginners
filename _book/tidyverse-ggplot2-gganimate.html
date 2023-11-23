@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 30 章 ggplot2之让你的数据动起来 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="这节课，我们讲如何让我们的图动起来。（因为渲染需要花费很长时间，所以文档中的动图代码都没有执行。）  30.1 为什么要使用动图 改进了图形在时间上和空间上的重新定位 传递更多信息 引人注意  30.2 gganimate宏包 动图可以将其理解为多张静态图堆在一起，当然不是随意的堆放，而是按照一定的规则，比如按照时间的顺序，或者类别的顺序。一般而言，动图制作包括两个步骤:...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 30 章 ggplot2之让你的数据动起来 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="这节课，我们讲如何让我们的图动起来。（因为渲染需要花费很长时间，所以文档中的动图代码都没有执行。）  30.1 为什么要使用动图 改进了图形在时间上和空间上的重新定位 传递更多信息 引人注意  30.2 gganimate宏包 动图可以将其理解为多张静态图堆在一起，当然不是随意的堆放，而是按照一定的规则，比如按照时间的顺序，或者类别的顺序。一般而言，动图制作包括两个步骤:...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 30 章 ggplot2之让你的数据动起来 | R编程与作图">
+<meta name="twitter:description" content="这节课，我们讲如何让我们的图动起来。（因为渲染需要花费很长时间，所以文档中的动图代码都没有执行。）  30.1 为什么要使用动图 改进了图形在时间上和空间上的重新定位 传递更多信息 引人注意  30.2 gganimate宏包 动图可以将其理解为多张静态图堆在一起，当然不是随意的堆放，而是按照一定的规则，比如按照时间的顺序，或者类别的顺序。一般而言，动图制作包括两个步骤:...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="active" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tidyverse-ggplot2-gganimate" class="section level1" number="30">
+<h1>
+<span class="header-section-number">第 30 章</span> ggplot2之让你的数据动起来<a class="anchor" aria-label="anchor" href="#tidyverse-ggplot2-gganimate"><i class="fas fa-link"></i></a>
+</h1>
+<p>这节课，我们讲如何让我们的图动起来。（因为渲染需要花费很长时间，所以文档中的动图代码都没有执行。）</p>
+<div id="为什么要使用动图" class="section level2" number="30.1">
+<h2>
+<span class="header-section-number">30.1</span> 为什么要使用动图<a class="anchor" aria-label="anchor" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%8A%A8%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>改进了图形在时间上和空间上的重新定位</li>
+<li>传递更多信息</li>
+<li>引人注意</li>
+</ul>
+</div>
+<div id="gganimate宏包" class="section level2" number="30.2">
+<h2>
+<span class="header-section-number">30.2</span> <code>gganimate</code>宏包<a class="anchor" aria-label="anchor" href="#gganimate%E5%AE%8F%E5%8C%85"><i class="fas fa-link"></i></a>
+</h2>
+<p>动图可以将其理解为多张静态图堆在一起，当然不是随意的堆放，而是按照一定的规则，比如按照时间的顺序，或者类别的顺序。一般而言，动图制作包括两个步骤: 静态图制作及图形组装。静态图制作，前面几章我们讲过主要用ggplot2宏包实现；对于图形组装，需要用到今天我们要讲Thomas Lin Pedersen的<code>gganimate</code>宏包，来自同一工厂的产品，用起来自然是无缝衔接啦。</p>
+<div class="sourceCode" id="cb2170"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"gganimate"</span><span class="op">)</span></span></code></pre></div>
+<div id="先来一张静态图" class="section level3" number="30.2.1">
+<h3>
+<span class="header-section-number">30.2.1</span> 先来一张静态图<a class="anchor" aria-label="anchor" href="#%E5%85%88%E6%9D%A5%E4%B8%80%E5%BC%A0%E9%9D%99%E6%80%81%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">covdata</span><span class="op">)</span> <span class="co"># remotes::install_github("kjhealy/covdata")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gganimate.com">gganimate</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2172"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">covdata</span><span class="fu">::</span><span class="va">covnat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iso3</span> <span class="op">==</span> <span class="st">"USA"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cu_cases</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">cases</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"美国新冠肺炎累积确诊病例"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"数据来源https://kjhealy.github.io/covdata/"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>让它动起来，我们只需要增加一行代码！</p>
+<div class="sourceCode" id="cb2173"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">covdata</span><span class="fu">::</span><span class="va">covnat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">iso3</span> <span class="op">==</span> <span class="st">"USA"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cu_cases</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">cases</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"美国新冠肺炎累积确诊病例 {frame_along}"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"数据来源https://kjhealy.github.io/covdata/"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_reveal.html">transition_reveal</a></span><span class="op">(</span>along <span class="op">=</span> <span class="va">date</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="相对复杂点的例子" class="section level3" number="30.2.2">
+<h3>
+<span class="header-section-number">30.2.2</span> 相对复杂点的例子<a class="anchor" aria-label="anchor" href="#%E7%9B%B8%E5%AF%B9%E5%A4%8D%E6%9D%82%E7%82%B9%E7%9A%84%E4%BE%8B%E5%AD%90"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2174"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jumpingrivers/datasauRus">datasauRus</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">datasaurus_dozen</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, color <span class="op">=</span> <span class="va">dataset</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>用分面展示</p>
+<div class="sourceCode" id="cb2175"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">datasaurus_dozen</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, color <span class="op">=</span> <span class="va">dataset</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">dataset</span><span class="op">)</span></span></code></pre></div>
+<p>可以用动图展示</p>
+<div class="sourceCode" id="cb2176"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">datasaurus_dozen</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, color <span class="op">=</span> <span class="va">dataset</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="co"># &lt;&lt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Dataset: {closest_state}"</span><span class="op">)</span></span></code></pre></div>
+<p>是不是很炫酷，下面我们就一个个讲解其中的函数。</p>
+</div>
+</div>
+<div id="the-grammar-of-animation" class="section level2" number="30.3">
+<h2>
+<span class="header-section-number">30.3</span> The grammar of animation<a class="anchor" aria-label="anchor" href="#the-grammar-of-animation"><i class="fas fa-link"></i></a>
+</h2>
+<p>使用<code>gganimate</code>做动画，只需要掌握以下五类函数：</p>
+<ul>
+<li>
+<code>transition_*()</code>: 定义动画是根据哪个变量进行”动”，以及如何”动”</li>
+<li>
+<code>view_*()</code>: 定义坐标轴随数据变化.</li>
+<li>
+<code>shadow_*()</code>: 影子（旧数据的历史记忆）?定义点相继出现的方式.</li>
+<li>
+<code>enter_*()/exit_*()</code>: 定义新数据出现和旧数据退去的方式.</li>
+<li>
+<code><a href="https://gganimate.com/reference/ease_aes.html">ease_aes()</a></code>: 美观定义，控制变化的节奏(如何让整个动画看起来更舒适).</li>
+</ul>
+<p>下面通过案例依次讲解这些函数功能。</p>
+</div>
+<div id="希望动画随哪个变量动起来" class="section level2" number="30.4">
+<h2>
+<span class="header-section-number">30.4</span> 希望动画随哪个变量动起来<a class="anchor" aria-label="anchor" href="#%E5%B8%8C%E6%9C%9B%E5%8A%A8%E7%94%BB%E9%9A%8F%E5%93%AA%E4%B8%AA%E5%8F%98%E9%87%8F%E5%8A%A8%E8%B5%B7%E6%9D%A5"><i class="fas fa-link"></i></a>
+</h2>
+<p>变量如何选择，这需要从变量类型和变量代表的信息来确定。</p>
+<div id="transition_states" class="section level3" number="30.4.1">
+<h3>
+<span class="header-section-number">30.4.1</span> transition_states<a class="anchor" aria-label="anchor" href="#transition_states"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<code>transition_states(states = )</code>, 这里的参数states往往带有分组信息，可以等价于静态图中的分面。</li>
+</ul>
+<div class="sourceCode" id="cb2177"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2179"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span>states <span class="op">=</span> <span class="va">color</span>, transition_length <span class="op">=</span> <span class="fl">3</span>, state_length <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="transition_time" class="section level3" number="30.4.2">
+<h3>
+<span class="header-section-number">30.4.2</span> transition_time<a class="anchor" aria-label="anchor" href="#transition_time"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<code>transition_time(time = )</code>, 这里的time一般认为是<strong>连续</strong>的值，相比于<code>transition_states</code>，没有了<code>transtion_length</code>这个选项，是因为<code>transtion_length</code>默认为time. 事实上，<code>transition_time</code>是<code>transition_states</code>的一种特例，但其实也有分组的要求</li>
+</ul>
+<div class="sourceCode" id="cb2180"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gganimate.com">gganimate</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jennybc/gapminder">gapminder</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">gapminder</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">gdpPercap</span>, <span class="va">lifeExp</span>, size <span class="op">=</span> <span class="va">pop</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.7</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://jennybc.github.io/gapminder/reference/country_colors.html">country_colors</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">continent</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Year: {frame_time}"</span>, x <span class="op">=</span> <span class="st">"GDP Per capita"</span>, y <span class="op">=</span> <span class="st">"life expectancy"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/ease_aes.html">ease_aes</a></span><span class="op">(</span><span class="st">"linear"</span><span class="op">)</span></span>
+<span><span class="va">plot</span></span></code></pre></div>
+<div class="inline-figure"><img src="tidyverse_ggplot2_gganimate_files/figure-html/unnamed-chunk-2-1.gif" width="95%"></div>
+<div class="sourceCode" id="cb2181"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># save as a GIF</span></span>
+<span><span class="co"># animate(plot, fps = 30, width = 750, height = 750)</span></span>
+<span><span class="co"># anim_save("gapminder.gif")</span></span></code></pre></div>
+<div class="sourceCode" id="cb2182"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://jennybc.github.io/gapminder/reference/gapminder.html">gapminder</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span>, size <span class="op">=</span> <span class="va">pop</span>, colour <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.7</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"GDP per capita"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"life expectancy"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">p</span></span></code></pre></div>
+<div class="sourceCode" id="cb2183"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anim</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"year: {frame_time}"</span><span class="op">)</span></span>
+<span><span class="va">anim</span></span></code></pre></div>
+</div>
+<div id="transition_reveal" class="section level3" number="30.4.3">
+<h3>
+<span class="header-section-number">30.4.3</span> transition_reveal<a class="anchor" aria-label="anchor" href="#transition_reveal"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<code>transition_reveal(along =  )</code>, along 这个词可以看出，它是按照某个变量<strong>依次</strong>显示的意思，比如顺着x轴显示</li>
+</ul>
+<div class="sourceCode" id="cb2184"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">economics</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">unemploy</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2185"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">economics</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">unemploy</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_reveal.html">transition_reveal</a></span><span class="op">(</span>along <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"now is {frame_along}"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="transition_filter" class="section level3" number="30.4.4">
+<h3>
+<span class="header-section-number">30.4.4</span> transition_filter<a class="anchor" aria-label="anchor" href="#transition_filter"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<code>transition_filter( 至少2个筛选条件，transition_length = ,   filter_length =)</code>, 动图将会在这些筛选条件对应的子图之间转换</li>
+</ul>
+<div class="sourceCode" id="cb2186"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_filter.html">transition_filter</a></span><span class="op">(</span></span>
+<span>    transition_length <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>    filter_length <span class="op">=</span> <span class="fl">1</span>,</span>
+<span></span>
+<span>    <span class="va">cut</span> <span class="op">==</span> <span class="st">"Ideal"</span>,</span>
+<span>    Deep <span class="op">=</span> <span class="va">depth</span> <span class="op">&gt;=</span> <span class="fl">60</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div id="transition_layers" class="section level3" number="30.4.5">
+<h3>
+<span class="header-section-number">30.4.5</span> transition_layers<a class="anchor" aria-label="anchor" href="#transition_layers"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<code><a href="https://gganimate.com/reference/transition_layers.html">transition_layers()</a></code>: 依次显示每个图层</li>
+</ul>
+<div class="sourceCode" id="cb2187"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">disp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"grey"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">gear</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_layers.html">transition_layers</a></span><span class="op">(</span></span>
+<span>    layer_length <span class="op">=</span> <span class="fl">1</span>, transition_length <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    from_blank <span class="op">=</span> <span class="cn">FALSE</span>, keep_layers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html">enter_fade</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html">exit_fade</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="其他" class="section level3" number="30.4.6">
+<h3>
+<span class="header-section-number">30.4.6</span> 其他<a class="anchor" aria-label="anchor" href="#%E5%85%B6%E4%BB%96"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><code><a href="https://gganimate.com/reference/transition_manual.html">transition_manual()</a></code></li>
+<li><code><a href="https://gganimate.com/reference/transition_components.html">transition_components()</a></code></li>
+<li><code><a href="https://gganimate.com/reference/transition_events.html">transition_events()</a></code></li>
+</ul>
+</div>
+</div>
+<div id="希望坐标轴随数据动起来" class="section level2" number="30.5">
+<h2>
+<span class="header-section-number">30.5</span> 希望坐标轴随数据动起来<a class="anchor" aria-label="anchor" href="#%E5%B8%8C%E6%9C%9B%E5%9D%90%E6%A0%87%E8%BD%B4%E9%9A%8F%E6%95%B0%E6%8D%AE%E5%8A%A8%E8%B5%B7%E6%9D%A5"><i class="fas fa-link"></i></a>
+</h2>
+<p>动画过程中，绘图窗口怎么变化呢？</p>
+<div id="view_follow" class="section level3" number="30.5.1">
+<h3>
+<span class="header-section-number">30.5.1</span> view_follow<a class="anchor" aria-label="anchor" href="#view_follow"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2188"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Sepal.Width</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"{closest_state}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">Species</span>, transition_length <span class="op">=</span> <span class="fl">4</span>, state_length <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/view_follow.html">view_follow</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="其它" class="section level3" number="30.5.2">
+<h3>
+<span class="header-section-number">30.5.2</span> 其它<a class="anchor" aria-label="anchor" href="#%E5%85%B6%E5%AE%83"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><code><a href="https://gganimate.com/reference/view_step.html">view_step()</a></code></li>
+<li><code><a href="https://gganimate.com/reference/view_step.html">view_step_manual()</a></code></li>
+<li><code><a href="https://gganimate.com/reference/view_zoom.html">view_zoom()</a></code></li>
+<li><code><a href="https://gganimate.com/reference/view_zoom.html">view_zoom_manual()</a></code></li>
+</ul>
+</div>
+</div>
+<div id="希望动画有个记忆" class="section level2" number="30.6">
+<h2>
+<span class="header-section-number">30.6</span> 希望动画有个记忆<a class="anchor" aria-label="anchor" href="#%E5%B8%8C%E6%9C%9B%E5%8A%A8%E7%94%BB%E6%9C%89%E4%B8%AA%E8%AE%B0%E5%BF%86"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>
+<code>shadow_wake(wake_length =,  )</code> 旧数据消退时，制造点小小的尾迹的效果（wake除了叫醒，还有尾迹的意思，合起来就是记忆_尾迹）</li>
+<li>
+<code>shadow_trail(distance = 0.05)</code> 旧数据消退时，制造面包屑一样的残留痕迹（记忆_零星残留）</li>
+<li>
+<code>shadow_mark(past = TRUE, future = FALSE)</code> 将旧数据和新数据当作背景（记忆_标记）</li>
+</ul>
+<div id="shadow_wake" class="section level3" number="30.6.1">
+<h3>
+<span class="header-section-number">30.6.1</span> shadow_wake()<a class="anchor" aria-label="anchor" href="#shadow_wake"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2189"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"year: {frame_time}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_wake.html">shadow_wake</a></span><span class="op">(</span>wake_length <span class="op">=</span> <span class="fl">0.1</span>, alpha <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2190"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Petal.Length</span>, <span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"{closest_state}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">Species</span>, transition_length <span class="op">=</span> <span class="fl">4</span>, state_length <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_wake.html">shadow_wake</a></span><span class="op">(</span>wake_length <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="shadow_trail" class="section level3" number="30.6.2">
+<h3>
+<span class="header-section-number">30.6.2</span> shadow_trail()<a class="anchor" aria-label="anchor" href="#shadow_trail"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2191"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"year: {frame_time}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_trail.html">shadow_trail</a></span><span class="op">(</span>distance <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2192"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Petal.Length</span>, <span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"{closest_state}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">Species</span>, transition_length <span class="op">=</span> <span class="fl">4</span>, state_length <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_trail.html">shadow_trail</a></span><span class="op">(</span>distance <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="shadow_mark" class="section level3" number="30.6.3">
+<h3>
+<span class="header-section-number">30.6.3</span> shadow_mark()<a class="anchor" aria-label="anchor" href="#shadow_mark"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2193"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"year: {frame_time}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html">shadow_mark</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.3</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2194"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">airquality</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Day</span>, <span class="va">Temp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">Month</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html">shadow_mark</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div id="定义新数据出现和旧数据退去的方式" class="section level2" number="30.7">
+<h2>
+<span class="header-section-number">30.7</span> 定义新数据出现和旧数据退去的方式<a class="anchor" aria-label="anchor" href="#%E5%AE%9A%E4%B9%89%E6%96%B0%E6%95%B0%E6%8D%AE%E5%87%BA%E7%8E%B0%E5%92%8C%E6%97%A7%E6%95%B0%E6%8D%AE%E9%80%80%E5%8E%BB%E7%9A%84%E6%96%B9%E5%BC%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>出现和退去的函数是成对的</p>
+<div id="enterexit_fade" class="section level3" number="30.7.1">
+<h3>
+<span class="header-section-number">30.7.1</span> enter/exit_fade()<a class="anchor" aria-label="anchor" href="#enterexit_fade"><i class="fas fa-link"></i></a>
+</h3>
+<p>透明度上的变化，我这里用柱状图展示，效果要明显一点。</p>
+<div class="sourceCode" id="cb2195"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">month.name</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span>states <span class="op">=</span> <span class="va">month.name</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2196"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">month.name</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span>states <span class="op">=</span> <span class="va">month.name</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html">shadow_mark</a></span><span class="op">(</span>past <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html">enter_fade</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2197"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"year: {frame_time}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html">enter_fade</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="enter_growexit_shrink" class="section level3" number="30.7.2">
+<h3>
+<span class="header-section-number">30.7.2</span> enter_grow()/exit_shrink()<a class="anchor" aria-label="anchor" href="#enter_growexit_shrink"><i class="fas fa-link"></i></a>
+</h3>
+<p>大小上的变化</p>
+<div class="sourceCode" id="cb2198"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">month.name</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span>states <span class="op">=</span> <span class="va">month.name</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html">shadow_mark</a></span><span class="op">(</span>past <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html">enter_grow</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2199"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"year: {frame_time}"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html">enter_grow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/enter_exit.html">enter_fade</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div id="控制变化的节奏" class="section level2" number="30.8">
+<h2>
+<span class="header-section-number">30.8</span> 控制变化的节奏<a class="anchor" aria-label="anchor" href="#%E6%8E%A7%E5%88%B6%E5%8F%98%E5%8C%96%E7%9A%84%E8%8A%82%E5%A5%8F"><i class="fas fa-link"></i></a>
+</h2>
+<p>控制数据点变化的快慢</p>
+<div class="sourceCode" id="cb2200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2200-1"><a href="tidyverse-ggplot2-gganimate.html#cb2200-1" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">ease_aes</span>({aesthetic} <span class="ot">=</span> {ease})</span>
+<span id="cb2200-2"><a href="tidyverse-ggplot2-gganimate.html#cb2200-2" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">ease_aes</span>(<span class="at">x =</span> <span class="st">"cubic"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2201"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/ease.png"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="images/ease.png" width="100%" style="display: block; margin: auto auto auto 0;"></div>
+<p>Source: <a href="https://easings.net/" class="uri">https://easings.net/</a></p>
+<p>看下面的案例：</p>
+<div class="sourceCode" id="cb2202"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">color</span>, transition_length <span class="op">=</span> <span class="fl">3</span>, state_length <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/ease_aes.html">ease_aes</a></span><span class="op">(</span><span class="st">"cubic-in"</span><span class="op">)</span> <span class="co"># Change easing of all aesthetics</span></span></code></pre></div>
+<div class="sourceCode" id="cb2203"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">color</span>, transition_length <span class="op">=</span> <span class="fl">3</span>, state_length <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/ease_aes.html">ease_aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"elastic-in"</span><span class="op">)</span> <span class="co"># Only change `x` (others remain “linear”)</span></span></code></pre></div>
+</div>
+<div id="标签-1" class="section level2" number="30.9">
+<h2>
+<span class="header-section-number">30.9</span> 标签<a class="anchor" aria-label="anchor" href="#%E6%A0%87%E7%AD%BE-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>我们可能需要在标题中加入每张动画的信息，常用罗列如下</p>
+<div class="sourceCode" id="cb2204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span>states <span class="op">=</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"previous is {previous_state}, </span></span>
+<span><span class="st">                current is {closest_state}, </span></span>
+<span><span class="st">                next is {next_state}"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://gganimate.com/reference/transition_layers.html">transition_layers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"previous is {previous_layers}, </span></span>
+<span><span class="st">                current is {closest_layers}, </span></span>
+<span><span class="st">                next is {next_layers}"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span>time <span class="op">=</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"now is {frame_time}"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://gganimate.com/reference/transition_reveal.html">transition_reveal</a></span><span class="op">(</span>along <span class="op">=</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"now is {frame_along}"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="保存" class="section level2" number="30.10">
+<h2>
+<span class="header-section-number">30.10</span> 保存<a class="anchor" aria-label="anchor" href="#%E4%BF%9D%E5%AD%98"><i class="fas fa-link"></i></a>
+</h2>
+<div id="renderer-options" class="section level3" number="30.10.1">
+<h3>
+<span class="header-section-number">30.10.1</span> Renderer options<a class="anchor" aria-label="anchor" href="#renderer-options"><i class="fas fa-link"></i></a>
+</h3>
+<pre><code>## # A tibble: 6 × 2
+##   Function        Description                                          
+##   &lt;chr&gt;           &lt;chr&gt;                                                
+## 1 gifski_renderer Default, super fast gif renderer.                    
+## 2 magick_renderer Somewhat slower gif renderer.                        
+## 3 ffmpeg_renderer Uses ffmpeg to create a video from the animation.    
+## 4 av_renderer     Uses the av package to create a video (using ffmpeg).
+## 5 file_renderer   Dumps a list of image frames from the animation.     
+## 6 sprite_renderer Creates a spritesheet from frames of the animation.</code></pre>
+</div>
+<div id="常用方法" class="section level3" number="30.10.2">
+<h3>
+<span class="header-section-number">30.10.2</span> 常用方法<a class="anchor" aria-label="anchor" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><i class="fas fa-link"></i></a>
+</h3>
+<p>一般用<code><a href="https://gganimate.com/reference/anim_save.html">anim_save()</a></code>保存为 gif 格式，方法类似<code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave()</a></code></p>
+<div class="sourceCode" id="cb2206"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">animation_to_save</span> <span class="op">&lt;-</span> <span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">color</span>, transition_length <span class="op">=</span> <span class="fl">3</span>, state_length <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/ease_aes.html">ease_aes</a></span><span class="op">(</span><span class="st">"cubic-in"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://gganimate.com/reference/anim_save.html">anim_save</a></span><span class="op">(</span><span class="st">"first_saved_animation.gif"</span>, animation <span class="op">=</span> <span class="va">animation_to_save</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div id="案例演示一" class="section level2" number="30.11">
+<h2>
+<span class="header-section-number">30.11</span> 案例演示一<a class="anchor" aria-label="anchor" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA%E4%B8%80"><i class="fas fa-link"></i></a>
+</h2>
+<!-- 这是网上有段时间比较火的racing_bar图 -->
+<!-- ```{r} -->
+<!-- ranked_by_year <- -->
+<!--   gapminder %>% -->
+<!--   select(country, pop, year, continent) %>% -->
+<!--   group_by(year) %>% -->
+<!--   arrange(year, desc(pop)) %>% -->
+<!--   mutate(rank = 1:n()) %>% -->
+<!--   filter(rank <= 10) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ranked_by_year %>% -->
+<!--   ungroup() %>% -->
+<!--   mutate(pop = pop / 1000000) %>% -->
+<!--   ggplot(aes( -->
+<!--     x = rank, -->
+<!--     y = country, -->
+<!--     group = country, -->
+<!--     label = country, -->
+<!--     fill = continent -->
+<!--   )) + -->
+<!--   geom_tile( -->
+<!--     aes( -->
+<!--       y = pop / 2, -->
+<!--       height = pop, -->
+<!--       width = 0.9, -->
+<!--       fill = continent -->
+<!--     ), -->
+<!--     alpha = 0.8, -->
+<!--     show.legend = F -->
+<!--   ) + -->
+<!--   geom_text(aes( -->
+<!--     y = pop, -->
+<!--     label = country, -->
+<!--     color = ifelse(pop > 1100, "#ffffff", "#000000"), -->
+<!--     hjust = ifelse(pop > 1100, 1, 0) -->
+<!--   )) + -->
+<!--   scale_x_reverse( -->
+<!--     breaks = c(1:10), -->
+<!--     label = c(1:10) -->
+<!--   ) + -->
+<!--   theme_minimal() + -->
+<!--   coord_flip(clip = "off", expand = FALSE) + -->
+<!--   labs( -->
+<!--     title = "year {closest_state}", -->
+<!--     x = "", -->
+<!--     y = "Population (millions)", -->
+<!--     caption = "Source: github/corydonbaylor" -->
+<!--   ) + -->
+<!--   transition_states(year, -->
+<!--     transition_length = 4, -->
+<!--     state_length = 1, -->
+<!--     wrap = TRUE -->
+<!--   ) + -->
+<!--   ease_aes("cubic-in-out") -->
+<!-- ``` -->
+<p>这是网上有段时间比较火的racing_bar图</p>
+<div class="sourceCode" id="cb2207"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ranked_by_date</span> <span class="op">&lt;-</span> <span class="fu">covdata</span><span class="fu">::</span><span class="va">covnat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">date</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">cu_cases</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rank</span> <span class="op">&lt;=</span> <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2208"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ranked_by_date</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">&gt;=</span> <span class="st">"2020-05-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">rank</span>, y <span class="op">=</span> <span class="va">cname</span>, group <span class="op">=</span> <span class="va">cname</span>, fill <span class="op">=</span> <span class="va">cname</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      y <span class="op">=</span> <span class="va">cu_cases</span> <span class="op">/</span> <span class="fl">2</span>,</span>
+<span>      height <span class="op">=</span> <span class="va">cu_cases</span>,</span>
+<span>      width <span class="op">=</span> <span class="fl">0.9</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>    show.legend <span class="op">=</span> <span class="cn">F</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>    y <span class="op">=</span> <span class="va">cu_cases</span>,</span>
+<span>    label <span class="op">=</span> <span class="va">cname</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  show.legend <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_reverse</a></span><span class="op">(</span></span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>,</span>
+<span>    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span>clip <span class="op">=</span> <span class="st">"off"</span>, expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"日期: {closest_state}"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"Source: github/kjhealy/covdata"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">date</span>,</span>
+<span>    transition_length <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    state_length <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    wrap <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/ease_aes.html">ease_aes</a></span><span class="op">(</span><span class="st">"cubic-in-out"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="案例演示二" class="section level2" number="30.12">
+<h2>
+<span class="header-section-number">30.12</span> 案例演示二<a class="anchor" aria-label="anchor" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA%E4%BA%8C"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb2209"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bats</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"./demo_data/bats-subset.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2210"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">longitude</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">latitude</span>,</span>
+<span>    group <span class="op">=</span> <span class="va">id</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">id</span></span>
+<span>  <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div id="常规的方法" class="section level3" number="30.12.1">
+<h3>
+<span class="header-section-number">30.12.1</span> 常规的方法<a class="anchor" aria-label="anchor" href="#%E5%B8%B8%E8%A7%84%E7%9A%84%E6%96%B9%E6%B3%95"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb2211"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">longitude</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">latitude</span>,</span>
+<span>    group <span class="op">=</span> <span class="va">id</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">id</span></span>
+<span>  <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html">shadow_mark</a></span><span class="op">(</span>past <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>geom_path()是按照数据点出现的先后顺序</li>
+<li>geom_line()是按照数据点在x轴的顺序</li>
+</ul>
+<div class="sourceCode" id="cb2212"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">longitude</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">latitude</span>,</span>
+<span>    group <span class="op">=</span> <span class="va">id</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">id</span></span>
+<span>  <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html">shadow_mark</a></span><span class="op">(</span>past <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="炫酷点的" class="section level3" number="30.12.2">
+<h3>
+<span class="header-section-number">30.12.2</span> 炫酷点的<a class="anchor" aria-label="anchor" href="#%E7%82%AB%E9%85%B7%E7%82%B9%E7%9A%84"><i class="fas fa-link"></i></a>
+</h3>
+<!-- 此时geom_path() + transition_reveal(time) = transition_time(time) -->
+<div class="sourceCode" id="cb2213"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    image <span class="op">=</span> <span class="st">"images/bat-cartoon.png"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">longitude</span>,</span>
+<span>    y <span class="op">=</span> <span class="va">latitude</span>,</span>
+<span>    group <span class="op">=</span> <span class="va">id</span>,</span>
+<span>    color <span class="op">=</span> <span class="va">id</span></span>
+<span>  <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggimage</span><span class="fu">::</span><span class="fu">geom_image</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">image</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_reveal.html">transition_reveal</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div id="案例演示三" class="section level2" number="30.13">
+<h2>
+<span class="header-section-number">30.13</span> 案例演示三<a class="anchor" aria-label="anchor" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA%E4%B8%89"><i class="fas fa-link"></i></a>
+</h2>
+<p>全球R-Ladies组织，会议活动的情况，我们在地图上用动图展示</p>
+<div class="sourceCode" id="cb2214"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rladies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"./demo_data/rladies.csv"</span><span class="op">)</span></span>
+<span><span class="va">rladies</span></span></code></pre></div>
+<p>这里需要一个地图，可以这样</p>
+<div class="sourceCode" id="cb2215"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html">borders</a></span><span class="op">(</span><span class="st">"world"</span>, colour <span class="op">=</span> <span class="st">"gray85"</span>, fill <span class="op">=</span> <span class="st">"gray80"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>当然，最好是这样</p>
+<div class="sourceCode" id="cb2216"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">maps</span><span class="op">)</span></span>
+<span><span class="va">world</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/map_data.html">map_data</a></span><span class="op">(</span><span class="st">"world"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">world_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world</span>, </span>
+<span>               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">long</span>, y <span class="op">=</span> <span class="va">lat</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span>,</span>
+<span>               color <span class="op">=</span> <span class="st">"white"</span>, fill <span class="op">=</span> <span class="st">"gray80"</span></span>
+<span>               <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">world_map</span> </span></code></pre></div>
+<p>然后把点打上去</p>
+<div class="sourceCode" id="cb2217"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">world_map</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">rladies</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">lon</span>, y <span class="op">=</span> <span class="va">lat</span>, size <span class="op">=</span> <span class="va">followers</span><span class="op">)</span>,</span>
+<span>    colour <span class="op">=</span> <span class="st">"purple"</span>, alpha <span class="op">=</span> <span class="fl">.5</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size_continuous</a></span><span class="op">(</span></span>
+<span>    range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span>,</span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">750</span>, <span class="fl">1000</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"Followers"</span><span class="op">)</span></span></code></pre></div>
+<p>用动图展示（这种方法常用在流行病传播的展示上）</p>
+<div class="sourceCode" id="cb2218"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">world_map</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">lon</span>, y <span class="op">=</span> <span class="va">lat</span>, size <span class="op">=</span> <span class="va">followers</span><span class="op">)</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">rladies</span>,</span>
+<span>    colour <span class="op">=</span> <span class="st">"purple"</span>, alpha <span class="op">=</span> <span class="fl">.5</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size_continuous</a></span><span class="op">(</span></span>
+<span>    range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span>,</span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">750</span>, <span class="fl">1000</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">created_at</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/shadow_mark.html">shadow_mark</a></span><span class="op">(</span>past <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Day: {closest_state}"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="课后作业-2" class="section level2" number="30.14">
+<h2>
+<span class="header-section-number">30.14</span> 课后作业<a class="anchor" aria-label="anchor" href="#%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A-2"><i class="fas fa-link"></i></a>
+</h2>
+<div id="作业1" class="section level3" number="30.14.1">
+<h3>
+<span class="header-section-number">30.14.1</span> 作业1<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E4%B8%9A1"><i class="fas fa-link"></i></a>
+</h3>
+<p>把下图弄成你喜欢的样子</p>
+<div class="sourceCode" id="cb2219"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jennybc/gapminder">gapminder</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">gapminder</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">gdpPercap</span>, y <span class="op">=</span> <span class="va">lifeExp</span>,</span>
+<span>    size <span class="op">=</span> <span class="va">pop</span>, colour <span class="op">=</span> <span class="va">country</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"GDP per capita"</span>, y <span class="op">=</span> <span class="st">"Life expectancy"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Year: {frame_time}"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="作业2" class="section level3" number="30.14.2">
+<h3>
+<span class="header-section-number">30.14.2</span> 作业2<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E4%B8%9A2"><i class="fas fa-link"></i></a>
+</h3>
+<p>那请说说这以下三个的区别？</p>
+<div class="sourceCode" id="cb2220"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">longitude</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">latitude</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_reveal.html">transition_reveal</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="co"># &lt;&lt;</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="va">bats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">longitude</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">latitude</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html">transition_states</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="co"># &lt;&lt;</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="va">bats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">longitude</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">latitude</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="co"># &lt;&lt;</span></span></code></pre></div>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></div>
+<div class="next"><a href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#tidyverse-ggplot2-gganimate"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%8A%A8%E5%9B%BE"><span class="header-section-number">30.1</span> 为什么要使用动图</a></li>
+<li>
+<a class="nav-link" href="#gganimate%E5%AE%8F%E5%8C%85"><span class="header-section-number">30.2</span> gganimate宏包</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%85%88%E6%9D%A5%E4%B8%80%E5%BC%A0%E9%9D%99%E6%80%81%E5%9B%BE"><span class="header-section-number">30.2.1</span> 先来一张静态图</a></li>
+<li><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E5%A4%8D%E6%9D%82%E7%82%B9%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="header-section-number">30.2.2</span> 相对复杂点的例子</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#the-grammar-of-animation"><span class="header-section-number">30.3</span> The grammar of animation</a></li>
+<li>
+<a class="nav-link" href="#%E5%B8%8C%E6%9C%9B%E5%8A%A8%E7%94%BB%E9%9A%8F%E5%93%AA%E4%B8%AA%E5%8F%98%E9%87%8F%E5%8A%A8%E8%B5%B7%E6%9D%A5"><span class="header-section-number">30.4</span> 希望动画随哪个变量动起来</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#transition_states"><span class="header-section-number">30.4.1</span> transition_states</a></li>
+<li><a class="nav-link" href="#transition_time"><span class="header-section-number">30.4.2</span> transition_time</a></li>
+<li><a class="nav-link" href="#transition_reveal"><span class="header-section-number">30.4.3</span> transition_reveal</a></li>
+<li><a class="nav-link" href="#transition_filter"><span class="header-section-number">30.4.4</span> transition_filter</a></li>
+<li><a class="nav-link" href="#transition_layers"><span class="header-section-number">30.4.5</span> transition_layers</a></li>
+<li><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="header-section-number">30.4.6</span> 其他</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#%E5%B8%8C%E6%9C%9B%E5%9D%90%E6%A0%87%E8%BD%B4%E9%9A%8F%E6%95%B0%E6%8D%AE%E5%8A%A8%E8%B5%B7%E6%9D%A5"><span class="header-section-number">30.5</span> 希望坐标轴随数据动起来</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#view_follow"><span class="header-section-number">30.5.1</span> view_follow</a></li>
+<li><a class="nav-link" href="#%E5%85%B6%E5%AE%83"><span class="header-section-number">30.5.2</span> 其它</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#%E5%B8%8C%E6%9C%9B%E5%8A%A8%E7%94%BB%E6%9C%89%E4%B8%AA%E8%AE%B0%E5%BF%86"><span class="header-section-number">30.6</span> 希望动画有个记忆</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#shadow_wake"><span class="header-section-number">30.6.1</span> shadow_wake()</a></li>
+<li><a class="nav-link" href="#shadow_trail"><span class="header-section-number">30.6.2</span> shadow_trail()</a></li>
+<li><a class="nav-link" href="#shadow_mark"><span class="header-section-number">30.6.3</span> shadow_mark()</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E6%96%B0%E6%95%B0%E6%8D%AE%E5%87%BA%E7%8E%B0%E5%92%8C%E6%97%A7%E6%95%B0%E6%8D%AE%E9%80%80%E5%8E%BB%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="header-section-number">30.7</span> 定义新数据出现和旧数据退去的方式</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#enterexit_fade"><span class="header-section-number">30.7.1</span> enter/exit_fade()</a></li>
+<li><a class="nav-link" href="#enter_growexit_shrink"><span class="header-section-number">30.7.2</span> enter_grow()/exit_shrink()</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%8F%98%E5%8C%96%E7%9A%84%E8%8A%82%E5%A5%8F"><span class="header-section-number">30.8</span> 控制变化的节奏</a></li>
+<li><a class="nav-link" href="#%E6%A0%87%E7%AD%BE-1"><span class="header-section-number">30.9</span> 标签</a></li>
+<li>
+<a class="nav-link" href="#%E4%BF%9D%E5%AD%98"><span class="header-section-number">30.10</span> 保存</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#renderer-options"><span class="header-section-number">30.10.1</span> Renderer options</a></li>
+<li><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="header-section-number">30.10.2</span> 常用方法</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA%E4%B8%80"><span class="header-section-number">30.11</span> 案例演示一</a></li>
+<li>
+<a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA%E4%BA%8C"><span class="header-section-number">30.12</span> 案例演示二</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E7%9A%84%E6%96%B9%E6%B3%95"><span class="header-section-number">30.12.1</span> 常规的方法</a></li>
+<li><a class="nav-link" href="#%E7%82%AB%E9%85%B7%E7%82%B9%E7%9A%84"><span class="header-section-number">30.12.2</span> 炫酷点的</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA%E4%B8%89"><span class="header-section-number">30.13</span> 案例演示三</a></li>
+<li>
+<a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A-2"><span class="header-section-number">30.14</span> 课后作业</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A1"><span class="header-section-number">30.14.1</span> 作业1</a></li>
+<li><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A2"><span class="header-section-number">30.14.2</span> 作业2</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+h1:tidyverse-ggplot2-academic ggplot2之科研数据可视化
+h2:统计分布图 统计分布图
+h3:points-errorbars points-errorbars
+fig:lincoln-temp-points-errorbars 林肯市2016年气温变化图
+h3:箱线图 箱线图
+fig:boxplot-schematic 箱线图示意图
+fig:lincoln-temp-boxplots 林肯市2016年气温分布箱线图
+h3:小提琴图 小提琴图
+fig:ggplot2-academic-3 小提琴图示意图
+fig:ggplot2-academic-4 图片来源：nature methods, VOL.11, NO.2, FEBRUARY 2014
+fig:lincoln-temp-violins 林肯市2016年气温分布小提琴图
+h3:sina-图 sina 图
+fig:lincoln-temp-all-points 林肯市2016年气温分布散点图
+fig:lincoln-temp-jittered 林肯市2016年气温分布抖散图
+fig:lincoln-temp-sina 林肯市2016年气温分布 sina 图
+h3:山峦图 山峦图
+fig:temp-ridgeline 林肯市2016年气温分布山峦图
+h3:有颜色山峦图 有颜色山峦图
+fig:temp-ridgeline-colorbar 林肯市2016年气温分布山峦图（颜色越亮，温度越高）
+h2:简单回顾 简单回顾
+h2:说明 说明
+

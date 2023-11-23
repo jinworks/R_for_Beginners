@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 6 章 运算符及向量运算 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="向量是R语言中最基础的数据结构，自然地我们会很关注向量的运算，事实上，R语言的强大优势就体现在向量运算上。当然，这都归功于R语言强大的向量化操作。 在此之前，先介绍常用的有以下几种运算符类型： 算术运算符 关系运算符 逻辑运算符 其他运算符  6.1 算术运算符  + 两个向量相加 a &lt;- c(1, 2, 3) b &lt;- c(4, 5, 6) a + b ## [1] 5 7 9 -...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 6 章 运算符及向量运算 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="向量是R语言中最基础的数据结构，自然地我们会很关注向量的运算，事实上，R语言的强大优势就体现在向量运算上。当然，这都归功于R语言强大的向量化操作。 在此之前，先介绍常用的有以下几种运算符类型： 算术运算符 关系运算符 逻辑运算符 其他运算符  6.1 算术运算符  + 两个向量相加 a &lt;- c(1, 2, 3) b &lt;- c(4, 5, 6) a + b ## [1] 5 7 9 -...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 6 章 运算符及向量运算 | R编程与作图">
+<meta name="twitter:description" content="向量是R语言中最基础的数据结构，自然地我们会很关注向量的运算，事实上，R语言的强大优势就体现在向量运算上。当然，这都归功于R语言强大的向量化操作。 在此之前，先介绍常用的有以下几种运算符类型： 算术运算符 关系运算符 逻辑运算符 其他运算符  6.1 算术运算符  + 两个向量相加 a &lt;- c(1, 2, 3) b &lt;- c(4, 5, 6) a + b ## [1] 5 7 9 -...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="active" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="baseR-operators" class="section level1" number="6">
+<h1>
+<span class="header-section-number">第 6 章</span> 运算符及向量运算<a class="anchor" aria-label="anchor" href="#baseR-operators"><i class="fas fa-link"></i></a>
+</h1>
+<p>向量是R语言中最基础的数据结构，自然地我们会很关注向量的运算，事实上，R语言的强大优势就体现在向量运算上。当然，这都归功于R语言强大的<strong>向量化操作</strong>。
+在此之前，先介绍常用的有以下几种运算符类型：</p>
+<ul>
+<li>算术运算符</li>
+<li>关系运算符</li>
+<li>逻辑运算符</li>
+<li>其他运算符</li>
+</ul>
+<div id="算术运算符" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> 算术运算符<a class="anchor" aria-label="anchor" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>
+<code>+</code> 两个向量相加</li>
+</ul>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">+</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1] 5 7 9</code></pre>
+<ul>
+<li>
+<code>-</code> 两个向量相减</li>
+</ul>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">-</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1] -3 -3 -3</code></pre>
+<ul>
+<li>
+<code>*</code> 两个向量相乘</li>
+</ul>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">*</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1]  4 10 18</code></pre>
+<ul>
+<li>
+<code>/</code> 将第一个向量与第二个向量相除</li>
+</ul>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">/</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1] 0.25 0.40 0.50</code></pre>
+<ul>
+<li>
+<code>*</code> 两个向量/矩阵的对应元素相乘</li>
+</ul>
+<p>对于向量</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">*</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1]  4 10 18</code></pre>
+<p>用于矩阵</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">m</span></span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    7   15
+## [2,]   10   22</code></pre>
+<p>注意：两个矩阵的乘法用<code>%*%</code></p>
+<ul>
+<li>
+<code>^</code> 将第二向量作为第一向量的指数</li>
+</ul>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">^</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1]   1  32 729</code></pre>
+</div>
+<div id="循环补齐recycling" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> 循环补齐(recycling)<a class="anchor" aria-label="anchor" href="#%E5%BE%AA%E7%8E%AF%E8%A1%A5%E9%BD%90recycling"><i class="fas fa-link"></i></a>
+</h2>
+<p>做算术运算时，当两个向量长度相等的时候，就一一对应的完成计算；当两个向量长度不相等的时候，短的向量会<strong>循环补齐</strong>，保持与长向量的长度一致后，再做运算。</p>
+<ul>
+<li>长向量的长度正好是短向量的<strong>整数倍</strong>
+</li>
+</ul>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span></code></pre></div>
+<pre><code>## [1] 11 21 31 41</code></pre>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span></span></code></pre></div>
+<pre><code>## [1] 10 40 30 80</code></pre>
+<p>为了代码的可读性，<strong>除非某一个向量长度为1</strong>，我们尽可能避免长度不一致的向量之间的运算。</p>
+</div>
+<div id="关系运算符" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> 关系运算符<a class="anchor" aria-label="anchor" href="#%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><i class="fas fa-link"></i></a>
+</h2>
+<p>将第一向量的每个元素与第二向量的相应元素进行比较，比较的结果是布尔值，布尔值是“真” TRUE 或“假” FALSE 中的一个。</p>
+<ul>
+<li>
+<code>&gt;</code> 检查第一向量的每个元素是否大于第二向量的相应元素。</li>
+</ul>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">&gt;</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1] FALSE FALSE FALSE</code></pre>
+<ul>
+<li>
+<code>!=</code> 检查第一个向量的每个元素是否不等于第二个向量的相应元素。</li>
+</ul>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">!=</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1] TRUE TRUE TRUE</code></pre>
+</div>
+<div id="逻辑运算符" class="section level2" number="6.4">
+<h2>
+<span class="header-section-number">6.4</span> 逻辑运算符<a class="anchor" aria-label="anchor" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><i class="fas fa-link"></i></a>
+</h2>
+<p>逻辑运算符，一般适用于逻辑类型的向量。</p>
+<ul>
+<li>
+<code>&amp;</code> 元素逻辑AND运算符。 它将第一向量的每个元素与第二向量的相应元素组合，并且如果两个元素都为TRUE，则给出输出TRUE。</li>
+</ul>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">&amp;</span> <span class="va">b</span></span></code></pre></div>
+<pre><code>## [1] FALSE FALSE FALSE</code></pre>
+<ul>
+<li>
+<code>|</code> 元素逻辑或运算符。 它将第一向量的每个元素与第二向量的相应元素组合，并且如果元素有一个为真，则给出输出TRUE。</li>
+</ul>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">|</span> <span class="va">b</span></span></code></pre></div>
+<ul>
+<li>
+<code>!</code> 它被称为逻辑非运算符。 对于向量的每个元素，给出相反的逻辑值。</li>
+</ul>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">!</span><span class="va">a</span></span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE  TRUE</code></pre>
+<p>逻辑运算符 <code>&amp;&amp;</code> 和 <code>||</code> 只考虑向量的第一个元素，给出单个元素的向量作为输出。</p>
+<p><code>&amp;&amp;</code> 称为逻辑AND运算符。 取两个向量的第一个元素，并且只有两个都为TRUE时才给出TRUE。</p>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">a</span> <span class="op">&amp;&amp;</span> <span class="va">b</span></span></code></pre></div>
+</div>
+<div id="其他运算符" class="section level2" number="6.5">
+<h2>
+<span class="header-section-number">6.5</span> 其他运算符<a class="anchor" aria-label="anchor" href="#%E5%85%B6%E4%BB%96%E8%BF%90%E7%AE%97%E7%AC%A6"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>
+<code>:</code> 冒号运算符。它按顺序创建一个<strong>整数</strong>序列。</li>
+</ul>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="va">a</span></span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "integer"</code></pre>
+<p>我们在第 <a href="baseR-vectors.html#baseR-vectors">4</a> 章向量部分，提到<code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code>函数，也能产生序列</p>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">1</span>, to <span class="op">=</span> <span class="fl">10</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">b</span></span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "double"</code></pre>
+<p>注意到<code>a</code>是整数类型，而<code>b</code>是双精度的数值型。</p>
+<ul>
+<li>
+<code>%in%</code> 此运算符用于判断元素是否属于向量。</li>
+</ul>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> 判断是否为缺失值，R 里<strong>缺失值</strong>用<code>NA</code>表示，<code>NA</code>的意思就是 not available 或者 not applicable.</li>
+</ul>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] FALSE FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE</code></pre>
+</div>
+<div id="特殊值" class="section level2" number="6.6">
+<h2>
+<span class="header-section-number">6.6</span> 特殊值<a class="anchor" aria-label="anchor" href="#%E7%89%B9%E6%AE%8A%E5%80%BC"><i class="fas fa-link"></i></a>
+</h2>
+<p>R 语言里还有一些特殊的值: <code>Inf</code>, <code>NaN</code>, <code>NA</code> 和 <code>NULL</code>.</p>
+<ul>
+<li>
+<code>Inf</code>，是<strong>Infinity</strong>的简写，表示无限大；<code>-Inf</code>表示无限小，比如我们用1除以0:</li>
+</ul>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span><span class="op">/</span><span class="fl">0</span></span></code></pre></div>
+<pre><code>## [1] Inf</code></pre>
+<ul>
+<li>
+<code>NaN</code>，是<strong>Not a Number</strong>的简写，表示这个数字没有数学定义，比如</li>
+</ul>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">0</span><span class="op">/</span><span class="fl">0</span></span></code></pre></div>
+<pre><code>## [1] NaN</code></pre>
+<ul>
+<li><p><code>NA</code>，是<strong>Not available</strong>的简写，表示缺失状态。在后面章节中，当我们处理数据框或者向量的时候回经常遇到它。</p></li>
+<li><p><code>NULL</code>，是<strong>No value</strong>的意思，表示没有值，或者空值的意思，表示变量实际上没有任何值，或者甚至不存在。</p></li>
+</ul>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># NULL: an *entire* vector is absent</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>    <span class="op">)</span></span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># NA: an *element* in a vector is absent</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1]  1 NA  3</code></pre>
+<hr>
+</div>
+<div id="习题-2" class="section level2" number="6.7">
+<h2>
+<span class="header-section-number">6.7</span> 习题<a class="anchor" aria-label="anchor" href="#%E4%B9%A0%E9%A2%98-2"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>自己填入向量，并运算</li>
+</ul>
+<div class="sourceCode" id="cb127"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb127-1"><a href="baseR-operators.html#cb127-1" tabindex="-1"></a>___ + ___</span>
+<span id="cb127-2"><a href="baseR-operators.html#cb127-2" tabindex="-1"></a>___ - ___</span>
+<span id="cb127-3"><a href="baseR-operators.html#cb127-3" tabindex="-1"></a>___ / ___</span>
+<span id="cb127-4"><a href="baseR-operators.html#cb127-4" tabindex="-1"></a>___ * ___</span>
+<span id="cb127-5"><a href="baseR-operators.html#cb127-5" tabindex="-1"></a>___ ^ ___</span>
+<span id="cb127-6"><a href="baseR-operators.html#cb127-6" tabindex="-1"></a></span>
+<span id="cb127-7"><a href="baseR-operators.html#cb127-7" tabindex="-1"></a>___ == ___</span>
+<span id="cb127-8"><a href="baseR-operators.html#cb127-8" tabindex="-1"></a>___ != ___</span>
+<span id="cb127-9"><a href="baseR-operators.html#cb127-9" tabindex="-1"></a>___ &lt; ___</span>
+<span id="cb127-10"><a href="baseR-operators.html#cb127-10" tabindex="-1"></a>___ &gt; ___</span>
+<span id="cb127-11"><a href="baseR-operators.html#cb127-11" tabindex="-1"></a>___ &lt;= ___</span>
+<span id="cb127-12"><a href="baseR-operators.html#cb127-12" tabindex="-1"></a>___ &gt;= ___</span>
+<span id="cb127-13"><a href="baseR-operators.html#cb127-13" tabindex="-1"></a></span>
+<span id="cb127-14"><a href="baseR-operators.html#cb127-14" tabindex="-1"></a>___ &amp; ___</span>
+<span id="cb127-15"><a href="baseR-operators.html#cb127-15" tabindex="-1"></a>___ | ___</span>
+<span id="cb127-16"><a href="baseR-operators.html#cb127-16" tabindex="-1"></a></span>
+<span id="cb127-17"><a href="baseR-operators.html#cb127-17" tabindex="-1"></a>___ %in% ___</span>
+<span id="cb127-18"><a href="baseR-operators.html#cb127-18" tabindex="-1"></a>is.na(___ )</span></code></pre></div>
+<ul>
+<li>说出向量 a 和 b 的差异在什么地方？</li>
+</ul>
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">1</span>, to <span class="op">=</span> <span class="fl">10</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></div>
+<div class="next"><a href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#baseR-operators"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="nav-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="header-section-number">6.1</span> 算术运算符</a></li>
+<li><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E8%A1%A5%E9%BD%90recycling"><span class="header-section-number">6.2</span> 循环补齐(recycling)</a></li>
+<li><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="header-section-number">6.3</span> 关系运算符</a></li>
+<li><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="header-section-number">6.4</span> 逻辑运算符</a></li>
+<li><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="header-section-number">6.5</span> 其他运算符</a></li>
+<li><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%80%BC"><span class="header-section-number">6.6</span> 特殊值</a></li>
+<li><a class="nav-link" href="#%E4%B9%A0%E9%A2%98-2"><span class="header-section-number">6.7</span> 习题</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

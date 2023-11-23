@@ -1,0 +1,9 @@
+h1:loading-dplyr-and-the-nycflights13-dataset Loading dplyr and the nycflights13 dataset
+h1:choosing-columns-select-rename Choosing columns: select, rename
+h1:choosing-rows-filter-between-slice-slice_sample-slice_max-distinct Choosing rows: filter, between, slice, slice_sample, slice_max, distinct
+h1:adding-new-variables-mutate-transmute-add_rownames Adding new variables: mutate, transmute, add_rownames
+h1:grouping-and-counting-summarise-tally-count-group_size-n_groups-ungroup Grouping and counting: summarise, tally, count, group_size, n_groups, ungroup
+h1:creating-data-frames-tibble Creating data frames: tibble()
+h1:viewing-more-output-print-view Viewing more output: print, View
+h1:plot plot
+

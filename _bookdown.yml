@@ -1,0 +1,61 @@
+book_filename: R4DS
+new_session: true
+clean: [packages.bib, bookdown.bbl]
+delete_merged_file: true
+language:
+  label:
+    fig: "图 "
+    tab: "表 "
+  ui:
+    edit: "编辑"
+    chapter_name: ["第 ", " 章"]
+
+rmd_files: [
+  "index.Rmd",
+
+  # R编程基础
+  "baseR_intro_ds.Rmd",
+  "baseR_install.Rmd",
+  "baseR_objects.Rmd",
+  "baseR_vector.Rmd",
+  "baseR_data_structure.Rmd",
+  "baseR_operators.Rmd",
+  "baseR_functions.Rmd",
+  "baseR_functions_adv.Rmd",
+  "baseR_subsetting.Rmd",
+
+ # 数据读入与处理
+  "tidyverse_readr.Rmd",
+  "tidyverse_dplyr.Rmd",
+  "tidyverse_dplyr_apply.Rmd",
+  "tidyverse_tidyr.Rmd",
+  "tidyverse_tidyr2.Rmd",
+  "tidyverse_stringr.Rmd",
+  "tidyverse_tibble.Rmd",
+  "tidyverse_workflow.Rmd",
+
+ # 画图
+  "tidyverse_ggplot2_aes2.Rmd",
+  "tidyverse_ggplot2_geom.Rmd",
+  "tidyverse_ggplot2_scales.Rmd",
+  "tidyverse_ggplot2_theme.Rmd",
+  "tidyverse_ggplot2_guides.Rmd",
+  "tidyverse_ggplot2_customize.Rmd",
+  "tidyverse_ggplot2_stat_layer.Rmd",
+  "tidyverse_ggplot2_from_layer_to_geom.Rmd",
+  "tidyverse_ggplot2_colors.Rmd",
+  "tidyverse_ggplot2_guides_override_aes.Rmd",
+  "tidyverse_ggplot2_aes_eval.Rmd",
+  "tidyverse_ggplot2_academic.Rmd",
+  "tidyverse_ggplot2_gganimate.Rmd",
+  "tidyverse_ggplot2_pass_function_to_parameters.Rmd",
+
+ # 可重复性文档Rmarkdown以及练习
+  "tidyverse_rmarkdown.Rmd",
+  "eda_practice.Rmd",
+
+
+ # GO/KEGG富集分析
+  "GO_KEGG_enrichment.Rmd"
+
+]

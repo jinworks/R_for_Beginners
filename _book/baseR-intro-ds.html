@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 1 章 R语言介绍及资料推荐 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="1.1 R语言的特点 R语言是用于统计分析、图形表示和报告的编程语言: R 是免费的，R 可运行于多种平台之上，包括Windows、UNIX 和 Mac OS X R语言做统计分析，实现了经典的、现代的统计方法，如参数和非参数假设检验、线性回归、广义线性回归、非线性回归、可加模型、树回归、混合模型、方差分析、判别、聚类、时间序列分析等。 R...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 1 章 R语言介绍及资料推荐 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="1.1 R语言的特点 R语言是用于统计分析、图形表示和报告的编程语言: R 是免费的，R 可运行于多种平台之上，包括Windows、UNIX 和 Mac OS X R语言做统计分析，实现了经典的、现代的统计方法，如参数和非参数假设检验、线性回归、广义线性回归、非线性回归、可加模型、树回归、混合模型、方差分析、判别、聚类、时间序列分析等。 R...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 1 章 R语言介绍及资料推荐 | R编程与作图">
+<meta name="twitter:description" content="1.1 R语言的特点 R语言是用于统计分析、图形表示和报告的编程语言: R 是免费的，R 可运行于多种平台之上，包括Windows、UNIX 和 Mac OS X R语言做统计分析，实现了经典的、现代的统计方法，如参数和非参数假设检验、线性回归、广义线性回归、非线性回归、可加模型、树回归、混合模型、方差分析、判别、聚类、时间序列分析等。 R...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="active" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="baseR-intro-ds" class="section level1" number="1">
+<h1>
+<span class="header-section-number">第 1 章</span> R语言介绍及资料推荐<a class="anchor" aria-label="anchor" href="#baseR-intro-ds"><i class="fas fa-link"></i></a>
+</h1>
+<div id="r语言的特点" class="section level2" number="1.1">
+<h2>
+<span class="header-section-number">1.1</span> R语言的特点<a class="anchor" aria-label="anchor" href="#r%E8%AF%AD%E8%A8%80%E7%9A%84%E7%89%B9%E7%82%B9"><i class="fas fa-link"></i></a>
+</h2>
+<p>R语言是用于统计分析、图形表示和报告的编程语言:</p>
+<ul>
+<li>R 是免费的，R 可运行于多种平台之上，包括Windows、UNIX 和 Mac OS X</li>
+<li>R语言做统计分析，实现了经典的、现代的统计方法，如参数和非参数假设检验、线性回归、广义线性回归、非线性回归、可加模型、树回归、混合模型、方差分析、判别、聚类、时间序列分析等。</li>
+<li>R 拥有顶尖水准的<strong>制图</strong>功能，ggplot2画图，是颜值担当，非常好看，一直被模仿，从未被超越</li>
+<li>R 应用广泛，拥有丰富的<strong>库包</strong>，统计科研工作者广泛使用R进行计算和发表算法。R有上万扩展包</li>
+<li>tidyverse来编程，代码可读性强，用的是<strong>人类语言</strong>， 非常好学</li>
+<li>Rmarkdown 可以生成html、word或者pdf格式的可重复性报告文档，可以方便快捷做幻灯片、海报、论文、书籍、网页。</li>
+<li>活跃的<strong>社区</strong>
+</li>
+</ul>
+</div>
+<div id="r能干什么" class="section level2" number="1.2">
+<h2>
+<span class="header-section-number">1.2</span> R能干什么<a class="anchor" aria-label="anchor" href="#r%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88"><i class="fas fa-link"></i></a>
+</h2>
+<div id="数据科学流程" class="section level3" number="1.2.1">
+<h3>
+<span class="header-section-number">1.2.1</span> 数据科学流程<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E6%B5%81%E7%A8%8B"><i class="fas fa-link"></i></a>
+</h3>
+<p>Hadley Wickham将<a href="https://r4ds.had.co.nz/">数据科学流程</a>分解成6个环节</p>
+<div class="inline-figure"><img src="images/data-science-explore.png" width="80%" style="display: block; margin: auto;"></div>
+<p>即数据导入、数据规整、数据处理、可视化、建模以及形成可重复性报告，整个分析和探索过程都在一个程序代码中完成，这种方式对训练我们的数据思维非常有帮助。</p>
+</div>
+<div id="tidyverse家族" class="section level3" number="1.2.2">
+<h3>
+<span class="header-section-number">1.2.2</span> tidyverse家族<a class="anchor" aria-label="anchor" href="#tidyverse%E5%AE%B6%E6%97%8F"><i class="fas fa-link"></i></a>
+</h3>
+<p>R 语言的强大还在于各种宏包。但由于各种包接口不统一，语法不一致，也带来一些困扰。为了解决这个问题，RStudio 公司的<a href="http://hadley.nz">Hadley Wickham</a> 与其带领的团队推出了<code>tidyverse</code>宏包， <a href="https://www.tidyverse.org">tidyverse</a>将常用的宏包整合在一起，并保持了语法的一致性。
+本书将通过一些例子不断地展示<code>tidyverse</code>在数据分析和可视化的应用。</p>
+<div class="inline-figure"><img src="images/tidyverse.png" width="70%" style="display: block; margin: auto;"></div>
+<p><a href="https://www.tidyverse.org/">tidyverse</a>套餐，其主要成员包括</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">功能</th>
+<th align="left">宏包</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">颜值担当</td>
+<td align="left">ggplot2</td>
+</tr>
+<tr class="even">
+<td align="left">数据处理王者</td>
+<td align="left">dplyr</td>
+</tr>
+<tr class="odd">
+<td align="left">数据转换专家</td>
+<td align="left">tidyr</td>
+</tr>
+<tr class="even">
+<td align="left">数据载入利器</td>
+<td align="left">readr</td>
+</tr>
+<tr class="odd">
+<td align="left">循环加速器</td>
+<td align="left">purrr</td>
+</tr>
+<tr class="even">
+<td align="left">强化数据框</td>
+<td align="left">tibble</td>
+</tr>
+<tr class="odd">
+<td align="left">字符串处理</td>
+<td align="left">stringr</td>
+</tr>
+<tr class="even">
+<td align="left">因子处理</td>
+<td align="left">forcats</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="r-tidyverse-四大优势" class="section level3" number="1.2.3">
+<h3>
+<span class="header-section-number">1.2.3</span> R &amp; tidyverse 四大优势<a class="anchor" aria-label="anchor" href="#r-tidyverse-%E5%9B%9B%E5%A4%A7%E4%BC%98%E5%8A%BF"><i class="fas fa-link"></i></a>
+</h3>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">序号</th>
+<th align="left">内容</th>
+<th align="left">代码演示</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">统计分析</td>
+<td align="left"><a href="data:text/plain;base64,IyDorqHnrpcKMSArIDUKCgoKIyDnlJ/miJDluo/liJcKMToxMDAKCgoKIyDmiorluo/liJfoo4XliLDlj5jph4/ph4wKeCA8LSAxOjEwMAoKCgojIOaxguWSjApzdW0oeCkKCgoKIyDmsYLlnYflgLwKbWVhbih4KQoKCgojIOaxguaWueW3rgpzZCh4KQoKCiMg55Sf5oiQ5q2j5oCB5YiG5biD55qE6ZqP5py65pWwCnJub3JtKDIwLCBtZWFuID0gMCwgc2QgPSAxKQoKCgojIFTmo4DpqowKdC50ZXN0KGV4dHJhIH4gZ3JvdXAsIGRhdGEgPSBzbGVlcCkKCgojIOaWueW3ruWIhuaekAphb3YobXBnIH4gd3QsIGRhdGEgPSBtdGNhcnMpCgoKCiMg57q/5oCn5qih5Z6LCmxtKG1wZyB+IHd0LCBkYXRhID0gbXRjYXJzKQoK" download="01_stats.R">Download 01_stats.R</a></td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">可视化ggplot2</td>
+<td align="left"><a href="data:text/plain;base64,bGlicmFyeShnZ3Bsb3QyKQoKZ2dwbG90KG1wZywgYWVzKHggPSBkaXNwbCwgeSA9IGh3eSkpICsKICBnZW9tX3BvaW50KGFlcyhjb2xvdXIgPSBjbGFzcykpCg==" download="02_visual.R">Download 02_visual.R</a></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">探索性分析</td>
+<td align="left"><a href="data:text/plain;base64,bGlicmFyeSh0aWR5dmVyc2UpCgojIOahiOS+i+S4gO+8mumjk+mjjuaVsOaNrumbhgoKc3Rvcm1zICU+JSBjb3VudCh5ZWFyKQoKc3Rvcm1zICU+JQogIGdyb3VwX2J5KHllYXIpICU+JQogIHN1bW1hcml6ZSgKICAgIHdpbmRfbWVhbiA9IG1lYW4od2luZCksCiAgICAgIHdpbmRfc2QgPSBzZCh3aW5kKQogICkKCgoKCgojIOahiOS+i+S6jO+8mlZD5YmC6YeP5ZKM5ZaC6aOf5pa55rOV5a+56LGa6byg54mZ6b2/55qE5b2x5ZON77yfCiMg5Y+M5Zug57Sg5pa55beu5YiG5p6QIChBTk9WQSkKCm15X2RhdGEgPC0gVG9vdGhHcm93dGggJT4lIAogIG11dGF0ZSgKICAgIGFjcm9zcyhjKHN1cHAsIGRvc2UpLCBhc19mYWN0b3IpIAogICAgKQoKCm15X2RhdGEgJT4lIAogIGdncGxvdChhZXMoeCA9IHN1cHAsIHkgPSBsZW4sIGZpbGwgPSBzdXBwKSkgKyAKICBnZW9tX2JveHBsb3QocG9zaXRpb24gPSBwb3NpdGlvbl9kb2RnZSgpKSArCiAgZmFjZXRfd3JhcCh2YXJzKGRvc2UpKQoKCgphb3YobGVuIH4gc3VwcCArIGRvc2UsIGRhdGEgPSBteV9kYXRhKSAKCgphb3YobGVuIH4gc3VwcCArIGRvc2UsIGRhdGEgPSBteV9kYXRhKSAlPiUgCiAgVHVrZXlIU0Qod2hpY2ggPSAiZG9zZSIpICU+JSAKICBicm9vbTo6dGlkeSgpCgoKCgoKCg==" download="03_eda.R">Download 03_eda.R</a></td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">可重复性报告</td>
+<td align="left"><a href="data:text/x-markdown;base64,LS0tCnRpdGxlOiAi6L+Z5piv5LiA5Lu95YWz5LqO5paw5Yag6IK654KO55qE5o6i57Si5oCn5YiG5p6Q5oql5ZGKIgphdXRob3I6ICLnjovlsI/kuowiCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCIKb3V0cHV0OgogIHBkZl9kb2N1bWVudDogCiAgICBsYXRleF9lbmdpbmU6IHhlbGF0ZXgKICAgIGV4dHJhX2RlcGVuZGVuY2llczoKICAgICAgY3RleDogVVRGOAogICAgbnVtYmVyX3NlY3Rpb25zOiB5ZXMKICAgICN0b2M6IHllcwogICAgZGZfcHJpbnQ6IGthYmxlCmNsYXNzb3B0aW9uczogImh5cGVycmVmLCAxMnB0LCBhNHBhcGVyIgotLS0KCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFLCAKICAgICAgICAgICAgICAgICAgICAgIG1lc3NhZ2UgPSBGQUxTRSwgCiAgICAgICAgICAgICAgICAgICAgICB3YXJuaW5nID0gRkFMU0UsCiAgICAgICAgICAgICAgICAgICAgICBmaWcuYWxpZ24gPSAiY2VudGVyIgogICAgICAgICAgICAgICAgICAgICAgKQpgYGAKCgojIOW8leiogAoK5paw5Z6L5Yag54q255eF5q+S55ar5oOF5Zyo5aSa5Zu96JST5bu277yM5LiA5Lqb5Zu95a6255qE55eF5L6L56Gu6K+K5pWw6YeP5piO5pi+5aKe5aSa77yM5ZCE5Zu96Ziy55ar5Yqb5bqm57un57ut5Yqg5by644CC5pys56ug6YCa6L+H5YiG5p6Q55ar5oOF5pWw5o2u77yM5LqG6Kej55ar5oOF5Y+R5bGV77yM56Wd5oS/5Lq657G75pep5pel5Lya5oiY6IOc55eF5q+S77yBCgoKIyDlr7zlhaXmlbDmja4KCummluWFiO+8jOaIkeS7rOWKoOi9veWuj+WMhXRpZHl2ZXJzZQoKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2U9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKSAKbGlicmFyeShjb3ZkYXRhKQpgYGAKCgrorrrmlofnmoTmlbDmja7mnaXmupAKW2h0dHBzOi8va2poZWFseS5naXRodWIuaW8vY292ZGF0YS9dKGh0dHBzOi8va2poZWFseS5naXRodWIuaW8vY292ZGF0YS8p77yM5oiR5Lus6YCJ5Y+W5pyA6L+R5pWw5o2u55yL55yLCgoKYGBge3IsIGVjaG8gPSBGQUxTRX0KY292bmF0ICU+JSAKICB0YWlsKDgpIApgYGAKCgoKIyDmlbDmja7lj5jph48KCui/meS4quaVsOaNrumbhuWMheWQqzjkuKrlj5jph4/vvIzlhbfkvZPlkKvkuYnlpoLkuIvvvJoKCnwg5Y+Y6YePICAgICAgCXwg5ZCr5LmJICAgICAgICAgICAgICAgCXwKfC0tLS0tLS0tLS0tCXwtLS0tLS0tLS0tLS0tLS0tLS0tLQl8CnwgZGF0ZSAgICAgIAl8IOaXpeacnyAgICAgICAgICAgICAgIAl8CnwgY25hbWUgICAgIAl8IOWbveWutuWQjSAgICAgICAgICAgICAJfAp8IGlzbzMgICAgICAJfCDlm73lrrbnvJbnoIEgICAgICAgICAgIAl8CnwgY2FzZXMgICAgIAl8IOehruiviueXheS+iyAgICAgICAgICAgCXwKfCBkZWF0aHMgICAgCXwg5q275Lqh55eF5L6LICAgICAgICAgICAJfAp8IHBvcCAgICAgICAJfCAyMDE55bm05Zu95a625Lq65Y+j5pWw6YePIAl8CnwgY3VfY2FzZXMgIAl8IOe0r+enr+ehruiviueXheS+iyAgICAgICAJfAp8IGN1X2RlYXRocyAJfCDntK/np6/mrbvkuqHnl4XkvosgICAgICAgCXwKCgoKIyDmlbDmja7mjqLntKIKCuaJvuWHuioq57Sv56ev56Gu6K+K55eF5L6LKirmnIDlpJrnmoTlh6DkuKrlm73lrrYKCmBgYHtyfQpjb3ZuYXQgJT4lIAogIHVuZ3JvdXAoKSAlPiUgCiAgZmlsdGVyKGRhdGUgPT0gbWF4KGRhdGUpKSAlPiUgCiAgc2xpY2VfbWF4KGN1X2Nhc2VzLCBuID0gOCkKYGBgCgoK5YWo55CDKirnoa7or4rnl4XkvosqKuWSjCoq5q275Lqh55eF5L6LKioKCmBgYHtyfQpjb3ZuYXQgJT4lIAogIHVuZ3JvdXAoKSAlPiUgCiAgc3VtbWFyaXNlKAogICAgdG90YWxfY2FzZXMgPSBzdW0oY2FzZXMpLAogICAgdG90YWxfZGVhdGggPSBzdW0oZGVhdGhzKSwKICApCmBgYAoKCgrnvo7lm73nlqvmg4Xlj5jljJbmg4XlhrUKCmBgYHtyLCBmaWcuc2hvd3RleHQgPSBUUlVFfQplbGVjdF9kZiA8LSB0aWJibGUoCiAgc3RhcnQgPSBjKCIyMDIwLTEwLTAxIiksCiAgZW5kICAgPSBjKCIyMDIwLTExLTAzIikKKSAlPiUKICBtdXRhdGUoYWNyb3NzKGV2ZXJ5dGhpbmcoKSwgYXMuRGF0ZSkpCgpjb3ZuYXQgJT4lCiAgZmlsdGVyKGlzbzMgPT0gIlVTQSIpICU+JQogIGZpbHRlcihjdV9jYXNlcyA+IDApICU+JQogIHVuZ3JvdXAoKSAlPiUKICBnZ3Bsb3QoKSArCiAgZ2VvbV9saW5lKGFlcyh4ID0gZGF0ZSwgeSA9IGNhc2VzKSkgKwogIGdlb21fcmVjdCgKICAgIGRhdGEgPSBlbGVjdF9kZiwKICAgIGFlcyh4bWluID0gc3RhcnQsIHhtYXggPSBlbmQsIHltaW4gPSAtSW5mLCB5bWF4ID0gK0luZiksCiAgICBmaWxsID0gImdyYXkiLCBhbHBoYSA9IDAuNQogICkgKwogIHNjYWxlX3hfZGF0ZShuYW1lID0gTlVMTCwgYnJlYWtzID0gIm1vbnRoIikgKwogIGxhYnMoCiAgICB0aXRsZSA9ICLnvo7lm73mlrDlhqDogrrngo7ntK/np6/noa7or4rnl4XkvosiLAogICAgc3VidGl0bGUgPSAi5pWw5o2u5p2l5rqQaHR0cHM6Ly9ramhlYWx5LmdpdGh1Yi5pby9jb3ZkYXRhLyIKICApIApgYGAKCgo=" download="04_reproducible.Rmd">Download 04_reproducible.Rmd</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div id="推荐资料" class="section level2" number="1.3">
+<h2>
+<span class="header-section-number">1.3</span> 推荐资料<a class="anchor" aria-label="anchor" href="#%E6%8E%A8%E8%8D%90%E8%B5%84%E6%96%99"><i class="fas fa-link"></i></a>
+</h2>
+<div id="教程" class="section level3" number="1.3.1">
+<h3>
+<span class="header-section-number">1.3.1</span> 教程<a class="anchor" aria-label="anchor" href="#%E6%95%99%E7%A8%8B"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>王敏杰 (2023). 数据科学中的 R 语言，<a href="https://bookdown.org/wangminjie/R4DS/" class="uri">https://bookdown.org/wangminjie/R4DS/</a>, 2nd ed. 讲基本的数据整理、汇总。</li>
+<li>李东风(2023). R语言教程, <a href="https://www.math.pku.edu.cn/teachers/lidf/docs/Rbook/html/_Rbook/index.html" class="uri">https://www.math.pku.edu.cn/teachers/lidf/docs/Rbook/html/_Rbook/index.html</a>
+</li>
+<li>Hadley Wickham and Garrett Grolemund(2022). R for Data Science，<a href="https://r4ds.hadley.nz/" class="uri">https://r4ds.hadley.nz/</a>, 2nd ed. 讲基本的数据整理、汇总。</li>
+<li>Hadley Wickham(2019). Advanced R, 2nd ed., <a href="https://adv-r.hadley.nz/" class="uri">https://adv-r.hadley.nz/</a>, Chapman &amp; Hall/CRC The R Series. 高级R编程，属于对R高级编程技术的讲解</li>
+<li>Hadley Wickham(2016). ggplot2 Elegant Graphics for Data Analysis, 2nd ed., <a href="https://ggplot2-book.org/" class="uri">https://ggplot2-book.org/</a>, Springer. 优雅易用的R作图功能</li>
+<li>Susan Holmes, Wolfgang Huber(2020). Modern Statistics for Modern Biology, <a href="https://www.huber.embl.de/msmb/index.html" class="uri">https://www.huber.embl.de/msmb/index.html</a>.
+R的统计功能在生物学中的应用。</li>
+<li>汤银才（2008），《R语言与统计分析》，高等教育出版社。</li>
+</ul>
+</div>
+<div id="r-语言社区推荐" class="section level3" number="1.3.2">
+<h3>
+<span class="header-section-number">1.3.2</span> R 语言社区推荐<a class="anchor" aria-label="anchor" href="#r-%E8%AF%AD%E8%A8%80%E7%A4%BE%E5%8C%BA%E6%8E%A8%E8%8D%90"><i class="fas fa-link"></i></a>
+</h3>
+<p>R 语言社区非常友好，可以在这里找到你问题的答案（一般直接从浏览器搜索问题就好）。下面的前两个有丰富且漂亮的画图代码（强推）：</p>
+<ul>
+<li><p>Statistical tools for high-throughput data analysis: <a href="http://sthda.com/english/" class="uri">http://sthda.com/english/</a> (e.g., <a href="http://sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/" class="uri">http://sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/</a>)</p></li>
+<li><p>The R graph gallery: <a href="https://r-graph-gallery.com/" class="uri">https://r-graph-gallery.com/</a> (e.g., <a href="https://r-graph-gallery.com/piechart-ggplot2.html" class="uri">https://r-graph-gallery.com/piechart-ggplot2.html</a>)</p></li>
+<li><p>R-Bloggers: <a href="https://www.r-bloggers.com/" class="uri">https://www.r-bloggers.com/</a></p></li>
+<li><p>stackoverflow: <a href="https://stackoverflow.com/questions/tagged/r" class="uri">https://stackoverflow.com/questions/tagged/r</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="index.html">前言</a></div>
+<div class="next"><a href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#baseR-intro-ds"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="nav-link" href="#r%E8%AF%AD%E8%A8%80%E7%9A%84%E7%89%B9%E7%82%B9"><span class="header-section-number">1.1</span> R语言的特点</a></li>
+<li>
+<a class="nav-link" href="#r%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88"><span class="header-section-number">1.2</span> R能干什么</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E6%B5%81%E7%A8%8B"><span class="header-section-number">1.2.1</span> 数据科学流程</a></li>
+<li><a class="nav-link" href="#tidyverse%E5%AE%B6%E6%97%8F"><span class="header-section-number">1.2.2</span> tidyverse家族</a></li>
+<li><a class="nav-link" href="#r-tidyverse-%E5%9B%9B%E5%A4%A7%E4%BC%98%E5%8A%BF"><span class="header-section-number">1.2.3</span> R &amp; tidyverse 四大优势</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E8%B5%84%E6%96%99"><span class="header-section-number">1.3</span> 推荐资料</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E6%95%99%E7%A8%8B"><span class="header-section-number">1.3.1</span> 教程</a></li>
+<li><a class="nav-link" href="#r-%E8%AF%AD%E8%A8%80%E7%A4%BE%E5%8C%BA%E6%8E%A8%E8%8D%90"><span class="header-section-number">1.3.2</span> R 语言社区推荐</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

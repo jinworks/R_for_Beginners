@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>第 2 章 安装与环境配置 | R编程与作图</title>
+<meta name="author" content="Suoqin Jin">
+<meta name="description" content="R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。 你可以从这里免费下载。 为了更好的使用 R 软件，我推荐大家使用 RStudio这个 IDE。这里有个在线教程帮助我们熟悉 R 和 RStudio。  2.1 安装 R 和 Rstudio R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。  2.1.1 第一步安装 R...">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
+<meta property="og:title" content="第 2 章 安装与环境配置 | R编程与作图">
+<meta property="og:type" content="book">
+<meta property="og:description" content="R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。 你可以从这里免费下载。 为了更好的使用 R 软件，我推荐大家使用 RStudio这个 IDE。这里有个在线教程帮助我们熟悉 R 和 RStudio。  2.1 安装 R 和 Rstudio R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。  2.1.1 第一步安装 R...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第 2 章 安装与环境配置 | R编程与作图">
+<meta name="twitter:description" content="R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。 你可以从这里免费下载。 为了更好的使用 R 软件，我推荐大家使用 RStudio这个 IDE。这里有个在线教程帮助我们熟悉 R 和 RStudio。  2.1 安装 R 和 Rstudio R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。  2.1.1 第一步安装 R...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">R编程与作图</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">R编程基础</li>
+<li><a class="" href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></li>
+<li><a class="active" href="baseR-install.html"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li><a class="" href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></li>
+<li><a class="" href="baseR-vectors.html"><span class="header-section-number">4</span> 向量</a></li>
+<li><a class="" href="baseR-data-structure.html"><span class="header-section-number">5</span> 数据结构</a></li>
+<li><a class="" href="baseR-operators.html"><span class="header-section-number">6</span> 运算符及向量运算</a></li>
+<li><a class="" href="baseR-functions.html"><span class="header-section-number">7</span> 函数</a></li>
+<li><a class="" href="baseR-functions-adv.html"><span class="header-section-number">8</span> 函数应用</a></li>
+<li><a class="" href="baseR-subsetting.html"><span class="header-section-number">9</span> 子集选取</a></li>
+<li class="book-part">数据读入与处理</li>
+<li><a class="" href="tidyverse-readr.html"><span class="header-section-number">10</span> 读取数据</a></li>
+<li><a class="" href="tidyverse-dplyr.html"><span class="header-section-number">11</span> 数据处理</a></li>
+<li><a class="" href="tidyverse-dplyr-apply.html"><span class="header-section-number">12</span> dplyr进阶</a></li>
+<li><a class="" href="tidyverse-tidyr.html"><span class="header-section-number">13</span> 数据规整1</a></li>
+<li><a class="" href="tidyverse-tidyr2.html"><span class="header-section-number">14</span> 数据规整2</a></li>
+<li><a class="" href="tidyverse-stringr.html"><span class="header-section-number">15</span> 正则表达式</a></li>
+<li><a class="" href="tidyverse-tibble.html"><span class="header-section-number">16</span> 简单数据框</a></li>
+<li><a class="" href="tidyverse-workflow.html"><span class="header-section-number">17</span> 回望tidyverse之旅</a></li>
+<li class="book-part">画图</li>
+<li><a class="" href="tidyverse-ggplot2-aes.html"><span class="header-section-number">18</span> 数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-geom.html"><span class="header-section-number">19</span> ggplot2之几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-scales.html"><span class="header-section-number">20</span> ggplot2之标度</a></li>
+<li><a class="" href="tidyverse-ggplot2-theme.html"><span class="header-section-number">21</span> ggplot2之主题设置</a></li>
+<li><a class="" href="tidyverse-ggplot2-guides.html"><span class="header-section-number">22</span> ggplot2之图例系统</a></li>
+<li><a class="" href="tidyverse-ggplot2-customize.html"><span class="header-section-number">23</span> ggplot2之扩展内容</a></li>
+<li><a class="" href="tidyverse-ggplot2-stat-layer.html"><span class="header-section-number">24</span> ggplot2之统计图层</a></li>
+<li><a class="" href="tidyverse-ggplot2-from-layer-to-geom.html"><span class="header-section-number">25</span> ggplot2之从图层到几何形状</a></li>
+<li><a class="" href="tidyverse-ggplot2-colors.html"><span class="header-section-number">26</span> ggplot2之数据可视化中的配色</a></li>
+<li><a class="" href="tidyverse-ggplot2-override-aes.html"><span class="header-section-number">27</span> ggplot2之控制图例的外观</a></li>
+<li><a class="" href="tidyverse-ggplot2-aes-eval.html"><span class="header-section-number">28</span> ggplot2之延迟映射</a></li>
+<li><a class="" href="tidyverse-ggplot2-academic.html"><span class="header-section-number">29</span> ggplot2之科研数据可视化</a></li>
+<li><a class="" href="tidyverse-ggplot2-gganimate.html"><span class="header-section-number">30</span> ggplot2之让你的数据动起来</a></li>
+<li><a class="" href="tidyverse-ggplot2-pass-function-as-parameters.html"><span class="header-section-number">31</span> ggplot2中传递函数作为参数值</a></li>
+<li class="book-part">可重复性文档Rmarkdown以及练习</li>
+<li><a class="" href="tidyverse-rmarkdown.html"><span class="header-section-number">32</span> 可重复性文档</a></li>
+<li><a class="" href="eda-practice.html"><span class="header-section-number">33</span> 一天一练</a></li>
+<li class="book-part">GO/KEGG富集分析</li>
+<li><a class="" href="GO-KEGG.html"><span class="header-section-number">34</span> GO/KEGG功能富集分析</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="baseR-install" class="section level1" number="2">
+<h1>
+<span class="header-section-number">第 2 章</span> 安装与环境配置<a class="anchor" aria-label="anchor" href="#baseR-install"><i class="fas fa-link"></i></a>
+</h1>
+<p>R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。
+你可以从这里免费<a href="https://cloud.r-project.org">下载</a>。 为了更好的使用 R 软件，我推荐大家使用 <a href="https://www.rstudio.com/products/rstudio">RStudio</a>这个 IDE。这里有个<a href="https://www.rstudio.com/online-learning/">在线教程</a>帮助我们熟悉 R 和 RStudio。</p>
+<div id="安装-r-和-rstudio" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> 安装 R 和 Rstudio<a class="anchor" aria-label="anchor" href="#%E5%AE%89%E8%A3%85-r-%E5%92%8C-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>R 软件是一个自由、开源软件平台，具有统计分析、可视化和编程的强大功能。</p>
+<div id="第一步安装-r" class="section level3" number="2.1.1">
+<h3>
+<span class="header-section-number">2.1.1</span> 第一步安装 R<a class="anchor" aria-label="anchor" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E5%AE%89%E8%A3%85-r"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们从官方网站<a href="https://cloud.r-project.org">http://cran.r-project.org</a>免费下载。</p>
+<div class="inline-figure">
+<img src="images/Rinstall.png" width="100%">
+以MS Windows操作系统为例。R的主网站在https://www.r-project.org/。 从CRAN的镜像网站下载软件，其中一个镜像如http://mirror.bjtu.edu.cn/cran/。 选“Download R for Windows-base-Download R 4.3.2 for windows” (4.3.2是版本号，应下载网站上给出的最新版本）链接进行下载。</div>
+</div>
+<div id="第二步安装-r-编译工具" class="section level3" number="2.1.2">
+<h3>
+<span class="header-section-number">2.1.2</span> 第二步安装 R 编译工具<a class="anchor" aria-label="anchor" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E5%AE%89%E8%A3%85-r-%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7"><i class="fas fa-link"></i></a>
+</h3>
+<p>安装 R 编译工具用于在R中调用C、C++和Fortran程序代码时需要用的编译工具。</p>
+<div id="windows" class="section level4" number="2.1.2.1">
+<h4>
+<span class="header-section-number">2.1.2.1</span> Windows<a class="anchor" aria-label="anchor" href="#windows"><i class="fas fa-link"></i></a>
+</h4>
+<p>在“Download R for Windows”链接的页面， 除了base为R的安装程序，还有Rtools链接，需要安装。</p>
+</div>
+<div id="macos-compile-r-for-macos-httpsmac.r-project.orgtools" class="section level4" number="2.1.2.2">
+<h4>
+<span class="header-section-number">2.1.2.2</span> macOS (compile R for macOS <a href="https://mac.R-project.org/tools" class="uri">https://mac.R-project.org/tools</a>)<a class="anchor" aria-label="anchor" href="#macos-compile-r-for-macos-httpsmac.r-project.orgtools"><i class="fas fa-link"></i></a>
+</h4>
+<p>This release uses Xcode 14.2/14.3 and GNU Fortran 12.2. If you wish to compile R packages which contain Fortran code, you may need to download the corresponding GNU Fortran compiler from <a href="https://mac.R-project.org/tools" class="uri">https://mac.R-project.org/tools</a>.</p>
+<p>最好能够详细查看编译工具的说明（<a href="https://mac.R-project.org/tools" class="uri">https://mac.R-project.org/tools</a>），主要包含下面三个：</p>
+<ul>
+<li><p>Xcode： the use of X11 (including tcltk) requires XQuartz (version 2.8.5 or later). Always re-install XQuartz when upgrading your macOS to a new major version</p></li>
+<li><p>GNU Fortran compiler</p></li>
+<li><p>OpenMP page （并行）</p></li>
+</ul>
+</div>
+</div>
+<div id="第三步安装-rstudio" class="section level3" number="2.1.3">
+<h3>
+<span class="header-section-number">2.1.3</span> 第三步安装 RStudio<a class="anchor" aria-label="anchor" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E5%AE%89%E8%A3%85-rstudio"><i class="fas fa-link"></i></a>
+</h3>
+<p>为了更好的使用 R 软件，我推荐大家使用 <a href="https://www.rstudio.com/products/rstudio">RStudio</a> IDE。因此，安装完 R 后，还需要安装 <a href="https://www.rstudio.com/products/rstudio">RStudio</a>。
+同样，我们从官方网站<a href="https://www.rstudio.com/download">https://www.rstudio.com/download</a>下载<code>RStudio Desktop</code>版并安装，如果你是苹果系统的用户，选择苹果系统对应的rstudio版本即可。</p>
+<div class="inline-figure"><img src="images/Rstudio_install.png" width="100%"></div>
+<div class="rmdnote">
+<p>这里<strong>重要提示</strong>：</p>
+<ul>
+<li>电脑开机时的用户名不要用中文，否则Rstudio会杠上中文用户名</li>
+<li>尽量安装在非系统盘，比如，可以选择安装在D盘</li>
+<li>安装路径不要有中文和空格。比如，这样就比较好
+<ul>
+<li><code>D:/R</code></li>
+<li><code>D:/Rstudio</code></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="配置.rmakevars以及.zshrc-可选单细胞数据分析时可能需要至少在macos系统是需要的" class="section level3" number="2.1.4">
+<h3>
+<span class="header-section-number">2.1.4</span> 配置<code>~/.R/Makevars</code>以及<code>~/.zshrc</code> (可选；单细胞数据分析时可能需要，至少在MacOS系统是需要的)<a class="anchor" aria-label="anchor" href="#%E9%85%8D%E7%BD%AE.rmakevars%E4%BB%A5%E5%8F%8A.zshrc-%E5%8F%AF%E9%80%89%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%97%B6%E5%8F%AF%E8%83%BD%E9%9C%80%E8%A6%81%E8%87%B3%E5%B0%91%E5%9C%A8macos%E7%B3%BB%E7%BB%9F%E6%98%AF%E9%9C%80%E8%A6%81%E7%9A%84"><i class="fas fa-link"></i></a>
+</h3>
+<div id="配置.rmakevars使得r可以调用clang和openmp请根据自己的系统来配置" class="section level4" number="2.1.4.1">
+<h4>
+<span class="header-section-number">2.1.4.1</span> 配置<code>~/.R/Makevars</code>使得R可以调用clang和openmp（请根据自己的系统来配置）<a class="anchor" aria-label="anchor" href="#%E9%85%8D%E7%BD%AE.rmakevars%E4%BD%BF%E5%BE%97r%E5%8F%AF%E4%BB%A5%E8%B0%83%E7%94%A8clang%E5%92%8Copenmp%E8%AF%B7%E6%A0%B9%E6%8D%AE%E8%87%AA%E5%B7%B1%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%9D%A5%E9%85%8D%E7%BD%AE"><i class="fas fa-link"></i></a>
+</h4>
+<p>以下是我本人在MacOS系统中的配置：</p>
+<p>LDFLAGS += -L/opt/homebrew/opt/libomp/lib -lomp</p>
+<p>CPPFLAGS += -I/opt/homebrew/opt/libomp/include -Xpreprocessor -fopenmp</p>
+</div>
+<div id="配置.zshrc使得r可以调用python-module" class="section level4" number="2.1.4.2">
+<h4>
+<span class="header-section-number">2.1.4.2</span> 配置.zshrc使得R可以调用python module<a class="anchor" aria-label="anchor" href="#%E9%85%8D%E7%BD%AE.zshrc%E4%BD%BF%E5%BE%97r%E5%8F%AF%E4%BB%A5%E8%B0%83%E7%94%A8python-module"><i class="fas fa-link"></i></a>
+</h4>
+<p>配置anaconda，使得R可以调用python module。需要通过修改.zshrc 文件。</p>
+<p>MacOS可以通过在terminal中输入<code>open ~/.zshrc</code> 来打开。</p>
+<p>参考：<a href="https://superuser.com/questions/886132/where-is-the-zshrc-file-on-mac" class="uri">https://superuser.com/questions/886132/where-is-the-zshrc-file-on-mac</a></p>
+</div>
+</div>
+<div id="必要的配置可选" class="section level3" number="2.1.5">
+<h3>
+<span class="header-section-number">2.1.5</span> 必要的配置(可选)<a class="anchor" aria-label="anchor" href="#%E5%BF%85%E8%A6%81%E7%9A%84%E9%85%8D%E7%BD%AE%E5%8F%AF%E9%80%89"><i class="fas fa-link"></i></a>
+</h3>
+<p>为了让R和Rstudio 的运行更顺畅，可以做以下必要的设置</p>
+<ul>
+<li>宏包安装设置成国内镜像<code>Tools &gt; Global options</code>
+</li>
+</ul>
+<p><img src="images/mirror1.png" width="50%"><img src="images/mirror2.png" width="50%"></p>
+<ul>
+<li>如果打开代码是乱码，可以试试修改如下设置<code>Tools &gt; Global options</code>
+</li>
+</ul>
+<div class="inline-figure"><img src="images/code_utf_8.png" width="75%"></div>
+<ul>
+<li>Windows系统中文用户名的问题</li>
+</ul>
+<div class="rmdnote">
+<p>当前Rstudio对中文支持不太好，如果windows系统用户名为中文，Rstudio安装完成后可能无法正常使用。这里有一个解决办法</p>
+<ul>
+<li>右键<code>**我的电脑** -&gt; 属性 -&gt; 高级系统设置 -&gt; 高级 -&gt; 环境变量</code>
+</li>
+<li>把TEMP 和TMP都修改为，<code>C:\TEMP</code>
+</li>
+<li>在C盘目录下创建文件夹TEMP</li>
+<li>重启Rstudio</li>
+</ul>
+</div>
+<div class="inline-figure"><img src="images/tempdir.png" width="85%"></div>
+<p>最好的办法是，用英文注册一个新用户，在新用户名下，重新安装R和Rstudio</p>
+</div>
+<div id="包的安装与加载" class="section level3" number="2.1.6">
+<h3>
+<span class="header-section-number">2.1.6</span> 包的安装与加载<a class="anchor" aria-label="anchor" href="#%E5%8C%85%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8A%A0%E8%BD%BD"><i class="fas fa-link"></i></a>
+</h3>
+<p>R 语言的强大还在于各种宏包，一般在<a href="https://cran.r-project.org">The Comprehensive R Archive Network (CRAN)</a>、<a href="https://bioconductor.org/install/">Bioconductor</a>和Github下载安装。</p>
+<p>可以用如下命令安装宏包:</p>
+<ul>
+<li>从CRAN安装和加载单个包</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>从Bioconductor安装单个包</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html">install</a></span><span class="op">(</span><span class="st">"clusterProfiler"</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>从Github安装单个包</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"jinworks/CellChat"</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>从source codes安装单个包</li>
+</ul>
+<p>下载源代码（需要是.tar.gz文件），然后在Rstudio中输入</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">path_to_file</span>, type <span class="op">=</span> <span class="st">'source'</span>, rep <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="co"># The path_to_file would represent the full path and file name</span></span></code></pre></div>
+<p>请参考<a href="https://kbroman.org/pkg_primer/pages/build.html">R建包网页</a>从source codes编译、安装 单个包.</p>
+<ul>
+<li>安装多个包</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_packages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"tidyvers"</span>, <span class="st">"patchwork"</span>, <span class="st">"readxl"</span>, <span class="st">"devtools"</span>, <span class="st">"knitr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">my_packages</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div id="开始" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> 开始<a class="anchor" aria-label="anchor" href="#%E5%BC%80%E5%A7%8B"><i class="fas fa-link"></i></a>
+</h2>
+<p>安装完毕后，从windows<code>开始菜单</code>，点开<code>rstudio</code>图标，就打开了rstudio的窗口，界面效果如下</p>
+<div class="inline-figure"><img src="images/rstudio-editor.png" width="100%"></div>
+<p>RStudio 的用户界面十分友好，</p>
+<ul>
+<li>左上角是<code>Editor</code>窗口，负责编写代码</li>
+<li>左下角是<code>Console</code>窗口，可以键入命令</li>
+<li>右上角是<code>Environment</code>和<code>History</code>窗口，保存当前存储的数据和历史命令记录等</li>
+<li>右下角是<code>Plot</code>和<code>Help</code>窗口，用于显示绘制图片和帮助文档</li>
+</ul>
+<p>想要运行一段R代码，可以在Console内键入 R 代码，然后回车即可。比如我们键入<code>1 + 1</code> 并按回车后，将显示如下结果</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span> <span class="op">+</span> <span class="fl">1</span></span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+</div>
+<div id="脚本" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> 脚本<a class="anchor" aria-label="anchor" href="#%E8%84%9A%E6%9C%AC"><i class="fas fa-link"></i></a>
+</h2>
+<p>运行代码最好的方法是，通过Rstudio菜单栏依此点击<code>File &gt; New File &gt; R Script</code> 来创建一个新的脚本。<strong>脚本</strong>文件通常以<code>.R</code>作为文件的后缀名。脚本文件的好处在于我们可以在其它时间修改和重新运行它。养成用脚本写代码的习惯后，今后所有的工作都有案可查，并且具有可重复性。</p>
+<div class="inline-figure"><img src="images/script1.png" width="100%"></div>
+<p>如何运行脚本呢？方法有很多</p>
+<div class="inline-figure"><img src="images/script2.png" width="100%"></div>
+<ul>
+<li>按住<code>Ctrl</code>键，然后按回车键<code>Enter</code>，可以运行<strong>光标所在行</strong>的代码</li>
+<li>点击 <code>Run</code>, 运行<strong>光标所在行</strong>的代码</li>
+<li>点击 <code>Source</code>，从头到尾运行当前脚本<strong>全部</strong>代码</li>
+<li>鼠标选中多行代码，然后点击 <code>Run</code>或者<code>Ctrl + Enter</code>
+</li>
+</ul>
+</div>
+<div id="注释" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> 注释<a class="anchor" aria-label="anchor" href="#%E6%B3%A8%E9%87%8A"><i class="fas fa-link"></i></a>
+</h2>
+<p>可以让阅读者更易理解代码，一般会在脚本中添加注释，R 语言注释符号为 <code>#</code>。 注释会被编译器忽略掉，不会影响代码的执行。</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span> <span class="op">+</span> <span class="fl">3</span> <span class="co"># this is my comment</span></span></code></pre></div>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="baseR-intro-ds.html"><span class="header-section-number">1</span> R语言介绍及资料推荐</a></div>
+<div class="next"><a href="baseR-objects.html"><span class="header-section-number">3</span> 对象</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#baseR-install"><span class="header-section-number">2</span> 安装与环境配置</a></li>
+<li>
+<a class="nav-link" href="#%E5%AE%89%E8%A3%85-r-%E5%92%8C-rstudio"><span class="header-section-number">2.1</span> 安装 R 和 Rstudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E5%AE%89%E8%A3%85-r"><span class="header-section-number">2.1.1</span> 第一步安装 R</a></li>
+<li><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E5%AE%89%E8%A3%85-r-%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7"><span class="header-section-number">2.1.2</span> 第二步安装 R 编译工具</a></li>
+<li><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E5%AE%89%E8%A3%85-rstudio"><span class="header-section-number">2.1.3</span> 第三步安装 RStudio</a></li>
+<li><a class="nav-link" href="#%E9%85%8D%E7%BD%AE.rmakevars%E4%BB%A5%E5%8F%8A.zshrc-%E5%8F%AF%E9%80%89%E5%8D%95%E7%BB%86%E8%83%9E%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%97%B6%E5%8F%AF%E8%83%BD%E9%9C%80%E8%A6%81%E8%87%B3%E5%B0%91%E5%9C%A8macos%E7%B3%BB%E7%BB%9F%E6%98%AF%E9%9C%80%E8%A6%81%E7%9A%84"><span class="header-section-number">2.1.4</span> 配置~/.R/Makevars以及~/.zshrc (可选；单细胞数据分析时可能需要，至少在MacOS系统是需要的)</a></li>
+<li><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E7%9A%84%E9%85%8D%E7%BD%AE%E5%8F%AF%E9%80%89"><span class="header-section-number">2.1.5</span> 必要的配置(可选)</a></li>
+<li><a class="nav-link" href="#%E5%8C%85%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%8A%A0%E8%BD%BD"><span class="header-section-number">2.1.6</span> 包的安装与加载</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="header-section-number">2.2</span> 开始</a></li>
+<li><a class="nav-link" href="#%E8%84%9A%E6%9C%AC"><span class="header-section-number">2.3</span> 脚本</a></li>
+<li><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="header-section-number">2.4</span> 注释</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>R编程与作图</strong>" was written by Suoqin Jin. It was last built on 2023-11-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
