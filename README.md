@@ -1,5 +1,8 @@
 # R_for_Beginners
-R tutorials from scratch
+An introduction to R and ggplot2 for beginners in data science
+
+## R tutorials from scratch
+Please check the [tutorial](https://htmlpreview.github.io/?https://github.com/jinworks/R_for_Beginners/blob/master/_book/index.html) (i.e., the index.html file) in the _book directory of the repo.
 
 Reference: [前言 | 数据科学中的 R 语言](https://bookdown.org/wangminjie/R4DS/)
 
